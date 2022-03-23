@@ -14,6 +14,9 @@
       experimental-features = nix-command flakes
     '';
     settings = {
+      trusted-substituters = [
+        "https://nix-community.cachix.org"
+      ];
       auto-optimise-store = true;
       allowed-users = [ "@wheel" ];
     };
@@ -212,7 +215,6 @@
     emacs-all-the-icons-fonts
     fira
     font-awesome
-    iosevka
     julia-mono
     noto-fonts
     noto-fonts-emoji

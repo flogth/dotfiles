@@ -1,6 +1,7 @@
 { config, pkgs, lib, cachix, ... }:
 let
   username = "flo";
+
 in {
   caches = {
     cachix = [{
@@ -16,4 +17,5 @@ in {
     ../lib/scripts
   ];
   programs.home-manager.enable = true;
+  home.packages = [ pkgs.cachix ];
 }

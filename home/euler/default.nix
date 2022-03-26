@@ -1,6 +1,5 @@
 { config, pkgs, lib, cachix, ... }:
-let
-  username = "flo";
+let username = "flo";
 
 in {
   caches = {
@@ -16,6 +15,12 @@ in {
     ../modules/cli
     ../lib/scripts
   ];
+  local = {
+    terminal = {
+      enable = true;
+      fontSize = 10;
+    };
+  };
   programs.home-manager.enable = true;
   home.packages = [ pkgs.cachix ];
 }

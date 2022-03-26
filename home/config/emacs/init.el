@@ -348,8 +348,8 @@
 
 ;; programming languages ===================================
 ;;; agda
-(straight-use-package 'agda2-mode)
-
+(load-file (let ((coding-system-for-read 'utf-8))
+             (shell-command-to-string "agda-mode locate")))
 ;;; c/c++
 (straight-use-package 'cc-mode)
 (add-hook 'c-mode-hook #'eglot-ensure)

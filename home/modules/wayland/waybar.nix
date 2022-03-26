@@ -1,12 +1,13 @@
 { config, pkgs, ... }: {
   programs.waybar = {
     enable = true;
+    systemd.enable = true;
     settings = [{
       height = 33;
       modules-left = [ "sway/workspaces" ];
       modules-center = [ "clock" ];
       modules-right =
-        [ "idle_inhibitor" "pulseaudio" "network" "battery" "tray" ];
+        [ "idle_inhibitor" "pulseaudio" "network" "battery" "custom/powermenu" "tray" ];
       modules = {
         "battery" = {
           "states" = {
@@ -62,6 +63,10 @@
           "disable-scroll" = true;
           "all-outputs" = true;
         };
+        "custom/powermenu" = {
+          "format" = "";
+          "on-click" = "smenu";
+        };
       };
     }];
     style = ''
@@ -90,14 +95,16 @@
       #pulseaudio,
       #battery,
       #network,
-      #tray {
+      #tray,
+      #custom-powermenu
+       {
         background-color: #1e222a;
         padding: 0 10px;
         margin: 2px 4px 5px 4px;
         border: 3px solid rgba(0, 0, 0, 0);
         border-radius: 90px;
         background-clip: padding-box;
-      }
+       }
 
       #workspaces button {
         padding: 0 5px;
@@ -172,6 +179,9 @@
       #network.disconnected {
           background-color: #e06c75;
           color: #1e222a;
+      }
+      #custom-powermenu {
+          color: #e06c75;
       }
                             '';
   };

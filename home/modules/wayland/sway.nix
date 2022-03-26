@@ -20,10 +20,30 @@
     xdg-user-dirs
   ];
 
+  services.swayidle = {
+    enable = true;
+    events = [
+      {
+        event = "before-sleep";
+        command = "${pkgs.swaylock-effects}/bin/swaylock -f";
+      }
+    ];
+    timeouts = [
+      {
+        timeout = 300;
+        command = "${pkgs.swaylock-effects}/bin/swaylock -f";
+      }
+      {
+        timeout = 600;
+        command = "swaymsg output \"*\" dpms off";
+        resumeCommand = "swaymsg output \"\" dpms on";
+      }
+    ];
+  };
+
   wayland.windowManager.sway = let
     audiosock = "$XDG_RUNTIME_DIR/wob-audio.sock";
     brightnesssock = "$XDG_RUNTIME_DIR/wob-brightness.sock";
-    swaylock = "swaylock -f";
     mod = "Mod4";
   in {
     enable = true;
@@ -59,11 +79,6 @@
       startup = [
         {
           command = "dbus-update-activation-environment DISPLAY";
-          always = true;
-        }
-        {
-          command =
-            "${pkgs.swayidle}/bin/swayidle -w timeout 300 '${swaylock}' timeout 600 'swaymsg output \"*\" dpms off' resume 'swaymsg output \"*\" dpms on' before-sleep '${swaylock}'";
           always = true;
         }
       ];
@@ -125,7 +140,7 @@
         "${mod}+Shift+Return" = "exec foot -T scratchpad";
         "${mod}+e" = "exec emacsclient -c";
         "${mod}+b" = "exec firefox";
-        "${mod}+Space" = "exec wofi -S drun";
+        "${mod}+Space" = "exec wofi -c $XDG_CONFIG_HOME/wofi/base.config";
         "${mod}+Escape" = "exec smenu";
         "${mod}+Alt+Space" = "exec nautilus";
 

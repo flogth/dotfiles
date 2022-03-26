@@ -1,0 +1,42 @@
+* {
+    font-family:  'JuliaMono', 'Cantarell', 'Caladea', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+
+#window {
+    margin: 0px;
+    border-radius: 10px;
+    background-color: --wofi-color0;
+}
+
+#input {
+    margin: 25px;
+    background-color: transparent;
+    border-radius: 10px;
+    border: 2px solid --wofi-color1;
+}
+
+#scroll {
+    margin-bottom: 25px;
+}
+
+#entry {
+    margin: 0px 25px;
+}
+
+#entry:selected {
+    background-color: --wofi-color1;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+#entry > box {
+    margin-left: 15px;
+}
+
+#entry image {
+    padding-right: 10px;
+}

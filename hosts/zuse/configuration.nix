@@ -14,6 +14,7 @@
       experimental-features = nix-command flakes
     '';
     settings = {
+      trusted-substituters = [ "https://nix-community.cachix.org" ];
       auto-optimise-store = true;
       allowed-users = [ "@wheel" ];
     };
@@ -31,9 +32,7 @@
       enable = true;
       userControlled.enable = true;
       environmentFile = "/etc/secrets/wireless.env";
-      networks = {
-        weeelan.psk = "@PSK_WEEELAN@";
-      };
+      networks = { weeelan.psk = "@PSK_WEEELAN@"; };
     };
     firewall = {
       enable = true;
@@ -208,12 +207,7 @@
 
   environment = {
     defaultPackages = pkgs.lib.mkForce [ ];
-    systemPackages = with pkgs; [
-      gnupg
-      git
-      clang
-      gcc
-    ];
+    systemPackages = with pkgs; [ gnupg git clang gcc ];
   };
 
   programs = {

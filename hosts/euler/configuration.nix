@@ -14,9 +14,7 @@
       experimental-features = nix-command flakes
     '';
     settings = {
-      trusted-substituters = [
-        "https://nix-community.cachix.org"
-      ];
+      trusted-substituters = [ "https://nix-community.cachix.org" ];
       auto-optimise-store = true;
       allowed-users = [ "@wheel" ];
     };

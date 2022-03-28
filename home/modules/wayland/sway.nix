@@ -22,12 +22,10 @@
 
   services.swayidle = {
     enable = true;
-    events = [
-      {
-        event = "before-sleep";
-        command = "${pkgs.swaylock-effects}/bin/swaylock -f";
-      }
-    ];
+    events = [{
+      event = "before-sleep";
+      command = "${pkgs.swaylock-effects}/bin/swaylock -f";
+    }];
     timeouts = [
       {
         timeout = 300;
@@ -35,8 +33,8 @@
       }
       {
         timeout = 600;
-        command = "swaymsg output \"*\" dpms off";
-        resumeCommand = "swaymsg output \"\" dpms on";
+        command = ''swaymsg output "*" dpms off'';
+        resumeCommand = ''swaymsg output "" dpms on'';
       }
     ];
   };
@@ -76,12 +74,10 @@
       modifier = mod;
       floating.modifier = mod;
       terminal = "${pkgs.foot}/bin/foot";
-      startup = [
-        {
-          command = "dbus-update-activation-environment DISPLAY";
-          always = true;
-        }
-      ];
+      startup = [{
+        command = "dbus-update-activation-environment DISPLAY";
+        always = true;
+      }];
 
       window.commands = [
         # firefox PiP-windows
@@ -129,52 +125,60 @@
         }
       ];
 
-      keybindings = let
-        ws = map toString (pkgs.lib.range 1 9);
-        wskeys = pkgs.lib.foldl (a: b: a // b) { } (map (i: {
-          "${mod}+${i}" = "workspace ${i}";
-          "${mod}+Shift+${i}" = "move container to workspace ${i}";
-        }) ws);
-      in wskeys // {
-        "${mod}+Return" = "exec foot";
-        "${mod}+Shift+Return" = "exec foot -T scratchpad";
-        "${mod}+e" = "exec emacsclient -c";
-        "${mod}+b" = "exec firefox";
-        "${mod}+Space" = "exec wofi -c $XDG_CONFIG_HOME/wofi/base.config";
-        "${mod}+Escape" = "exec smenu";
-        "${mod}+Alt+Space" = "exec nautilus";
+      keybindings = with pkgs.lib;
+        let
+          ws = [ "1:" "2:" ] ++ map toString (range 3 9);
+          indexed_ws = zipLists (map toString (range 1 9)) ws;
+          wskeys = foldl (a: b: a // b) { } (map (e: {
+            "${mod}+${e.fst}" = "workspace ${e.snd}";
+            "${mod}+Shift+${e.fst}" = "move container to workspace ${e.snd}";
+          }) indexed_ws);
 
-        "${mod}+w" = "kill";
-        "${mod}+f" = "fullscreen";
-        "${mod}+Shift+f" = "floating toggle";
-        "${mod}+Shift+t" = "layout toggle tabbed split";
-        "${mod}+Shift+s" = "sticky toggle";
-        "${mod}+Shift+h" = "resize shrink width 10px";
-        "${mod}+Shift+l" = "resize grow width 10px";
-        "${mod}+Shift+j" = "resize shrink height 10px";
-        "${mod}+Shift+k" = "resize grow height 10px";
+          # wskeys = pkgs.lib.foldl (a: b: a // b) { }
+          #   (map (i: {
+          #     "${mod}+${i}" = "workspace ${i}";
+          #     "${mod}+Shift+${i}" = "move container to workspace ${i}";
+          #   }) ws);
+        in wskeys // {
+          "${mod}+Return" = "exec foot";
+          "${mod}+Shift+Return" = "exec foot -T scratchpad";
+          "${mod}+e" = "exec emacsclient -c";
+          "${mod}+b" = "exec firefox";
+          "${mod}+Space" = "exec wofi -c $XDG_CONFIG_HOME/wofi/base.config";
+          "${mod}+Escape" = "exec smenu";
+          "${mod}+Alt+Space" = "exec nautilus";
 
-        "${mod}+Tab" = "workspace back_and_forth";
-        "XF86Display" = "move workspace to output right";
-        "${mod}+Shift+Right" = "move workspace to output right";
-        "${mod}+Shift+Left" = "move workspace to output left";
+          "${mod}+w" = "kill";
+          "${mod}+f" = "fullscreen";
+          "${mod}+Shift+f" = "floating toggle";
+          "${mod}+Shift+t" = "layout toggle tabbed split";
+          "${mod}+Shift+s" = "sticky toggle";
+          "${mod}+Shift+h" = "resize shrink width 10px";
+          "${mod}+Shift+l" = "resize grow width 10px";
+          "${mod}+Shift+j" = "resize shrink height 10px";
+          "${mod}+Shift+k" = "resize grow height 10px";
 
-        "XF86AudioRaiseVolume" =
-          "exec pamixer --allow-boost -ui 2 && pamixer --get-volume > ${audiosock} ";
-        "XF86AudioLowerVolume" =
-          "exec pamixer --allow-boost -ud 2 && pamixer --get-volume > ${audiosock} ";
-        "XF86AudioMute" =
-          "exec pamixer -t && ( pamixer --get-mute && echo 0 > ${audiosock} ) || pamixer --get-volume > ${audiosock}";
-        "XF86AudioMicMute" =
-          "exec pamixer --source $(pamixer --list-sources | awk '(NR>2) {print $1}') -t";
+          "${mod}+Tab" = "workspace back_and_forth";
+          "XF86Display" = "move workspace to output right";
+          "${mod}+Shift+Right" = "move workspace to output right";
+          "${mod}+Shift+Left" = "move workspace to output left";
 
-        "XF86MonBrightnessUp" =
-          "exec brightnessctl s +5% && brightnessctl g > ${brightnesssock}";
-        "XF86MonBrightnessDown" =
-          "exec brightnessctl s 5%- && brightnessctl g  > ${brightnesssock}";
-        "Print" = "exec screenshot";
+          "XF86AudioRaiseVolume" =
+            "exec pamixer --allow-boost -ui 2 && pamixer --get-volume > ${audiosock} ";
+          "XF86AudioLowerVolume" =
+            "exec pamixer --allow-boost -ud 2 && pamixer --get-volume > ${audiosock} ";
+          "XF86AudioMute" =
+            "exec pamixer -t && ( pamixer --get-mute && echo 0 > ${audiosock} ) || pamixer --get-volume > ${audiosock}";
+          "XF86AudioMicMute" =
+            "exec pamixer --source $(pamixer --list-sources | awk '(NR>2) {print $1}') -t";
 
-      };
+          "XF86MonBrightnessUp" =
+            "exec brightnessctl s +5% && brightnessctl g > ${brightnesssock}";
+          "XF86MonBrightnessDown" =
+            "exec brightnessctl s 5%- && brightnessctl g  > ${brightnesssock}";
+          "Print" = "exec screenshot";
+
+        };
       bars = [{ command = "${pkgs.waybar}/bin/waybar"; }];
     };
 

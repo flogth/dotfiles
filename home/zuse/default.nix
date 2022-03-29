@@ -18,7 +18,7 @@ in {
   local = {
     terminal = {
       enable = true;
-      fontSize = 10;
+      fontSize = 14;
     };
   };
   programs.home-manager.enable = true;

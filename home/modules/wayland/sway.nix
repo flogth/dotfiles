@@ -179,7 +179,7 @@
           "Print" = "exec screenshot";
 
         };
-      bars = [{ command = "${pkgs.waybar}/bin/waybar"; }];
+      bars = [];
     };
 
   };

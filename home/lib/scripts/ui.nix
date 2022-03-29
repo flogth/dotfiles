@@ -20,4 +20,14 @@ let
       esac
           '';
   };
-in { home.packages = [ smenu ]; }
+  audiomenu = pkgs.writeShellApplication {
+    name = "audiomenu";
+    runtimeInputs = with pkgs; [ wofi pamixer wireplumber ];
+    text = ''
+    sinks="$(pamixer --list-sinks | cut -s -f 3- -d ' ' | sed 's/\"//g')"
+    select="$(echo "$sinks" | wofi --dmenu -c "$XDG_CONFIG_HOME/wofi/menu.config" -l center -W 50%)"
+    select_id="$(pamixer --list-sinks | grep "$select" | cut -c 1-2)"
+    wpctl set-default "$select_id"
+    '';
+  };
+in { home.packages = [ smenu audiomenu ]; }

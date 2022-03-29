@@ -56,7 +56,8 @@
             "car" = "";
             "default" = [ "" "" "" ];
           };
-          "on-click" = "pavucontrol";
+          "on-click" = "audiomenu";
+          "on-click-middle" = "pavucontrol";
         };
         "tray" = { "spacing" = 10; };
         "sway/workspaces" = {

@@ -22,11 +22,23 @@
 
 (defmacro set! (&rest args)
   "Customize user options with ARGS like `setq'."
+  (declare (debug setq))
   `(progn ,@(cl-loop for (name val) on args by #'cddr
                                         ;if (null val) return (user-error "Not enough arguments")
                      collecting `(customize-set-variable ',name ,val)
                      into ret
                      finally return ret)))
+
+(defmacro defmap! (name &rest bindings )
+  "Define a keymap NAME with defined BINDINGS."
+  `(progn (defvar ,name
+            (let ((keymap (make-keymap)))
+              ,@(cl-loop for (key val) on bindings by #'cddr
+                         collecting `(define-key keymap ,key ,val)
+                         into ret
+                         finally return ret)
+              keymap))
+          (defalias ',name ,name)))
 
 ;; basic settings ==========================================
 (set! inhibit-startup-message t
@@ -87,6 +99,7 @@
                     :font "Fira Sans"
                     :height local/default-font-size)
 
+(straight-use-package 'all-the-icons)
 ;;; modeline
 
 (straight-use-package 'doom-modeline)
@@ -101,8 +114,8 @@
 (column-number-mode t)
 
 ;; editor ==================================================
-(setq-default tab-width 4
-              indent-tabs-mode nil)
+(set! tab-width 4
+      indent-tabs-mode nil)
 
 ;;; kill ring
 (set! save-interprogram-paste-before-kill t
@@ -321,6 +334,11 @@
 (add-hook 'TeX-mode-hook #'TeX-fold-mode)
 (add-hook 'TeX-mode-hook #'LaTeX-math-mode)
 
+;;; disable cape-tex in TeX-mode
+(add-hook 'TeX-mode-hook
+          (lambda ()
+            (setq-local completion-at-point-functions
+                        (remove #'cape-tex completion-at-point-functions))))
 (set! TeX-master 'dwim
       TeX-auto-save t
       TeX-parse-self t
@@ -483,48 +501,67 @@
 ;; keybindings =============================================
 (straight-use-package 'meow)
 (require 'meow)
+(set! meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
+      meow-use-clipboard t)
 
-(setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+(defmap! app-keymap
+         "m" #'gnus
+         "c" #'calc)
+
+(defmap! buffer-keymap
+         "b" #'consult-buffer
+         "k" #'kill-this-buffer
+         "r" #'rename-buffer)
+
+(defmap! insert-keymap
+         "(" #'local/wrap-paren
+         "[" #'local/wrap-bracket
+         "{" #'local/wrap-curly
+         "e" #'emoji-insert
+         "y" #'consult-yank-from-kill-ring)
+
+(defmap! project-keymap
+         "c" #'project-compile
+         "f" #'project-find-file
+         "g" #'magit-status
+         "r" #'consult-ripgrep)
+
+(defmap! search-keymap
+         "i" #'consult-imenu
+         "s" #'consult-line)
+
+(defmap! text-keymap
+         "a" #'align-regexp
+         "i" #'local/indent-buffer
+         "m" #'consult-mark
+         "+" #'local/inc-at-point
+         "-" #'local/dec-at-point
+         "=" #'local/mutate-int-at-point)
+
 (meow-motion-overwrite-define-key
  '("j" . meow-next)
  '("k" . meow-prev)
+ '("h" . meow-left)
+ '("l" . meow-right)
  '("<escape>" . ignore))
+
 (meow-leader-define-key
- '("j" . "H-j")
- '("k" . "H-k")
+ '("j" . windmove-down)
+ '("k" . windmove-up)
+ '("h" . windmove-left)
+ '("l" . windmove-right)
+ '("u" . undo-redo)
  '(":" . execute-extended-command)
  '(";" . pp-eval-expression)
  '("." . find-file)
  '("," . consult-buffer)
  '("TAB" . hs-toggle-hiding)
- ;;; applications
- '("a m" . gnus)
- '("a c" . calc)
- ;;; buffer
- '("b k" . kill-this-buffer)
- '("b r" . revert-buffer)
- '("b R" . rename-buffer)
- ;;; insert
- '("i (" . local/wrap-paren)
- '("i [" . local/wrap-bracket)
- '("i {" . local/wrap-curly)
- '("i e" . emoji-insert)
- '("i y" . consult-yank-from-kill-ring)
- ;;; project
- '("p c" . project-compile)
- '("p f" . project-find-file)
- '("p g" . magit-status)
- '("p r" . consult-ripgrep)
- ;;; search
- '("s i" . consult-imenu)
- '("s s" . consult-line)
- ;;; text
- '("t a" . align-regexp)
- '("t i" . local/indent)
- '("t m" . consult-mark)
- '("t +" . local/inc-at-point)
- '("t -" . local/dec-at-point)
- '("t =" . local/mutate-at-point)
+ '("a" . app-keymap)
+ '("b" . buffer-keymap)
+ '("i" . insert-keymap)
+ '("p" . project-keymap)
+ '("s" . search-keymap)
+ '("t" . text-keymap)
 
  '("1" . meow-digit-argument)
  '("2" . meow-digit-argument)

@@ -34,7 +34,7 @@
       {
         timeout = 600;
         command = ''swaymsg output "*" dpms off'';
-        resumeCommand = ''swaymsg output "" dpms on'';
+        resumeCommand = ''swaymsg output "*" dpms on'';
       }
     ];
   };

@@ -198,7 +198,10 @@
 
   systemd.suppressedSystemUnits =
     [ "systemd-backlight@backlight:acpi_video0.service" ];
-
+  systemd.services.systemd-networkd-wait-online.serviceConfig.ExecStart = [
+    "" # clear old command
+    "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any"
+  ];
   # scanning
   hardware.sane.enable = true;
 

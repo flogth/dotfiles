@@ -7,7 +7,7 @@
       modules-left = [ "sway/workspaces" ];
       modules-center = [ "clock" ];
       modules-right =
-        [ "idle_inhibitor" "pulseaudio" "network" "battery" "custom/powermenu" "tray" ];
+        [ "idle_inhibitor" "pulseaudio" "network" "custom/vpn" "battery" "custom/powermenu" "tray" ];
       modules = {
         "battery" = {
           "states" = {
@@ -68,6 +68,15 @@
           "format" = "";
           "on-click" = "smenu";
         };
+        "custom/vpn" = {
+          "format" = "{icon} {}";
+          "tooltip-format" = "{icon}";
+          "exec" = "vpn status";
+          "return-type" = "json";
+          "interval" = 5;
+          "format-icons" = [ "" "" ];
+          "on-click" = "vpn toggle";
+        };
       };
     }];
     style = ''
@@ -97,7 +106,8 @@
       #battery,
       #network,
       #tray,
-      #custom-powermenu
+      #custom-powermenu,
+      #custom-vpn
        {
         background-color: #1e222a;
         padding: 0 10px;
@@ -183,6 +193,9 @@
       }
       #custom-powermenu {
           color: #e06c75;
+      }
+      #custom-vpn.connected {
+        color: #98c379;
       }
                             '';
   };

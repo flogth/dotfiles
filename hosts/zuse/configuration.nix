@@ -105,6 +105,13 @@
       core-os-services.enable = true;
     };
 
+    openvpn.servers = {
+      work = {
+        config = "config /etc/openvpn/client/work.ovpn";
+        autoStart = false;
+      };
+    };
+
     power-profiles-daemon.enable = false;
 
     printing = {

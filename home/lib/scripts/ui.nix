@@ -18,16 +18,72 @@ let
           *)
               notify-send "smenu" "error matching action"
       esac
-          '';
+    '';
   };
   audiomenu = pkgs.writeShellApplication {
     name = "audiomenu";
     runtimeInputs = with pkgs; [ wofi pamixer wireplumber ];
     text = ''
-    sinks="$(pamixer --list-sinks | cut -s -f 3- -d ' ' | sed 's/\"//g')"
-    select="$(echo "$sinks" | wofi --dmenu -c "$XDG_CONFIG_HOME/wofi/menu.config" -l center -W 50%)"
-    select_id="$(pamixer --list-sinks | grep "$select" | cut -c 1-2)"
-    wpctl set-default "$select_id"
+      sinks="$(pamixer --list-sinks | cut -s -f 3- -d ' ' | sed 's/\"//g')"
+      select="$(echo "$sinks" | wofi --dmenu -c "$XDG_CONFIG_HOME/wofi/menu.config" -l center -W 50%)"
+      select_id="$(pamixer --list-sinks | grep "$select" | cut -c 1-2)"
+      wpctl set-default "$select_id"
     '';
   };
-in { home.packages = [ smenu audiomenu ]; }
+
+  vpn = pkgs.writeShellApplication {
+    name = "vpn";
+    runtimeInputs = with pkgs; [ systemd wofi ];
+    text = ''
+      work_status() {
+          [ "$(systemctl is-active openvpn-work)" = "active" ] && printf '{"text": "work", "class": "connected", "percentage": 100}'
+      }
+
+      work_toggle() {
+          if work_status; then
+              systemctl stop openvpn-work
+          else
+              systemctl start openvpn-work
+          fi
+      }
+
+      uni_status() {
+          [ "$(systemctl is-active openvpn-uni)" = "active" ] && printf '{"text": "uni", "class": "connected", "percentage": 100}'
+      }
+
+      uni_toggle() {
+          if uni_status; then
+              systemctl stop openvpn-uni
+          else
+              systemctl start openvpn-uni
+          fi
+      }
+
+      disconnected_status(){
+          printf '{"text": "", "class": "disconnected", "percentage":0}'
+      }
+
+      case "$1" in
+          "status")
+              work_status || uni_status || disconnected_status
+              ;;
+          "toggle")
+              case "$(printf "work\nuni" | wofi --dmenu -c "$XDG_CONFIG_HOME/wofi/menu.config" -l center -W 50%)" in
+                  "work")
+                      work_toggle
+                      ;;
+                  "uni")
+                      uni_toggle
+                      ;;
+                  *)
+                      printf "no match"
+                      ;;
+              esac
+              ;;
+          *)
+              printf "not matched"
+              ;;
+      esac
+    '';
+  };
+in { home.packages = [ smenu audiomenu vpn ]; }

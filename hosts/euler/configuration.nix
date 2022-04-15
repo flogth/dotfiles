@@ -190,6 +190,12 @@
     };
   };
 
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    gtkUsePortal = true;
+  };
+
   systemd.suppressedSystemUnits =
     [ "systemd-backlight@backlight:acpi_video0.service" ];
   systemd.services.systemd-networkd-wait-online.serviceConfig.ExecStart = [

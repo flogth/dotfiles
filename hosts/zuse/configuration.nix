@@ -82,15 +82,9 @@
       lidSwitchExternalPower = "suspend";
     };
 
-    xserver = {
-      enable = true;
-      displayManager.gdm.enable = true;
-      displayManager.defaultSession = "sway";
-      libinput.enable = true;
-
-      layout = "de";
-      xkbVariant = "nodeadkeys";
-      xkbOptions = "caps:escape";
+    getty = {
+      loginOptions = "-p -- flo";
+      extraArgs = [ "--skip-login" ];
     };
 
     dbus = {

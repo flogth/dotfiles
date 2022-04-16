@@ -397,9 +397,11 @@
 (add-to-list 'auto-mode-alist '("\\.g4\\'" . antlr-mode))
 
 ;;; javascript
+(straight-use-package 'js2-mode)
 (straight-use-package 'json-mode)
-(straight-use-package 'web-mode)
-(straight-use-package 'tide)
+
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+
 
 ;;; nix
 (straight-use-package 'nix-mode)
@@ -511,7 +513,8 @@
 (defmap! buffer-keymap
          "b" #'consult-buffer
          "k" #'kill-this-buffer
-         "r" #'rename-buffer)
+         "r" #'rename-buffer
+         "R" #'revert-buffer)
 
 (defmap! insert-keymap
          "(" #'local/wrap-paren

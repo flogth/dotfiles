@@ -20,6 +20,7 @@ in {
       enable = true;
       fontSize = 14;
     };
+    games.enable = true;
   };
   programs.home-manager.enable = true;
   home.packages = [ pkgs.cachix ];

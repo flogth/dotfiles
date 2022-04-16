@@ -5,6 +5,7 @@
     ripgrep # better grep
     ffmpeg # everything video
     file # info about a file
+    imagemagick
 
     unzip
     zip

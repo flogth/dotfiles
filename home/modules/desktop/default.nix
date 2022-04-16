@@ -3,7 +3,6 @@
 {
   imports = [ ./games.nix ./gtk.nix ./xdg.nix ./terminal.nix ./work.nix ];
   home.packages = with pkgs; [
-    calibre # ebooks
     keepassxc # password manager
     gnome.nautilus # file manager
     inkscape # vector image editor

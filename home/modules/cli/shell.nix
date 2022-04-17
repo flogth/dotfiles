@@ -14,13 +14,6 @@
     bashrcExtra = ''
       export PS1="\[\e[0;37m\][\[\e[0;35m\]\w\[\e[0;37m\]] \[\e[0;32m\]?- \[\e[0m\]"
     '';
-    profileExtra = ''
-    if [ "$(tty)" == "/dev/tty1" ] && [ -z "$WAYLAND_DISPLAY" ] && command -v sway >/dev/null
-    then
-      systemctl --user start graphical-session.target
-      exec sway
-    fi
-    '';
   };
   programs.readline = {
     enable = true;

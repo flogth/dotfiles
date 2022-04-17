@@ -1,6 +1,4 @@
-{ config, pkgs, ... }:
-
-{
+{ config, pkgs, ... }: {
   home.packages = with pkgs; [
     brightnessctl # control screen brightness
     grim # screenshot
@@ -16,7 +14,6 @@
     wl-clipboard
     wofi # launcher
     wob # progress bars
-    xdg-desktop-portal-wlr # pipewire media session
     xdg-user-dirs
   ];
 
@@ -39,6 +36,27 @@
     ];
   };
 
+  systemd.user.services.sway = {
+    Unit = {
+      Description = "sway - wayland compositor";
+      Documentation = [ "man:sway(5)" ];
+      BindsTo = "sway-session.target";
+      Wants = "sway-session-pre.target";
+      After = "sway-session-pre.target";
+      Before = "sway-session.target";
+    };
+    Service = {
+      Type = "simple";
+      # EnvironmentFile = "%h/.config/sway/env";
+      ExecStartPre = "systemctl --user unset-environment WAYLAND_DISPLAY DISPLAY";
+      ExecStart = "${pkgs.sway}/bin/sway";
+      Restart = "on-failure";
+      RestartSec = 1;
+      TimeoutSec = 10;
+      ExecStopPost = "${pkgs.systemd}/bin/systemctl --user unset-environment SWAYSOCK DISPLAY I3SOCK WAYLAND_DISPLAY";
+    };
+  };
+  
   wayland.windowManager.sway = let
     audiosock = "$XDG_RUNTIME_DIR/wob-audio.sock";
     brightnesssock = "$XDG_RUNTIME_DIR/wob-brightness.sock";
@@ -74,10 +92,6 @@
       modifier = mod;
       floating.modifier = mod;
       terminal = "${pkgs.foot}/bin/foot";
-      startup = [{
-        command = "dbus-update-activation-environment DISPLAY";
-        always = true;
-      }];
 
       window.commands = [
         # firefox PiP-windows
@@ -179,7 +193,7 @@
           "Print" = "exec screenshot";
 
         };
-      bars = [];
+      bars = [ ];
     };
 
   };

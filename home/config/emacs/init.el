@@ -258,18 +258,18 @@
 ;;;; gnus
 (set! gnus-select-method '(nnnil)
       gnus-secondary-select-methods
-      '((nntp "gmane" (nntp-address "news.gmane.io")
-              (nnimap "personal"
-                      (gnus-search-engine gnus-search-imap)
-                      (nnimap-user "f.guthmann@mailbox.org")
-                      (nnimap-server-port 993)
-                      (nnimap-address "imap.mailbox.org")
-                      (nnimap-stream ssl))
-              (nnimap "uni"
-                      (gnus-search-engine gnus-search-imap)
-                      (nnimap-user "florian.guthmann@fau.de")
-                      (nnimap-address "faumail.fau.de")
-                      (nnimap-stream starttls)))))
+      '((nntp "gmane" (nntp-address "news.gmane.io"))
+        (nnimap "personal"
+                (gnus-search-engine gnus-search-imap)
+                (nnimap-user "f.guthmann@mailbox.org")
+                (nnimap-server-port 993)
+                (nnimap-address "imap.mailbox.org")
+                (nnimap-stream ssl))
+        (nnimap "uni"
+                (gnus-search-engine gnus-search-imap)
+                (nnimap-user "florian.guthmann@fau.de")
+                (nnimap-address "faumail.fau.de")
+                (nnimap-stream starttls))))
 
 (set! gnus-use-full-window nil
       gnus-gcc-mark-as-read t

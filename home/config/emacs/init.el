@@ -76,11 +76,9 @@
  doom-themes-enable-bold t
  doom-themes-enable-italic t)
 
-(load-theme 'doom-snazzy)
-
+(straight-use-package 'modus-themes)
+(load-theme 'modus-operandi t)
 ;;;; comments should stand out, not be hidden
-(custom-set-faces
- '(font-lock-comment-face ((t (:foreground "#57c7ff")))))
 
 ;;; font
 
@@ -109,6 +107,7 @@
  doom-modeline-buffer-file-name-style 'auto
  doom-modeline-github nil
  doom-modeline-lsp nil
+ doom-modeline-buffer-encoding nil
  doom-modeline-minor-modes nil)
 
 (column-number-mode t)
@@ -141,6 +140,9 @@
       scroll-conservatively 101
       scroll-preserve-screen-position t
       fast-but-imprecise-scrolling t)
+
+(straight-use-package 'paredit)
+(add-hook 'lisp-mode-hook #'enable-paredit-mode)
 
 ;; completion ==============================================
 
@@ -296,6 +298,9 @@
 (straight-use-package 'magit)
 (setq-default magit-define-global-key-bindings nil)
 
+(straight-use-package 'diff-hl)
+(add-hook 'prog-mode-hook #'diff-hl-mode)
+
 ;;; compilation
 (set! compilation-scroll-output 'first-error
       compilation-ask-about-save nil)
@@ -333,6 +338,7 @@
 (add-hook 'TeX-mode-hook #'visual-line-mode)
 (add-hook 'TeX-mode-hook #'TeX-fold-mode)
 (add-hook 'TeX-mode-hook #'LaTeX-math-mode)
+(add-hook 'TeX-mode-hook #'reftex-mode)
 
 ;;; disable cape-tex in TeX-mode
 (add-hook 'TeX-mode-hook
@@ -425,30 +431,6 @@
 
 ;; utilities ===============================================
 
-(defun local/wrap-word (char)
-  "Wrap word in pair of CHAR."
-  (save-excursion
-    (forward-sexp)
-    (insert-char (cadr (electric-pair-syntax-info char)))
-    (backward-char)
-    (backward-sexp)
-    (insert-char char)))
-
-(defun local/wrap-paren ()
-  "Wrap sexp in parentheses."
-  (interactive "*")
-  (local/wrap-word ?\())
-
-(defun local/wrap-bracket ()
-  "Wrap sexp in brackets."
-  (interactive "*")
-  (local/wrap-word ?\[))
-
-(defun local/wrap-curly ()
-  "Wrap sexp in curly braces."
-  (interactive "*")
-  (local/wrap-word ?\{))
-
 (defun local/fill-line (&optional max-column char)
   "Fill rest of current line with CHAR upto column MAX-COLUMN."
   (interactive)
@@ -507,8 +489,9 @@
       meow-use-clipboard t)
 
 (defmap! app-keymap
+         "c" #'calc
          "m" #'gnus
-         "c" #'calc)
+         "t" #'eshell)
 
 (defmap! buffer-keymap
          "b" #'consult-buffer
@@ -517,9 +500,9 @@
          "R" #'revert-buffer)
 
 (defmap! insert-keymap
-         "(" #'local/wrap-paren
-         "[" #'local/wrap-bracket
-         "{" #'local/wrap-curly
+         "(" #'paredit-wrap-round
+         "[" #'paredit-wrap-square
+         "{" #'paredit-wrap-curly
          "e" #'emoji-insert
          "y" #'consult-yank-from-kill-ring)
 

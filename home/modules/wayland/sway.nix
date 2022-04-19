@@ -101,7 +101,7 @@
             app_id = "foot";
             title = "scratchpad";
           };
-          command = "floating enable, opacity 0.9";
+          command = "floating enable, opacity 0.9, border normal";
         }
         # image viewer
         {

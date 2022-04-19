@@ -510,7 +510,8 @@
          "c" #'project-compile
          "f" #'project-find-file
          "g" #'magit-status
-         "r" #'consult-ripgrep)
+         "r" #'consult-ripgrep
+         "t" #'neotree)
 
 (defmap! search-keymap
          "i" #'consult-imenu

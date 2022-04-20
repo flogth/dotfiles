@@ -171,6 +171,10 @@
           "XF86AudioMicMute" =
             "exec pamixer --source $(pamixer --list-sources | awk '(NR>2) {print $1}') -t";
 
+          "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
+          "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
+          "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+
           "XF86MonBrightnessUp" =
             "exec brightnessctl s +5% && brightnessctl g > ${brightnesssock}";
           "XF86MonBrightnessDown" =

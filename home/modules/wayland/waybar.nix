@@ -6,8 +6,16 @@
       height = 33;
       modules-left = [ "sway/workspaces" ];
       modules-center = [ "clock" ];
-      modules-right =
-        [ "idle_inhibitor" "pulseaudio" "network" "custom/vpn" "battery" "custom/powermenu" "tray" ];
+      modules-right = [
+        "custom/media"
+        "idle_inhibitor"
+        "pulseaudio"
+        "network"
+        "custom/vpn"
+        "battery"
+        "custom/powermenu"
+        "tray"
+      ];
       modules = {
         "battery" = {
           "states" = {
@@ -77,9 +85,33 @@
           "format-icons" = [ "" "" ];
           "on-click" = "vpn toggle";
         };
+        "custom/media" = {
+          "format" = "{icon} {}";
+          "tooltip-format" = "{}";
+          "format-icons" = "";
+          "escape" = true;
+          "max-length" = 40;
+          "exec-if" =
+            ''[ $(${pkgs.playerctl}/bin/playerctl status) = "Playing" ]'';
+          "exec" = ''
+            ${pkgs.playerctl}/bin/playerctl metadata -F -f "{{title}} : {{artist}}"'';
+        };
       };
     }];
-    style = ''
+    style = let
+      colors = {
+        bg = "#12151d";
+        fg = "#abb2bf";
+        modules = {
+          bg = "#1e222a";
+        };
+        blue = "#61afef";
+        green = "#2ec27e";
+        orange = "#ffa348";
+        purple = "#c678dd";
+        red = "#e06c75";
+      };
+    in ''
       * {
         border: none;
         font-family: JuliaMono, sans-serif;
@@ -87,10 +119,9 @@
       }
 
       window#waybar {
-        background-color: #12151d;
+        background-color: ${colors.bg};
         opacity: 0.9;
-        border-bottom: 3px solid #1e222a;
-        color: #abb2bf;
+        color: ${colors.fg};
         transition-property: background-color;
         transition-duration: .5s;
       }
@@ -107,9 +138,10 @@
       #network,
       #tray,
       #custom-powermenu,
-      #custom-vpn
+      #custom-vpn,
+      #custom-media
        {
-        background-color: #1e222a;
+        background-color: ${colors.modules.bg};
         padding: 0 10px;
         margin: 2px 4px 5px 4px;
         border: 3px solid rgba(0, 0, 0, 0);
@@ -120,7 +152,7 @@
       #workspaces button {
         padding: 0 5px;
         min-width: 20px;
-        color: #61afef;
+        color: ${colors.blue};
       }
 
       #workspaces button:hover {
@@ -128,54 +160,50 @@
       }
 
       #workspaces button.focused {
-        color: #c678dd;
+        color: ${colors.purple};
       }
 
       #workspaces button.urgent {
-        color: #e06c75;
+        color: ${colors.red};
       }
 
       #clock {
-        color: #61afef;
-      }
-
-      #idle_inhibitor {
-        color: #abb2bf;
+        color: ${colors.blue};
       }
 
       #idle_inhibitor.activated {
-        background-color: #abb2bf;
-        color: #1e222a;
+        background-color: ${colors.fg};
+        color: ${colors.modules.bg};
       }
 
       #pulseaudio {
-        color: #d19a66;
+        color: ${colors.orange};
       }
 
       #pulseaudio.muted {
-        background-color: #e06c75;
-        color: #1e222a;
+        background-color: ${colors.red};
+        color: ${colors.modules.bg};
       }
 
       #battery {
-        color: #98c379;
+        color: ${colors.green};
       }
 
       #battery.charging, #battery.plugged {
-        background-color: #98c379;
-        color: #1e222a;
+        background-color: ${colors.green};
+        color: ${colors.modules.bg};
       }
 
       @keyframes blink {
           to {
-              background-color: #1e222a;
-              color: #e06c75;
+              background-color: ${colors.modules.bg};
+              color: ${colors.red};
           }
       }
 
       #battery.critical:not(.charging) {
-          background-color: #e06c75;
-          color: #1e222a;
+          background-color: ${colors.red};
+          color: ${colors.modules.bg};
           animation-name: blink;
           animation-duration: 0.5s;
           animation-timing-function: linear;
@@ -184,19 +212,23 @@
       }
 
       #network {
-          color: #c678dd;
+          color: ${colors.purple};
       }
 
       #network.disconnected {
-          background-color: #e06c75;
-          color: #1e222a;
+          background-color: ${colors.red};
+          color: ${colors.modules.bg};
       }
+
       #custom-powermenu {
-          color: #e06c75;
+          color: ${colors.red};
       }
       #custom-vpn.connected {
-        color: #98c379;
+        color: ${colors.green};
       }
-                            '';
+      #custom-media {
+          color: ${colors.green};
+      }
+    '';
   };
 }

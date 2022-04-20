@@ -3,7 +3,7 @@
 
 ;;; Code:
 
-;; straight.el =============================================
+;;; straight.el ============================================
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -17,7 +17,7 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-;; functions for configuration =============================
+;;; functions for configuration ============================
 (require 'cl-lib)
 
 (defmacro set! (&rest args)
@@ -40,7 +40,7 @@
               keymap))
           (defalias ',name ,name)))
 
-;; basic settings ==========================================
+;;; basic settings =========================================
 (set! inhibit-startup-message t
       use-short-answers t        ; yes-or-no-p -> y-or-no-p
       vc-follow-symlinks t       ; do not warn when following symlinks
@@ -49,13 +49,13 @@
       frame-resize-pixelwise t
       use-dialog-box nil)
 
-;;; customization
+;; customization
 (set! custom-file
       (locate-user-emacs-file "custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
 
-;;; backups
+;; backups
 (setq backup-directory-alist
       `(("." . ,(expand-file-name ".backups" user-emacs-directory))))
 (set! auto-save-default nil
@@ -63,12 +63,12 @@
       delete-old-versions t
       create-lockfiles nil)
 
-;; ui ======================================================
+;;; ui =====================================================
 
 (set-fringe-mode 10)                    ; add padding to frame
 (set! blink-cursor-mode nil)            ; do not blink cursor
 
-;;; theme
+;; theme
 
 (straight-use-package 'doom-themes)
 
@@ -78,9 +78,8 @@
 
 (straight-use-package 'modus-themes)
 (load-theme 'modus-operandi t)
-;;;; comments should stand out, not be hidden
 
-;;; font
+;; font
 
 (defconst local/default-font-size 140)
 
@@ -98,7 +97,7 @@
                     :height local/default-font-size)
 
 (straight-use-package 'all-the-icons)
-;;; modeline
+;; modeline
 
 (straight-use-package 'doom-modeline)
 (add-hook 'after-init-hook #'doom-modeline-mode)
@@ -112,29 +111,29 @@
 
 (column-number-mode t)
 
-;; editor ==================================================
+;;; editor =================================================
 (set! tab-width 4
       indent-tabs-mode nil)
 
-;;; kill ring
+;; kill ring
 (set! save-interprogram-paste-before-kill t
       kill-do-not-save-duplicates t)
 
-;;; insert brackets,parens,... as pairs
+;; insert brackets,parens,... as pairs
 (straight-use-package 'elec-pair)
 (set! electric-pair-mode t)
 
-;;; show matching parentheses
+;; show matching parentheses
 (straight-use-package 'paren)
 (set! show-paren-mode t
       show-paren-delay 0
       show-paren-context-when-offscreen t)
 
-;;; indenting
+;; indenting
 (straight-use-package 'aggressive-indent)
 (add-hook 'prog-mode-hook #'aggressive-indent-mode)
 
-;;; scrolling
+;; scrolling
 (set! scroll-margin 1
       scroll-step   1
       scroll-conservatively 101
@@ -144,9 +143,9 @@
 (straight-use-package 'paredit)
 (add-hook 'lisp-mode-hook #'enable-paredit-mode)
 
-;; completion ==============================================
+;;; completion =============================================
 
-;;; history
+;; history
 (straight-use-package 'savehist)
 
 (set! savehist-mode t
@@ -154,19 +153,19 @@
       history-length 1000
       savehist-save-minibuffer-history t)
 
-;;; recent files
+;; recent files
 (straight-use-package 'recentf)
 (set! recentf-mode t)
 
-;;;; save position in files
+; save position in files
 (set! save-place-mode t)
 
-;;; completion in the minibuffer
+;; completion in the minibuffer
 (straight-use-package 'vertico)
 (set! vertico-mode t
       vertico-cycle t)
 
-;;; completion popup
+;; completion popup
 (straight-use-package 'corfu)
 
 (corfu-global-mode)
@@ -176,11 +175,11 @@
       corfu-echo-documentation 0.25
       tab-always-indent 'complete)
 
-;;;; completion at point extensions
+; completion at point extensions
 (straight-use-package 'cape)
 (add-to-list 'completion-at-point-functions #'cape-tex)
 
-;;; snippets
+;; snippets
 (straight-use-package 'tempel)
 (require 'tempel)
 
@@ -195,26 +194,26 @@
 
 (define-key tempel-map (kbd "TAB") #'tempel-next)
 
-;;; show useful information in the minibuffer marginalia
+;; show useful information in the minibuffer marginalia
 (straight-use-package 'marginalia)
 (set! marginalia-mode t)
 
-;;; completion style matching space-separated words in any order
+;; completion style matching space-separated words in any order
 (straight-use-package 'orderless)
 (set! completion-styles '(substring orderless))
 
-;;; useful functions in the minibuffer
+;; useful functions in the minibuffer
 (straight-use-package 'consult)
 (setq completion-in-region-function #'consult-completion-in-region)
 
-;;; help
+;; help
 (set! help-window-select t)
 
 (straight-use-package 'elisp-demos)
 (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
 
-;; applications ============================================
-;;; calendar
+;;; applications ===========================================
+;; calendar
 (set! calendar-week-start-day 1
       calendar-date-style 'iso)
 (set! calendar-holidays
@@ -245,19 +244,19 @@
         (holiday-float 11 0 1 "Totensonntag" 20))
       calendar-mark-holidays-flag t)
 
-;;; eshell
+;; eshell
 (straight-use-package 'eshell)
 (set! eshell-banner-message "")
 
-;;; mail
-;;;; general mail settings
+;; mail
+; general mail settings
 (set! user-mail-address "f.guthmann@mailbox.org"
       smtpmail-smtp-server "smtp.mailbox.org"
       smtpmail-smtp-user user-mail-address
       smtpmail-smtp-service 465
       smtpmail-stream-type 'ssl)
 
-;;;; gnus
+; gnus
 (set! gnus-select-method '(nnnil)
       gnus-secondary-select-methods
       '((nntp "gmane" (nntp-address "news.gmane.io"))
@@ -287,25 +286,25 @@
 
 (add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
 
-;; development =============================================
+;;; development ============================================
 
 (add-hook 'prog-mode-hook
           (lambda ()
             (display-line-numbers-mode t)
             (hs-minor-mode t)))
 
-;;; git
+;; git
 (straight-use-package 'magit)
 (setq-default magit-define-global-key-bindings nil)
 
 (straight-use-package 'diff-hl)
 (add-hook 'prog-mode-hook #'diff-hl-mode)
 
-;;; compilation
+;; compilation
 (set! compilation-scroll-output 'first-error
       compilation-ask-about-save nil)
 
-;;; lsp
+;; lsp
 (straight-use-package 'eglot)
 
 (set! eglot-autoshutdown t
@@ -313,7 +312,7 @@
       eldoc-idle-delay 0.2
       eglot-confirm-server-initiated-edits nil)
 
-;;; syntax checking
+;; syntax checking
 (straight-use-package 'flymake)
 (add-hook 'prog-mode-hook #'flymake-mode)
 (set! help-at-pt-display-when-idle t)
@@ -324,14 +323,14 @@
 (global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
-;;; xref
+;; xref
 (set! xref-search-program 'ripgrep)
 
-;;; project
+;; project
 (straight-use-package 'neotree)
 
-;; prose languages =========================================
-;;; LaTeX
+;;; prose languages ========================================
+;; LaTeX
 (straight-use-package 'auctex)
 (straight-use-package 'auctex-latexmk)
 
@@ -340,7 +339,7 @@
 (add-hook 'TeX-mode-hook #'LaTeX-math-mode)
 (add-hook 'TeX-mode-hook #'reftex-mode)
 
-;;; disable cape-tex in TeX-mode
+; disable cape-tex in TeX-mode
 (add-hook 'TeX-mode-hook
           (lambda ()
             (setq-local completion-at-point-functions
@@ -351,7 +350,7 @@
       TeX-electric-math '("$" . "$")
       LaTeX-electric-left-right-brace t)
 
-;;; org
+;; org
 (straight-use-package 'org)
 
 (add-hook 'org-mode-hook #'org-indent-mode)
@@ -366,57 +365,56 @@
        (temporary-file-directory))
       org-src-window-setup 'current-window)
 
-;;;; export
+; export
 (set! org-html-doctype "xhtml5"
       org-html-html5-fancy t)
 
-;; programming languages ===================================
-;;; agda
+;;; programming languages ==================================
+;; agda
 (load-file (let ((coding-system-for-read 'utf-8))
              (shell-command-to-string "agda-mode locate")))
-;;; c/c++
+;; c/c++
 (straight-use-package 'cc-mode)
 (add-hook 'c-mode-hook #'eglot-ensure)
 
-;;; coq
+;; coq
 (straight-use-package 'proof-general)
 (set! proof-splash-enable nil
       proof-three-window-enable nil)
 
-;;; common-lisp
+;; common-lisp
 (straight-use-package 'sly)
 
-;;; emacs-lisp
-;;;; overlay evaluation results
+;; emacs-lisp
+                                        ; overlay evaluation results
 (straight-use-package 'eros)
 (add-hook 'emacs-lisp-mode #'eros-mode)
 
-;;; haskell
+;; haskell
 (straight-use-package 'haskell-mode)
 (add-hook 'haskell-mode-hook #'eglot-ensure)
 (add-hook 'haskell-mode-hook #'interactive-haskell-mode)
 
 (set! haskell-completing-read-function #'completing-read)
 
-;;; java
+;; java
 (straight-use-package 'antlr-mode)
 (add-to-list 'auto-mode-alist '("\\.g4\\'" . antlr-mode))
 
-;;; javascript
+;; javascript
 (straight-use-package 'js2-mode)
 (straight-use-package 'json-mode)
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
-
-;;; nix
+;; nix
 (straight-use-package 'nix-mode)
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 
-;;; ocaml
+;; ocaml
 (straight-use-package 'tuareg)
 
-;;; prolog
+;; prolog
 (straight-use-package 'prolog)
 (straight-use-package 'ediprolog)
 
@@ -424,12 +422,24 @@
 (set! prolog-system 'scryer
       ediprolog-system 'scryer)
 
-;;; rust
+;; rust
 (straight-use-package 'rust-mode)
 (straight-use-package 'cargo)
 (add-hook 'rust-mode-hook #'eglot-ensure)
 
-;; utilities ===============================================
+;;; utilities ==============================================
+
+(defun local/split-window-right ()
+  "Like 'split-window-right' , but ask for buffer."
+  (interactive)
+  (split-window-right)
+  (consult-buffer-other-window))
+
+(defun local/split-window-below ()
+  "Like 'split-window-below' , but ask for buffer."
+  (interactive)
+  (split-window-below)
+  (consult-buffer-other-window))
 
 (defun local/fill-line (&optional max-column char)
   "Fill rest of current line with CHAR upto column MAX-COLUMN."
@@ -482,7 +492,7 @@
   (interactive)
   (local/mutate-int-at-point #'1-))
 
-;; keybindings =============================================
+;;; keybindings ============================================
 (straight-use-package 'meow)
 (require 'meow)
 (set! meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
@@ -519,11 +529,19 @@
 
 (defmap! text-keymap
          "a" #'align-regexp
+         "c" #'downcase-dwim
+         "C" #'upcase-dwim
          "i" #'local/indent-buffer
          "m" #'consult-mark
          "+" #'local/inc-at-point
          "-" #'local/dec-at-point
          "=" #'local/mutate-int-at-point)
+
+(defmap! window-keymap
+         "d" #'delete-window
+         "D" #'delete-other-windows
+         "s" #'local/split-window-right
+         "S" #'local/split-window-below)
 
 (meow-motion-overwrite-define-key
  '("j" . meow-next)
@@ -549,6 +567,7 @@
  '("p" . project-keymap)
  '("s" . search-keymap)
  '("t" . text-keymap)
+ '("w" . window-keymap)
 
  '("1" . meow-digit-argument)
  '("2" . meow-digit-argument)

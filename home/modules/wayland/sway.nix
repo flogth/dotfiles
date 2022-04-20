@@ -142,7 +142,7 @@
           "${mod}+Return" = "exec foot";
           "${mod}+Shift+Return" = "exec foot -T scratchpad";
           "${mod}+e" = "exec emacsclient -c";
-          "${mod}+b" = "exec firefox";
+          "${mod}+b" = "exec chromium";
           "${mod}+Space" = "exec wofi -c $XDG_CONFIG_HOME/wofi/base.config";
           "${mod}+Escape" = "exec smenu";
           "${mod}+Alt+Space" = "exec nautilus";

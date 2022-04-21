@@ -543,6 +543,11 @@
          "s" #'local/split-window-right
          "S" #'local/split-window-below)
 
+;; overwrite magit keybindings for meow
+(define-key magit-mode-map "x" #'magit-discard)
+(define-key magit-mode-map "J" #'meow-next-expand)
+(define-key magit-mode-map "K" #'meow-prev-expand)
+
 (meow-motion-overwrite-define-key
  '("j" . meow-next)
  '("k" . meow-prev)

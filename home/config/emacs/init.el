@@ -509,6 +509,11 @@
          "r" #'rename-buffer
          "R" #'revert-buffer)
 
+(defmap! code-keymap
+         "e" #'consult-flymake
+         "f" #'eglot-format
+         "o" #'consult-outline)
+
 (defmap! insert-keymap
          "(" #'paredit-wrap-round
          "[" #'paredit-wrap-square
@@ -544,9 +549,10 @@
          "S" #'local/split-window-below)
 
 ;; overwrite magit keybindings for meow
-(define-key magit-mode-map "x" #'magit-discard)
-(define-key magit-mode-map "J" #'meow-next-expand)
-(define-key magit-mode-map "K" #'meow-prev-expand)
+(with-eval-after-load 'magit
+  (define-key magit-mode-map "x" #'magit-discard)
+  (define-key magit-mode-map "J" #'meow-next-expand)
+  (define-key magit-mode-map "K" #'meow-prev-expand))
 
 (meow-motion-overwrite-define-key
  '("j" . meow-next)
@@ -568,6 +574,7 @@
  '("TAB" . hs-toggle-hiding)
  '("a" . app-keymap)
  '("b" . buffer-keymap)
+ '("<" . code-keymap)
  '("i" . insert-keymap)
  '("p" . project-keymap)
  '("s" . search-keymap)

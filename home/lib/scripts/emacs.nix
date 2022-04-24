@@ -2,7 +2,7 @@
 let
   magit = pkgs.writeShellApplication {
     name = "magit";
-    runtimeInputs = [ pkgs.emacsPgtkGcc ];
+    runtimeInputs = [ pkgs.emacsPgtkNativeComp ];
     text = ''
       emacsclient -r --eval "(magit)" &
       disown
@@ -10,7 +10,7 @@ let
   };
   edit = pkgs.writeShellApplication {
     name = "edit";
-    runtimeInputs = [ pkgs.emacsPgtkGcc ];
+    runtimeInputs = [ pkgs.emacsPgtkNativeComp ];
     text = ''
       emacsclient -r "$1" &
       disown

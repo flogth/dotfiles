@@ -4,7 +4,7 @@
     VISUAL = "emacsclient -r";
   };
   home.packages = with pkgs; [
-	emacsPgtkGcc
+	  emacsPgtkNativeComp
   ];
 
   programs.vscode = {
@@ -13,7 +13,7 @@
   };
   services.emacs = {
     enable = true;
-    package = pkgs.emacsPgtkGcc;
+    package = pkgs.emacsPgtkNativeComp;
   };
   xdg.configFile = {
     "emacs/early-init.el".source = ../../config/emacs/early-init.el;

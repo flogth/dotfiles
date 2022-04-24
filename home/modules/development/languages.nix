@@ -24,6 +24,8 @@
     haskell-language-server
     ormolu
 
+    # html
+    html-tidy
     # js
     nodejs
 

@@ -317,6 +317,8 @@
 (add-hook 'prog-mode-hook #'flymake-mode)
 (set! help-at-pt-display-when-idle t)
 
+(straight-use-package 'flymake-collection)
+
 (straight-use-package 'tree-sitter)
 (straight-use-package 'tree-sitter-langs)
 
@@ -330,6 +332,12 @@
 (straight-use-package 'neotree)
 
 ;;; prose languages ========================================
+;; HTML
+(straight-use-package 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (add-hook 'flymake-diagnostic-functions #'flymake-collection-html-tidy)))
 ;; LaTeX
 (straight-use-package 'auctex)
 (straight-use-package 'auctex-latexmk)
@@ -426,6 +434,12 @@
 (straight-use-package 'rust-mode)
 (straight-use-package 'cargo)
 (add-hook 'rust-mode-hook #'eglot-ensure)
+
+;; shell scripts
+
+(add-hook 'shell-script-mode-hook
+          (lambda ()
+            (add-hook 'flymake-diagnostic-functions #'flymake-collection-shellcheck)))
 
 ;;; utilities ==============================================
 

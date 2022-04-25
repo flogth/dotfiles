@@ -33,7 +33,7 @@
     scryer-prolog
 
     # proof assistants
-    coq
+    coq_8_15
     agda
 
     # python

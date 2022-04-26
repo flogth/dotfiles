@@ -412,6 +412,7 @@
 ;; javascript
 (straight-use-package 'js2-mode)
 (straight-use-package 'json-mode)
+(straight-use-package 'rainbow-mode)
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 

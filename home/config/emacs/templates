@@ -75,6 +75,10 @@ haskell-mode
 (pragma "{-# " p " #-}")
 (lang "{-# LANGUAGE " p " #-}")
 
+agda2-mode
+(pragma "{-# " p " #-}")
+(code "\\begin{code}" n> p n "\\end{code}")
+
 org-mode
 
 (title "#+title: " p n "#+author: Daniel Mendler" n "#+language: en" n n)

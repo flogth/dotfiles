@@ -381,6 +381,7 @@
 ;; agda
 (load-file (let ((coding-system-for-read 'utf-8))
              (shell-command-to-string "agda-mode locate")))
+(add-hook 'agda2-mode-hook (lambda () (aggressive-indent-mode -1)))
 ;; c/c++
 (straight-use-package 'cc-mode)
 (add-hook 'c-mode-hook #'eglot-ensure)

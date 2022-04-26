@@ -1,5 +1,4 @@
-{config,pkgs,...}:
-{
+{ config, pkgs, ... }: {
   home.packages = with pkgs; [
     # basics
     stdenv
@@ -52,8 +51,6 @@
     shellcheck
   ];
 
-  home.file = {
-    ".ghc/ghci.conf".source = ../../config/ghc/ghci.conf;
-  };
+  home.file = { ".ghc/ghci.conf".source = ../../config/ghc/ghci.conf; };
 
 }

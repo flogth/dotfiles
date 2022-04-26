@@ -102,9 +102,7 @@
       colors = {
         bg = "#12151d";
         fg = "#abb2bf";
-        modules = {
-          bg = "#1e222a";
-        };
+        modules = { bg = "#1e222a"; };
         blue = "#61afef";
         green = "#2ec27e";
         orange = "#ffa348";

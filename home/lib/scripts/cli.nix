@@ -22,30 +22,30 @@ let
     name = "optipdf";
     runtimeInputs = with pkgs; [ ghostscript ];
     text = ''
-    function filesize() {
-      stat -c %s "$1" | numfmt --to=iec
-    }
+      function filesize() {
+        stat -c %s "$1" | numfmt --to=iec
+      }
 
-    src="$1"
-    dest="''${2:--}"
-    gs -q -dNOPAUSE -dBATCH -dSAFER \
-      -sDEVICE=pdfwrite \
-      -dPDFSETTINGS=/screen \
-      -dCompatibilityLevel=1.3 \
-      -dEmbedAllFonts=true \
-      -dSubsetFonts=true \
-      -dAutoRotatePages=/None \
-      -dMonoImageResolution=72 \
-      -dMonoImageDownsampleType=/Bicubic \
-      -dGrayImageResolution=72 \
-      -dGrayImageDownsampleType=/Bicubic \
-      -dColorImageResolution=72 \
-      -dColorImageDownsampleType=/Bicubic \
-      -sOutputFile="$dest" \
-      "$src"
+      src="$1"
+      dest="''${2:--}"
+      gs -q -dNOPAUSE -dBATCH -dSAFER \
+        -sDEVICE=pdfwrite \
+        -dPDFSETTINGS=/screen \
+        -dCompatibilityLevel=1.3 \
+        -dEmbedAllFonts=true \
+        -dSubsetFonts=true \
+        -dAutoRotatePages=/None \
+        -dMonoImageResolution=72 \
+        -dMonoImageDownsampleType=/Bicubic \
+        -dGrayImageResolution=72 \
+        -dGrayImageDownsampleType=/Bicubic \
+        -dColorImageResolution=72 \
+        -dColorImageDownsampleType=/Bicubic \
+        -sOutputFile="$dest" \
+        "$src"
 
-      printf "%-32s%-8s\n" "$src" "$(filesize "$src")" 
-      printf "%-32s%-8s\n" "$dest" "$(filesize "$dest")" 
+        printf "%-32s%-8s\n" "$src" "$(filesize "$src")" 
+        printf "%-32s%-8s\n" "$dest" "$(filesize "$dest")" 
     '';
   };
 in { home.packages = [ ex optipdf ]; }

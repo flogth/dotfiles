@@ -3,9 +3,7 @@
     EDITOR = "emacsclient -nw";
     VISUAL = "emacsclient -r";
   };
-  home.packages = with pkgs; [
-	  emacsPgtkNativeComp
-  ];
+  home.packages = with pkgs; [ emacsPgtkNativeComp ];
 
   programs.vscode = {
     enable = true;

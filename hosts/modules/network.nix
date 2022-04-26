@@ -62,7 +62,7 @@ in {
       ""
       "${config.systemd.package}/lib/systemd/systemd-networkd-wait-online --any"
     ];
-    
+
     services = {
       resolved = {
         enable = true;

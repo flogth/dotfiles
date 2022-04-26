@@ -1,5 +1,4 @@
-{ config, lib, pkgs,...}:
-{
+{ config, lib, pkgs, ... }: {
   fonts.fonts = with pkgs; [
     emacs-all-the-icons-fonts
     fira
@@ -10,5 +9,5 @@
     noto-fonts-emoji
     overpass
   ];
-    
+
 }

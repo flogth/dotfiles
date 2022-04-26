@@ -1,9 +1,8 @@
-{ config, lib, pkgs, ... }: 
+{ config, lib, pkgs, ... }:
 with lib;
 
 let cfg = config.local.terminal;
-in
-{
+in {
   options.local.terminal = {
     enable = mkEnableOption "local.terminal";
     fontSize = mkOption {
@@ -12,7 +11,7 @@ in
     };
   };
   config = mkIf cfg.enable {
-    
+
     programs.foot = {
       enable = true;
       settings = {

@@ -54,28 +54,39 @@
   fileSystems."/root" = {
     device = "/dev/disk/by-label/ROOT";
     fsType = "btrfs";
-    options = [ "defaults" "discard=async" "compress-force=zstd" "subvol=@root" ];
+    options =
+      [ "defaults" "discard=async" "compress-force=zstd" "subvol=@root" ];
   };
   fileSystems."/nix" = {
     device = "/dev/disk/by-label/ROOT";
     fsType = "btrfs";
-    options = [ "defaults" "discard=async" "compress-force=zstd" "subvol=@nix" ];
+    options =
+      [ "defaults" "discard=async" "compress-force=zstd" "subvol=@nix" ];
   };
   fileSystems."/etc" = {
     device = "/dev/disk/by-label/ROOT";
     fsType = "btrfs";
-    options = [ "defaults" "discard=async" "compress-force=zstd" "subvol=@etc" ];
+    options =
+      [ "defaults" "discard=async" "compress-force=zstd" "subvol=@etc" ];
   };
   fileSystems."/var/log" = {
     device = "/dev/disk/by-label/ROOT";
     fsType = "btrfs";
-    options = [ "defaults" "discard=async" "compress-force=zstd" "subvol=@log" ];
+    options =
+      [ "defaults" "discard=async" "compress-force=zstd" "subvol=@log" ];
   };
 
   fileSystems."/home" = {
     device = "/dev/disk/by-label/ROOT";
     fsType = "btrfs";
-    options = [ "defaults" "discard=async" "compress-force=zstd" "nosuid" "nodev" "subvol=@home" ];
+    options = [
+      "defaults"
+      "discard=async"
+      "compress-force=zstd"
+      "nosuid"
+      "nodev"
+      "subvol=@home"
+    ];
   };
 
   fileSystems."/boot" = {
@@ -84,8 +95,6 @@
     options = [ "defaults" "nosuid" "noexec" "nodev" ];
   };
 
-  swapDevices = [{
-    device = "/dev/disk/by-label/SWAP";
-  }];
+  swapDevices = [{ device = "/dev/disk/by-label/SWAP"; }];
 
 }

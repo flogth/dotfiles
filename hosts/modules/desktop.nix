@@ -2,7 +2,7 @@
 
   services = {
     dbus = {
-      packages = [pkgs.gcr];
+      packages = [ pkgs.gcr ];
       apparmor = "enabled";
     };
     gnome = {
@@ -25,7 +25,7 @@
 
   # scanning
   hardware.sane.enable = true;
-  
+
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
@@ -33,7 +33,7 @@
 
   programs.sway = {
     enable = true;
-    extraPackages = pkgs.lib.mkForce [];
+    extraPackages = pkgs.lib.mkForce [ ];
   };
 
   virtualisation = {
@@ -42,7 +42,7 @@
       qemu = { ovmf.enable = true; };
     };
   };
-  
+
   xdg.portal = {
     enable = true;
     wlr.enable = true;

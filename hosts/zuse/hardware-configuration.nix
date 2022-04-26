@@ -17,11 +17,11 @@
     loader = {
       grub = {
         enable = true;
-	version = 2;
-	enableCryptodisk = true;
-	efiSupport = true;
-	useOSProber = true;
- 	device = "nodev";	
+        version = 2;
+        enableCryptodisk = true;
+        efiSupport = true;
+        useOSProber = true;
+        device = "nodev";
       };
       efi.canTouchEfiVariables = true;
     };
@@ -31,7 +31,7 @@
     extraModulePackages = with kernelPackage; [ acpi_call ];
 
     extraModprobeConfig = ''
-    options iwlmvm power_scheme=1
+      options iwlmvm power_scheme=1
     '';
 
     resumeDevice = "/dev/disk/by-label/SWAP";
@@ -58,28 +58,39 @@
   fileSystems."/root" = {
     device = "/dev/disk/by-label/ROOT";
     fsType = "btrfs";
-    options = [ "defaults" "discard=async" "compress-force=zstd" "subvol=@root" ];
+    options =
+      [ "defaults" "discard=async" "compress-force=zstd" "subvol=@root" ];
   };
   fileSystems."/nix" = {
     device = "/dev/disk/by-label/ROOT";
     fsType = "btrfs";
-    options = [ "defaults" "discard=async" "compress-force=zstd" "subvol=@nix" ];
+    options =
+      [ "defaults" "discard=async" "compress-force=zstd" "subvol=@nix" ];
   };
   fileSystems."/etc" = {
     device = "/dev/disk/by-label/ROOT";
     fsType = "btrfs";
-    options = [ "defaults" "discard=async" "compress-force=zstd" "subvol=@etc" ];
+    options =
+      [ "defaults" "discard=async" "compress-force=zstd" "subvol=@etc" ];
   };
   fileSystems."/var/log" = {
     device = "/dev/disk/by-label/ROOT";
     fsType = "btrfs";
-    options = [ "defaults" "discard=async" "compress-force=zstd" "subvol=@log" ];
+    options =
+      [ "defaults" "discard=async" "compress-force=zstd" "subvol=@log" ];
   };
 
   fileSystems."/home" = {
     device = "/dev/disk/by-label/ROOT";
     fsType = "btrfs";
-    options = [ "defaults" "discard=async" "compress-force=zstd" "nosuid" "nodev" "subvol=@home" ];
+    options = [
+      "defaults"
+      "discard=async"
+      "compress-force=zstd"
+      "nosuid"
+      "nodev"
+      "subvol=@home"
+    ];
   };
 
   fileSystems."/boot" = {
@@ -88,8 +99,6 @@
     options = [ "defaults" "nosuid" "noexec" "nodev" ];
   };
 
-  swapDevices = [{
-    device = "/dev/disk/by-label/SWAP";
-  }];
+  swapDevices = [{ device = "/dev/disk/by-label/SWAP"; }];
 
 }

@@ -37,4 +37,5 @@
     XDG_TEMPLATES_DIR = userDirs.templates;
     XDG_VIDEOS_DIR = userDirs.videos;
   };
+  home.packages = [ pkgs.xdg_utils ];
 }

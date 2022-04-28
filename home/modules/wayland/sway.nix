@@ -122,6 +122,11 @@
           criteria = { app_id = "pavucontrol"; };
           command = "floating enable";
         }
+
+        {
+          criteria = { title = "SuperTuxKart";};
+          command = "inhibit_idle";
+        }
       ];
 
       keybindings = with pkgs.lib;

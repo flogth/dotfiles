@@ -85,16 +85,18 @@
 
 (set-face-attribute 'default nil
                     :font "JuliaMono"
-                    :weight 'medium
+                    :weight 'regular
                     :height local/default-font-size)
 
 (set-face-attribute 'fixed-pitch nil
                     :font "JuliaMono"
+                    :weight 'regular
                     :height local/default-font-size)
 
 (set-face-attribute 'variable-pitch nil
                     :font "Fira Sans"
                     :height local/default-font-size)
+
 
 (straight-use-package 'all-the-icons)
 ;; modeline
@@ -360,9 +362,11 @@
 
 ;; org
 (straight-use-package 'org)
+(straight-use-package 'org-superstar)
 
 (add-hook 'org-mode-hook #'org-indent-mode)
 (add-hook 'org-mode-hook #'visual-line-mode)
+(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
 
 (set! org-ellipsis " ↴"
       org-highlight-latex-and-related '(latex script entities)
@@ -373,7 +377,9 @@
        (temporary-file-directory))
       org-src-window-setup 'current-window)
 
-; export
+(set! org-superstar-special-todo-items t
+      org-superstar-leading-bullet ?\s)
+                                        ; export
 (set! org-html-doctype "xhtml5"
       org-html-html5-fancy t)
 
@@ -382,14 +388,19 @@
 (load-file (let ((coding-system-for-read 'utf-8))
              (shell-command-to-string "agda-mode locate")))
 (add-hook 'agda2-mode-hook (lambda () (aggressive-indent-mode -1)))
+
 ;; c/c++
 (straight-use-package 'cc-mode)
+(straight-use-package 'cmake-mode)
 (add-hook 'c-mode-hook #'eglot-ensure)
 
 ;; coq
 (straight-use-package 'proof-general)
 (set! proof-splash-enable nil
       proof-three-window-enable nil)
+
+(with-eval-after-load 'proof-general
+  (set-face-background 'proof-locked-face "#90ee90")) ;;;; thanks david
 
 ;; common-lisp
 (straight-use-package 'sly)
@@ -515,6 +526,7 @@
       meow-use-clipboard t)
 
 (defmap! app-keymap
+         "a" #'org-agenda
          "c" #'calc
          "m" #'gnus
          "t" #'eshell)

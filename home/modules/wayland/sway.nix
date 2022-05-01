@@ -124,8 +124,13 @@
         }
 
         {
-          criteria = { title = "SuperTuxKart";};
+          criteria = { title = "SuperTuxKart"; };
           command = "inhibit_idle";
+        }
+
+        {
+          criteria = { class = "vtk"; };
+          command = "floating enable";
         }
       ];
 

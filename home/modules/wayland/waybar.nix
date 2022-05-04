@@ -8,6 +8,7 @@
       modules-center = [ "clock" ];
       modules-right = [
         "custom/media"
+        "custom/layout"
         "idle_inhibitor"
         "pulseaudio"
         "network"
@@ -96,6 +97,15 @@
           "exec" = ''
             ${pkgs.playerctl}/bin/playerctl metadata -F -f "{{title}} : {{artist}}"'';
         };
+        "custom/layout" = {
+          "format" = " {}";
+          "format-alt" = " {} {icon}";
+          "tooltip-format" = "rctrl to toggle";
+          "format-icons" = [ "🇪🇺" "🇩🇪" ];
+          "return-type" = "json";
+          "interval" = 5;
+          "exec" = "layout";
+        };
       };
     }];
     style = let
@@ -137,7 +147,8 @@
       #tray,
       #custom-powermenu,
       #custom-vpn,
-      #custom-media
+      #custom-media,
+      #custom-layout
        {
         background-color: ${colors.modules.bg};
         padding: 0 10px;

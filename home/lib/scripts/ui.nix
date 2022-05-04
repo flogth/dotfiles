@@ -86,4 +86,21 @@ let
       esac
     '';
   };
-in { home.packages = [ smenu audiomenu vpn ]; }
+  layout = pkgs.writeShellApplication {
+    name = "layout";
+    runtimeInputs = [ pkgs.sway pkgs.jq ];
+    text = ''
+          l="$(swaymsg -t get_inputs | jq -r ".[0].xkb_active_layout_name" | cut -d " " -f1)"
+      case $l in
+          English)
+              p="0"
+              n="en";;
+          German)
+              p="100"
+              n="de";;
+      esac
+      printf '{"text": "%s", "percentage": %s}' "$n" "$p"
+    '';
+
+  };
+in { home.packages = [ smenu audiomenu vpn layout ]; }

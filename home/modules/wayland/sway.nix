@@ -61,9 +61,9 @@
 
       input = {
         "*" = {
-          xkb_layout = "de";
-          xkb_variant = "nodeadkeys";
-          xkb_options = "caps:escape,compose:rctrl";
+          xkb_layout = "us,de";
+          xkb_variant = "altgr-intl,nodeadkeys";
+          xkb_options = "caps:escape,grp:rctrl_toggle";
         };
       };
       output = {

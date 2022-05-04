@@ -49,6 +49,9 @@
 
     # shell
     shellcheck
+
+    # scheme
+    guile
   ];
 
   home.file = { ".ghc/ghci.conf".source = ../../config/ghc/ghci.conf; };

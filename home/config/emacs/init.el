@@ -81,7 +81,7 @@
 
 ;; font
 
-(defconst local/default-font-size 140)
+(defconst local/default-font-size (* 14 10))
 
 (set-face-attribute 'default nil
                     :font "JuliaMono"
@@ -397,10 +397,15 @@
 ;; coq
 (straight-use-package 'proof-general)
 (set! proof-splash-enable nil
-      proof-three-window-enable nil)
+      proof-three-window-enable nil
+      proof-three-window-mode-policy 'vertical)
 
-(with-eval-after-load 'proof-general
-  (set-face-background 'proof-locked-face "#90ee90")) ;;;; thanks david
+(add-hook 'coq-mode-hook
+          (defun local/setup-pg-faces ()
+            "Setup faces for Proof General."
+            (set-face-background 'proof-locked-face "#90ee90")))
+
+
 
 ;; common-lisp
 (straight-use-package 'sly)
@@ -453,6 +458,9 @@
 (add-hook 'shell-script-mode-hook
           (lambda ()
             (add-hook 'flymake-diagnostic-functions #'flymake-collection-shellcheck)))
+
+;; scheme
+(straight-use-package 'geiser)
 
 ;;; utilities ==============================================
 
@@ -574,7 +582,12 @@
          "d" #'delete-window
          "D" #'delete-other-windows
          "s" #'local/split-window-right
-         "S" #'local/split-window-below)
+         "S" #'local/split-window-below
+
+         "j" #'windmove-down
+         "k" #'windmove-up
+         "h" #'windmove-left
+         "l" #'windmove-right)
 
 ;; overwrite magit keybindings for meow
 (with-eval-after-load 'magit
@@ -590,10 +603,6 @@
  '("<escape>" . ignore))
 
 (meow-leader-define-key
- '("j" . windmove-down)
- '("k" . windmove-up)
- '("h" . windmove-left)
- '("l" . windmove-right)
  '("u" . undo-redo)
  '(":" . execute-extended-command)
  '(";" . pp-eval-expression)

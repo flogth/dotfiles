@@ -90,7 +90,7 @@ let
     name = "layout";
     runtimeInputs = [ pkgs.sway pkgs.jq ];
     text = ''
-          l="$(swaymsg -t get_inputs | jq -r ".[0].xkb_active_layout_name" | cut -d " " -f1)"
+          l="$(swaymsg -t get_inputs | jq -r 'first(.[] | select(has("xkb_active_layout_name"))) | .xkb_active_layout_name' | cut -d " " -f1)"
       case $l in
           English)
               p="0"

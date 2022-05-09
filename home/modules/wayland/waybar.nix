@@ -105,6 +105,7 @@
           "return-type" = "json";
           "interval" = 5;
           "exec" = "layout";
+          "on-click-middle" = "${pkgs.imv}/bin/imv -b ffffff $XDG_PICTURES_DIR/layout.png";
         };
       };
     }];

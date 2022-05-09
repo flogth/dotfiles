@@ -6,6 +6,7 @@
     glib
     gnome.gnome-themes-extra
   ];
+  
   gtk = {
     enable = true;
     theme = {
@@ -18,6 +19,9 @@
     gtk3.extraConfig = {
       gtk-application-prefer-dark-theme = true;
       gtk-cursor-theme-name = "capitaine-cursors";
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = true;
     };
   };
 }

@@ -135,6 +135,13 @@
 (straight-use-package 'aggressive-indent)
 (add-hook 'prog-mode-hook #'aggressive-indent-mode)
 
+;; editorconfig
+(straight-use-package 'editorconfig)
+(editorconfig-mode t)
+
+;; buffer-env
+(straight-use-package 'buffer-env)
+
 ;; scrolling
 (set! scroll-margin 1
       scroll-step   1
@@ -170,7 +177,7 @@
 ;; completion popup
 (straight-use-package 'corfu)
 
-(corfu-global-mode)
+(global-corfu-mode)
 
 (set! corfu-auto t
       corfu-cycle t
@@ -355,6 +362,8 @@
             (setq-local completion-at-point-functions
                         (remove #'cape-tex completion-at-point-functions))))
 (set! TeX-master 'dwim
+      TeX-engine 'luatex
+      TeX-PDF-mode t
       TeX-auto-save t
       TeX-parse-self t
       TeX-electric-math '("$" . "$")
@@ -389,6 +398,8 @@
              (shell-command-to-string "agda-mode locate")))
 (add-hook 'agda2-mode-hook (lambda () (aggressive-indent-mode -1)))
 
+;; apl
+(straight-use-package 'gnu-apl-mode)
 ;; c/c++
 (straight-use-package 'cc-mode)
 (straight-use-package 'cmake-mode)
@@ -436,6 +447,15 @@
 ;; nix
 (straight-use-package 'nix-mode)
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
+(defconst nix-electric-pairs
+  '(("let" . " in")
+    (?= . ";")))
+
+(add-hook 'nix-mode-hook
+          (defun nix-add-electric-pairs ()
+            (setq-local electric-pair-pairs (append electric-pair-pairs nix-electric-pairs)
+                        electric-pair-text-pairs electric-pair-pairs)))
+        
 
 ;; ocaml
 (straight-use-package 'tuareg)
@@ -593,7 +613,8 @@
 (with-eval-after-load 'magit
   (define-key magit-mode-map "x" #'magit-discard)
   (define-key magit-mode-map "J" #'meow-next-expand)
-  (define-key magit-mode-map "K" #'meow-prev-expand))
+  (define-key magit-mode-map "K" #'meow-prev-expand)
+  (define-key magit-mode-map "L" #'magit-log))
 
 (meow-motion-overwrite-define-key
  '("j" . meow-next)

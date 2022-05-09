@@ -1,17 +1,17 @@
 { config, pkgs, ... }: {
-  systemd.user.sessionVariables = {
-    EDITOR = "emacsclient -nw";
-    VISUAL = "emacsclient -r";
-  };
-  home.packages = with pkgs; [ emacsPgtkNativeComp ];
-
   programs.vscode = {
     enable = true;
     package = pkgs.vscode-fhs;
   };
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacsPgtk;
+  };
   services.emacs = {
     enable = true;
-    package = pkgs.emacsPgtkNativeComp;
+    package = pkgs.emacsPgtk;
+    client.enable = true;
+    defaultEditor = true;
   };
   xdg.configFile = {
     "emacs/early-init.el".source = ../../config/emacs/early-init.el;

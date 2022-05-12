@@ -408,7 +408,7 @@
 ;; coq
 (straight-use-package 'proof-general)
 (set! proof-splash-enable nil
-      proof-three-window-enable nil
+      proof-three-window-enable t
       proof-three-window-mode-policy 'vertical)
 
 (add-hook 'coq-mode-hook

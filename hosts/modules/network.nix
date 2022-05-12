@@ -16,9 +16,11 @@ in {
       useDHCP = false;
       interfaces = mergeMap (i: { ${i}.useDHCP = true; }) cfg.interfaces;
 
+      dhcpcd.enable = false;
       networkmanager = {
         enable = true;
         dns = "systemd-resolved";
+        dhcp = "internal";
         # wifi.powersave
       };
       # wireless = {

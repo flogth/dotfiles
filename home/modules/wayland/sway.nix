@@ -136,7 +136,7 @@
 
       keybindings = with pkgs.lib;
         let
-          ws = [ "1:" "2:" ] ++ map toString (range 3 9);
+          ws = [ "1:" "2:" "3:" ] ++ map toString (range 4 9);
           indexed_ws = zipLists (map toString (range 1 9)) ws;
           wskeys = foldl (a: b: a // b) { } (map (e: {
             "${mod}+${e.fst}" = "workspace ${e.snd}";

@@ -43,6 +43,7 @@
   hardware = {
     cpu.amd.updateMicrocode = true;
 
+    enableAllFirmware = true;
     opengl = {
       driSupport = true;
       driSupport32Bit = true;

@@ -19,6 +19,11 @@
     mimeApps = {
       enable = true;
       defaultApplications = {
+        "text/html" = "firefox.desktop";
+        "x-scheme-handler/http" = "firefox.desktop";
+        "x-scheme-handler/https" = "firefox.desktop";
+        "x-scheme-handler/about" = "firefox.desktop";
+        "x-scheme-handler/unknown" = "firefox.desktop";
         "application/pdf" = [ "org.pwmt.zathura.desktop" ];
         "image/png" = [ "imv.desktop" ];
       };
@@ -26,17 +31,17 @@
 
   };
   systemd.user.sessionVariables = let inherit (config.xdg) userDirs;
-                                  in {
-                                    # XDG user dirs
-                                    XDG_DESKTOP_DIR = userDirs.desktop;
-                                    XDG_DOCUMENTS_DIR = userDirs.documents;
-                                    XDG_DOWNLOAD_DIR = userDirs.download;
-                                    XDG_MUSIC_DIR = userDirs.music;
-                                    XDG_PICTURES_DIR = userDirs.pictures;
-                                    XDG_PUBLICSHARE_DIR = userDirs.publicShare;
-                                    XDG_TEMPLATES_DIR = userDirs.templates;
-                                    XDG_VIDEOS_DIR = userDirs.videos;
-                                  };
+  in {
+    # XDG user dirs
+    XDG_DESKTOP_DIR = userDirs.desktop;
+    XDG_DOCUMENTS_DIR = userDirs.documents;
+    XDG_DOWNLOAD_DIR = userDirs.download;
+    XDG_MUSIC_DIR = userDirs.music;
+    XDG_PICTURES_DIR = userDirs.pictures;
+    XDG_PUBLICSHARE_DIR = userDirs.publicShare;
+    XDG_TEMPLATES_DIR = userDirs.templates;
+    XDG_VIDEOS_DIR = userDirs.videos;
+  };
 
   home.sessionVariables = let
     configDir = d: "${config.xdg.configHome}/${d}";

@@ -11,6 +11,7 @@
     wpa_supplicant_gui # gui for wifi connections
     simple-scan # scanning frontend
     mpv
+    calibre
   ];
 
   programs = {

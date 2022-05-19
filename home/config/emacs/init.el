@@ -384,6 +384,14 @@
 (set! org-html-doctype "xhtml5"
       org-html-html5-fancy t)
 
+(defconst org-electric-pairs
+  '((?$ . ?$)))
+(add-hook 'org-mode-hook
+          (defun org-add-electric-pairs ()
+            (setq-local electric-pair-pairs (append electric-pair-pairs org-electric-pairs)
+                        electric-pair-text-pairs electric-pair-pairs)))
+
+
 ;;; programming languages ==================================
 ;; agda
 (load-file (let ((coding-system-for-read 'utf-8))

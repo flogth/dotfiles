@@ -4,10 +4,11 @@
     enable = true;
     shellAliases = {
       # convenience
-      la = "ls -lAhF";
+      la  = "ls -lAhF";
       scu = "systemctl --user";
       jcu = "journalctl --user";
       gst = "${pkgs.git}/bin/git status";
+      xo  = "${pkgs.xdg-utils}/bin/xdg-open";
 
       # make commands more verbose
       mv = "mv -vi";

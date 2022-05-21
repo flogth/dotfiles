@@ -67,6 +67,8 @@
     syncthing.enable = true;
   };
 
+  systemd.user.services.fnott.Install.WantedBy = [ "graphical-session.target" ];
+
   systemd.user.services.polkit = {
     Unit.Description = "Polkit graphical client";
     Unit.PartOf = [ "graphical-session.target" ];

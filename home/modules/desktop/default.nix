@@ -12,6 +12,8 @@
     simple-scan # scanning frontend
     mpv
     calibre
+    gnome.geary
+    gnome.gnome-calendar
   ];
 
   programs = {

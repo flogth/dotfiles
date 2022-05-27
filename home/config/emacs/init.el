@@ -77,6 +77,8 @@
  doom-themes-enable-italic t)
 
 (straight-use-package 'modus-themes)
+(set! modus-themes-italic-constructs t
+      modus-themes-bold-constructs t)
 (load-theme 'modus-operandi t)
 
 ;; font
@@ -158,7 +160,8 @@
 ;; completion in the minibuffer
 (straight-use-package 'vertico)
 (set! vertico-mode t
-      vertico-cycle t)
+      vertico-cycle t
+      vertico-resize t)
 
 ;; completion popup
 (straight-use-package 'corfu)
@@ -166,6 +169,8 @@
 (global-corfu-mode)
 
 (set! corfu-auto t
+      corfu-auto-delay 0
+      corfu-preview-current nil
       corfu-cycle t
       corfu-echo-documentation 0.25
       tab-always-indent 'complete)
@@ -173,6 +178,9 @@
 ; completion at point extensions
 (straight-use-package 'cape)
 (add-to-list 'completion-at-point-functions #'cape-tex)
+(add-to-list 'completion-at-point-functions #'cape-keyword)
+(add-to-list 'completion-at-point-functions #'cape-file)
+(add-to-list 'completion-at-point-functions #'cape-dabbrev)
 
 ;; snippets
 (straight-use-package 'tempel)
@@ -195,7 +203,7 @@
 
 ;; completion style matching space-separated words in any order
 (straight-use-package 'orderless)
-(set! completion-styles '(substring orderless))
+(set! completion-styles '(orderless basic))
 
 ;; useful functions in the minibuffer
 (straight-use-package 'consult)
@@ -320,7 +328,9 @@
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 ;; xref
-(set! xref-search-program 'ripgrep)
+(set! xref-search-program 'ripgrep
+      xref-show-xrefs-function #'consult-xref
+      xref-show-definitions-function #'consult-xref)
 
 ;; project
 (straight-use-package 'neotree)
@@ -423,6 +433,8 @@
 (straight-use-package 'js2-mode)
 (straight-use-package 'json-mode)
 (straight-use-package 'rainbow-mode)
+
+(add-hook 'prog-mode-hook #'rainbow-mode)
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 

@@ -128,8 +128,7 @@
       }
 
       window#waybar {
-        background-color: ${colors.bg};
-        opacity: 0.9;
+        background-color: alpha(${colors.bg},0.8);
         color: ${colors.fg};
         transition-property: background-color;
         transition-duration: .5s;

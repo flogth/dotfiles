@@ -1,16 +1,14 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }:
+let mlib = import ../../lib/rot13.nix;
+in {
   services = {
     restic.backups = {
       data = {
-        repository = "s3:eu-central-1.linodeobjects.com/backups-restic/euler";
+        repository =
+          mlib.rot13 "f3:rh-prageny-1.yvabqrbowrpgf.pbz/onpxhcf-erfgvp/rhyre";
         paths = [ "/home/flo/data" ];
         passwordFile = "/etc/restic/data.pw";
         environmentFile = "/etc/restic/data.env";
-      };
-      data-local = {
-        repository = "sftp:backup@zuse:/backup/euler";
-        paths = [ "/home/flo/data" ];
-        passwordFile = "/etc/restic/data-local.pw";
       };
     };
     snapper = {
@@ -28,4 +26,4 @@
       };
     };
   };
-}
+} 

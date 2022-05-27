@@ -326,7 +326,6 @@
 (add-hook 'prog-mode-hook #'flymake-mode)
 (set! help-at-pt-display-when-idle t)
 
-(straight-use-package 'flymake-collection)
 
 (straight-use-package 'tree-sitter)
 (straight-use-package 'tree-sitter-langs)
@@ -344,9 +343,6 @@
 ;; HTML
 (straight-use-package 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-hook 'web-mode-hook
-          (lambda ()
-            (add-hook 'flymake-diagnostic-functions #'flymake-collection-html-tidy)))
 ;; LaTeX
 (straight-use-package 'auctex)
 (straight-use-package 'auctex-latexmk)
@@ -551,7 +547,8 @@
 (straight-use-package 'meow)
 (require 'meow)
 (set! meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
-      meow-use-clipboard t)
+      meow-use-clipboard t
+      meow-expand-hint-remove-delay 0)
 
 (defmap! app-keymap
          "a" #'org-agenda

@@ -81,22 +81,8 @@
 
 ;; font
 
-(defconst local/default-font-size (* 14 10))
-
-(set-face-attribute 'default nil
-                    :font "JuliaMono"
-                    :weight 'regular
-                    :height local/default-font-size)
-
-(set-face-attribute 'fixed-pitch nil
-                    :font "JuliaMono"
-                    :weight 'regular
-                    :height local/default-font-size)
-
-(set-face-attribute 'variable-pitch nil
-                    :font "Fira Sans"
-                    :height local/default-font-size)
-
+(custom-set-faces
+ '(default ((t (:weight regular :height 140 :family "JuliaMono")))))
 
 (straight-use-package 'all-the-icons)
 ;; modeline

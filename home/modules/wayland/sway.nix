@@ -17,24 +17,35 @@
     xdg-user-dirs
   ];
 
-  services.swayidle = {
-    enable = true;
-    events = [{
-      event = "before-sleep";
-      command = "${pkgs.swaylock-effects}/bin/swaylock -f";
-    }];
-    timeouts = [
+  services.swayidle =
+    let
+      swaymsg = "${pkgs.sway}/bin/swaymsg";
+      swaylock = "${pkgs.swaylock-effects}/bin/swaylock";
+    in
       {
-        timeout = 300;
-        command = "${pkgs.swaylock-effects}/bin/swaylock -f";
-      }
-      {
-        timeout = 600;
-        command = ''swaymsg output "*" dpms off'';
-        resumeCommand = ''swaymsg output "*" dpms on'';
-      }
-    ];
-  };
+        enable = true;
+        events = [
+          {
+            event = "before-sleep";
+            command = "${swaylock} -wf";
+          }
+          {
+            event = "lock";
+            command = "${swaylock} -wf";
+          }
+        ];
+        timeouts = [
+          {
+            timeout = 600;
+            command = "${swaymsg} 'output * dpms off'";
+            resumeCommand = "${swaymsg} 'output * dpms on'";
+          }
+          {
+            timeout = 800;
+            command = "${swaylock} -wf";
+          }
+        ];
+      };
 
   programs.bash.profileExtra =
     ''[ "$(tty)" == "/dev/tty1" ] && [ -z "$WAYLAND_DISPLAY" ] && exec sway'';

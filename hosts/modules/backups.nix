@@ -1,5 +1,5 @@
 { config, lib, pkgs, ... }:
-let mlib = import ../../lib/rot13.nix;
+let mlib = import ../../lib/rot13.nix { inherit config lib pkgs;};
 in {
   services = {
     restic.backups = {

@@ -1,6 +1,24 @@
 { config, pkgs, ... }: {
 
+  environment.gnome.excludePackages = with pkgs; [
+    gnome-photos
+    gnome-tour
+    gnome.gnome-music
+    gnome.gnome-terminal
+    gnome.gedit
+    gnome.epiphany
+    gnome.geary
+    gnome.evince
+    gnome.gnome-characters
+    gnome.totem
+  ];
+
   services = {
+    xserver = {
+      enable = true;
+      displayManager.gdm.enable = true;
+      desktopManager.gnome.enable = true;
+    };
     dbus = {
       packages = [ pkgs.gcr ];
       apparmor = "enabled";

@@ -415,8 +415,7 @@
           (defun local/setup-pg-faces ()
             "Setup faces for Proof General."
             (set-face-background 'proof-locked-face "#90ee90")))
-
-
+(add-hook 'coq-mode-hook (lambda () (aggressive-indent-mode -1)))
 
 ;; common-lisp
 (straight-use-package 'sly)

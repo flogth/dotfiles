@@ -180,7 +180,11 @@
 (add-to-list 'completion-at-point-functions #'cape-tex)
 (add-to-list 'completion-at-point-functions #'cape-keyword)
 (add-to-list 'completion-at-point-functions #'cape-file)
-(add-to-list 'completion-at-point-functions #'cape-dabbrev)
+
+;; icons in completion popup
+(straight-use-package 'kind-icon)
+(set! kind-icon-default-face 'corfu-default)
+(add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
 
 ;; snippets
 (straight-use-package 'tempel)

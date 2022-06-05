@@ -630,6 +630,10 @@
  '("<escape>" . ignore))
 
 (meow-leader-define-key
+ '("j" . "H-j")
+ '("k" . "H-k")
+ '("h" . "H-h")
+ '("l" . "H-l")
  '("u" . undo-redo)
  '(":" . execute-extended-command)
  '(";" . pp-eval-expression)

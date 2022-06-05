@@ -48,6 +48,12 @@
       }) keybindings);
     in with lib.hm.gvariant;
       {
+        "org/gnome/desktop/background" = let
+          uri = "file:///${config.xdg.userDirs.pictures}/wallpapers/wallpaper";
+        in {
+          picture-uri = uri;
+          picture-uri-dark = uri;
+        };
         "org/gnome/desktop/input-sources" = {
           sources = [
             (mkTuple [ "xkb" "us+altgr-intl" ])
@@ -64,7 +70,6 @@
         "org/gnome/desktop/peripherals/touchpad" = { natural-scroll = false; };
         "org/gnome/desktop/sound" = { event-sounds = false; };
         "org/gnome/desktop/wm/keybindings" = { close = [ "<Super>w" ]; };
-
 
         "org/gnome/settings-daemon/plugins/media-keys" = {
           custom-keybindings = imap0 (i: kbd: "/${kbdId i}/") keybindings;

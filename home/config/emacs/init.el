@@ -184,19 +184,17 @@
 
 ;; snippets
 (straight-use-package 'tempel)
-(require 'tempel)
+(with-eval-after-load 'tempel
+  (defun tempel-setup-capf ()
+    "Setup tempel as a capf backend."
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand
+                      completion-at-point-functions)))
 
-(defun tempel-setup-capf ()
-  "Setup tempel as a capf backend."
-  (setq-local completion-at-point-functions
-              (cons #'tempel-expand
-                    completion-at-point-functions)))
+  (add-hook 'prog-mode-hook #'tempel-setup-capf)
+  (add-hook 'text-mode-hook #'tempel-setup-capf)
 
-(add-hook 'prog-mode-hook 'tempel-setup-capf)
-(add-hook 'text-mode-hook 'tempel-setup-capf)
-
-(define-key tempel-map (kbd "TAB") #'tempel-next)
-
+  (define-key tempel-map (kbd "TAB") #'tempel-next))
 ;; show useful information in the minibuffer marginalia
 (straight-use-package 'marginalia)
 (set! marginalia-mode t)
@@ -220,20 +218,17 @@
 (set! calendar-week-start-day 1
       calendar-date-style 'iso)
 (set! calendar-holidays
-      '((holiday-fixed 1 1 "Neujahrstag")
-        (holiday-fixed 1 6 "Heilige Drei Könige")
-        (holiday-fixed 2 14 "Valentinstag")
-        (holiday-fixed 5 1 "1. Mai")
-        (holiday-fixed 10 3 "Tag der Deutschen Einheit")
-        (holiday-float 12 0 -4 "1. Advent" 24)
-        (holiday-float 12 0 -3 "2. Advent" 24)
-        (holiday-float 12 0 -2 "3. Advent" 24)
-        (holiday-float 12 0 -1 "4. Advent" 24)
-        (holiday-fixed 12 25 "1. Weihnachtstag")
-        (holiday-fixed 12 26 "2. Weihnachtstag")
-        (holiday-fixed 1 6 "Heilige Drei Könige")
+      '((holiday-fixed 1 1      "Neujahr")
+        (holiday-fixed 1 6      "Heilige Drei Könige")
+        (holiday-fixed 10 3     "Tag der Deutschen Einheit")
+        (holiday-float 12 0 -4  "1. Advent" 24)
+        (holiday-float 12 0 -3  "2. Advent" 24)
+        (holiday-float 12 0 -2  "3. Advent" 24)
+        (holiday-float 12 0 -1  "4. Advent" 24)
+        (holiday-fixed 12 25    "1. Weihnachtstag")
+        (holiday-fixed 12 26    "2. Weihnachtstag")
         (holiday-easter-etc -48 "Rosenmontag")
-        (holiday-easter-etc -3 "Gründonnerstag")
+        (holiday-easter-etc -3  "Gründonnerstag")
         (holiday-easter-etc  -2 "Karfreitag")
         (holiday-easter-etc   0 "Ostersonntag")
         (holiday-easter-etc  +1 "Ostermontag")
@@ -241,53 +236,14 @@
         (holiday-easter-etc +49 "Pfingstsonntag")
         (holiday-easter-etc +50 "Pfingstmontag")
         (holiday-easter-etc +60 "Fronleichnam")
-        (holiday-fixed 8 15 "Mariae Himmelfahrt")
-        (holiday-fixed 11 1 "Allerheiligen")
-        (holiday-float 11 3 1 "Buss- und Bettag" 16)
-        (holiday-float 11 0 1 "Totensonntag" 20))
+        (holiday-fixed 8 15     "Mariä Himmelfahrt")
+        (holiday-fixed 11 1     "Allerheiligen")
+        (holiday-float 11 3 1   "Buß- und Bettag" 16))
       calendar-mark-holidays-flag t)
 
 ;; eshell
 (straight-use-package 'eshell)
 (set! eshell-banner-message "")
-
-;; mail
-; general mail settings
-(set! user-mail-address "f.guthmann@mailbox.org"
-      smtpmail-smtp-server "smtp.mailbox.org"
-      smtpmail-smtp-user user-mail-address
-      smtpmail-smtp-service 465
-      smtpmail-stream-type 'ssl)
-
-; gnus
-(set! gnus-select-method '(nnnil)
-      gnus-secondary-select-methods
-      '((nntp "gmane" (nntp-address "news.gmane.io"))
-        (nnimap "personal"
-                (gnus-search-engine gnus-search-imap)
-                (nnimap-user "f.guthmann@mailbox.org")
-                (nnimap-server-port 993)
-                (nnimap-address "imap.mailbox.org")
-                (nnimap-stream ssl))
-        (nnimap "uni"
-                (gnus-search-engine gnus-search-imap)
-                (nnimap-user "florian.guthmann@fau.de")
-                (nnimap-address "faumail.fau.de")
-                (nnimap-stream starttls))))
-
-(set! gnus-use-full-window nil
-      gnus-gcc-mark-as-read t
-      gnus-novice-user nil
-      gnus-expert-user t
-      gnus-large-newsgroup nil
-      gnus-parameters
-      '(("^nnimap"
-         (gcc-self . t)
-         (gnus-use-scoring . nil)
-         (display . all)
-         (agent-predicate . always))))
-
-(add-hook 'gnus-group-mode-hook #'gnus-topic-mode)
 
 ;;; development ============================================
 
@@ -571,18 +527,6 @@
          "r" #'rename-buffer
          "R" #'revert-buffer)
 
-(defmap! code-keymap
-         "e" #'consult-flymake
-         "f" #'eglot-format
-         "o" #'consult-outline)
-
-(defmap! insert-keymap
-         "(" #'paredit-wrap-round
-         "[" #'paredit-wrap-square
-         "{" #'paredit-wrap-curly
-         "e" #'emoji-insert
-         "y" #'consult-yank-from-kill-ring)
-
 (defmap! project-keymap
          "c" #'project-compile
          "f" #'project-find-file
@@ -592,17 +536,8 @@
 
 (defmap! search-keymap
          "i" #'consult-imenu
+         "o" #'consult-outline
          "s" #'consult-line)
-
-(defmap! text-keymap
-         "a" #'align-regexp
-         "c" #'downcase-dwim
-         "C" #'upcase-dwim
-         "i" #'local/indent-buffer
-         "m" #'consult-mark
-         "+" #'local/inc-at-point
-         "-" #'local/dec-at-point
-         "=" #'local/mutate-int-at-point)
 
 (defmap! window-keymap
          "d" #'delete-window
@@ -642,11 +577,8 @@
  '("TAB" . hs-toggle-hiding)
  '("a" . app-keymap)
  '("b" . buffer-keymap)
- '("<" . code-keymap)
- '("i" . insert-keymap)
  '("p" . project-keymap)
  '("s" . search-keymap)
- '("t" . text-keymap)
  '("w" . window-keymap)
 
  '("1" . meow-digit-argument)

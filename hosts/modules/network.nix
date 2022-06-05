@@ -1,8 +1,7 @@
 { config, lib, pkgs, ... }:
 with lib;
-let
-  cfg = config.local.network;
-  mergeMap = f: xs: foldr (a: b: a // b) { } (map f xs);
+with builtins;
+let cfg = config.local.network;
 in {
   options.local.network = {
     enable = mkEnableOption "local.network";
@@ -14,38 +13,17 @@ in {
     networking = {
       hostName = cfg.hostName;
       useDHCP = false;
-      interfaces = mergeMap (i: { ${i}.useDHCP = true; }) cfg.interfaces;
+      interfaces = listToAttrs (map (i: {
+        name = i;
+        value = { useDHCP = true; };
+      }) cfg.interfaces);
 
       dhcpcd.enable = false;
       networkmanager = {
         enable = true;
         dns = "systemd-resolved";
         dhcp = "internal";
-        # wifi.powersave
       };
-      # wireless = {
-      #   enable = true;
-      #   userControlled.enable = true;
-      #   environmentFile = "/etc/secrets/wireless.env";
-      #   networks = {
-      #     weeelan.psk = "@PSK_WEEELAN@";
-      #     WLAN_guthmann.psk = "@PSK_WLAN_guthmann@";
-      #     eduroam = {
-      #       auth = ''
-      #         proto=RSN
-      #         key_mgmt=WPA-EAP
-      #         eap=PEAP
-      #         identity="@ID_EDUROAM@"
-      #         password=hash:@PW_HASH_EDUROAM@
-      #         domain_suffix_match="eradius.rrze.uni-erlangen.de"
-      #         anonymous_identity="anonymous@fau.de"
-      #         phase1="peaplabel=0"
-      #         phase2="auth=MSCHAPV2"
-      #         ca_cert="/etc/ssl/certs/eduroam.crt"
-      #       '';
-      #     };
-      #   };
-      # };
       firewall = {
         enable = true;
         allowedTCPPorts = [ 631 ];
@@ -99,10 +77,6 @@ in {
       ssh = {
         startAgent = true;
         agentTimeout = "5m";
-        extraConfig = ''
-          Match user backup host "zuse"
-                IdentityFile /etc/restic/id_backup
-        '';
       };
     };
   };

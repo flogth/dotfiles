@@ -68,7 +68,10 @@
           show-battery-percentage = true;
         };
         "org/gnome/desktop/peripherals/touchpad" = { natural-scroll = false; };
-        "org/gnome/desktop/sound" = { event-sounds = false; };
+        "org/gnome/desktop/sound" = {
+          allow-volume-above-100-percent = true;
+          event-sounds = false;
+        };
         "org/gnome/desktop/wm/keybindings" = { close = [ "<Super>w" ]; };
 
         "org/gnome/settings-daemon/plugins/media-keys" = {

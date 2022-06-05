@@ -42,12 +42,15 @@
 
 ;;; basic settings =========================================
 (set! inhibit-startup-message t
-      use-short-answers t        ; yes-or-no-p -> y-or-no-p
       vc-follow-symlinks t       ; do not warn when following symlinks
       visible-bell nil           ; do not flash a visual bell
       window-resize-pixelwise t  ; more flexible resizing
       frame-resize-pixelwise t
       use-dialog-box nil)
+
+;; only in emacs >= 28
+(when (boundp 'use-short-answers)
+  (set! use-short-answers t))
 
 ;; customization
 (set! custom-file
@@ -391,8 +394,12 @@
 
 ;;; programming languages ==================================
 ;; agda
-(load-file (let ((coding-system-for-read 'utf-8))
-             (shell-command-to-string "agda-mode locate")))
+(defun local/init-agda ()
+  "Initialise agda mode."
+  (when (executable-find "agda-mode")
+    (load-file (let ((coding-system-for-read 'utf-8))
+                 (shell-command-to-string "agda-mode locate")))))
+(local/init-agda)
 (add-hook 'agda2-mode-hook (lambda () (aggressive-indent-mode -1)))
 
 ;; apl

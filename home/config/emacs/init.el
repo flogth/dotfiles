@@ -70,12 +70,6 @@
 
 ;; theme
 
-(straight-use-package 'doom-themes)
-
-(set!
- doom-themes-enable-bold t
- doom-themes-enable-italic t)
-
 (straight-use-package 'modus-themes)
 (set! modus-themes-italic-constructs t
       modus-themes-bold-constructs t)
@@ -93,10 +87,9 @@
 (add-hook 'after-init-hook #'doom-modeline-mode)
 
 (set!
- doom-modeline-buffer-file-name-style 'auto
+ doom-modeline-buffer-file-name-style 'truncate-except-project
  doom-modeline-github nil
  doom-modeline-lsp nil
- doom-modeline-buffer-encoding nil
  doom-modeline-minor-modes nil)
 
 (column-number-mode t)

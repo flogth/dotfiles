@@ -77,5 +77,8 @@
         "org/gnome/settings-daemon/plugins/media-keys" = {
           custom-keybindings = imap0 (i: kbd: "/${kbdId i}/") keybindings;
         };
+        "GWeather4" = {
+          temperature-unit = "centigrade";
+        };
       } // kbdAttrs;
 }

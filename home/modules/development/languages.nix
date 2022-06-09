@@ -54,6 +54,9 @@
     guile
   ];
 
-  home.file = { ".ghc/ghci.conf".source = ../../config/ghc/ghci.conf; };
+  home.file = {
+    ".ghc/ghci.conf".source = ../../config/ghc/ghci.conf;
+    ".guile".source = ../../config/guile/.guile;
+  };
 
 }

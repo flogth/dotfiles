@@ -72,30 +72,27 @@
 (set! blink-cursor-mode nil)            ; do not blink cursor
 
 ;; theme
-
 (straight-use-package 'modus-themes)
 (set! modus-themes-italic-constructs t
       modus-themes-bold-constructs t)
 (load-theme 'modus-operandi t)
 
-;; font
+(custom-set-faces
+ '(mode-line ((t (:background "white smoke")))))
 
+;; font
 (custom-set-faces
  '(default ((t (:weight regular :height 140 :family "JuliaMono")))))
 
-(straight-use-package 'all-the-icons)
 ;; modeline
-
-(straight-use-package 'doom-modeline)
-(add-hook 'after-init-hook #'doom-modeline-mode)
-
-(set!
- doom-modeline-buffer-file-name-style 'truncate-except-project
- doom-modeline-github nil
- doom-modeline-lsp nil
- doom-modeline-minor-modes nil)
+(straight-use-package 'mood-line)
+(add-hook 'after-init-hook #'mood-line-mode)
 
 (column-number-mode t)
+
+(straight-use-package 'popper)
+(set! popper-mode t
+      popper-echo-mode t)
 
 ;;; editor =================================================
 (set! tab-width 4
@@ -150,14 +147,14 @@
 (straight-use-package 'recentf)
 (set! recentf-mode t)
 
-; save position in files
+;; save position in files
 (set! save-place-mode t)
 
 ;; completion in the minibuffer
 (straight-use-package 'vertico)
 (set! vertico-mode t
       vertico-cycle t
-      vertico-resize t)
+      vertico-resize nil)
 
 ;; completion popup
 (straight-use-package 'corfu)
@@ -171,16 +168,11 @@
       corfu-echo-documentation 0.25
       tab-always-indent 'complete)
 
-; completion at point extensions
+;; completion at point extensions
 (straight-use-package 'cape)
 (add-to-list 'completion-at-point-functions #'cape-tex)
 (add-to-list 'completion-at-point-functions #'cape-keyword)
 (add-to-list 'completion-at-point-functions #'cape-file)
-
-;; icons in completion popup
-(straight-use-package 'kind-icon)
-(set! kind-icon-default-face 'corfu-default)
-(add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
 
 ;; snippets
 (straight-use-package 'tempel)
@@ -304,7 +296,7 @@
 (add-hook 'TeX-mode-hook #'LaTeX-math-mode)
 (add-hook 'TeX-mode-hook #'reftex-mode)
 
-; disable cape-tex in TeX-mode
+;; disable cape-tex in TeX-mode
 (add-hook 'TeX-mode-hook
           (lambda ()
             (setq-local completion-at-point-functions
@@ -416,7 +408,7 @@
           (defun nix-add-electric-pairs ()
             (setq-local electric-pair-pairs (append electric-pair-pairs nix-electric-pairs)
                         electric-pair-text-pairs electric-pair-pairs)))
-        
+
 
 ;; ocaml
 (straight-use-package 'tuareg)
@@ -442,6 +434,7 @@
 
 ;; scheme
 (straight-use-package 'geiser)
+(straight-use-package 'geiser-guile)
 
 ;;; utilities ==============================================
 
@@ -544,6 +537,8 @@
          "D" #'delete-other-windows
          "s" #'local/split-window-right
          "S" #'local/split-window-below
+         "p" #'popper-toggle-latest
+         "P" #'popper-toggle-type
 
          "j" #'windmove-down
          "k" #'windmove-up
@@ -609,8 +604,8 @@
  '(";" . meow-reverse)
  '("," . meow-inner-of-thing)
  '("." . meow-bounds-of-thing)
- '("<" . meow-beginning-of-thing)
- '(">" . meow-end-of-thing)
+ '("[" . meow-beginning-of-thing)
+ '("]" . meow-end-of-thing)
  '("a" . meow-append)
  '("A" . meow-open-below)
  '("b" . meow-back-word)
@@ -660,4 +655,3 @@
 (meow-global-mode t)
 
 ;;; init.el ends here
-

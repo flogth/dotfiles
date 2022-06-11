@@ -59,7 +59,12 @@
       enable = true;
       qemu = { ovmf.enable = true; };
     };
+    docker = {
+      enable = true;
+      enableNvidia = true;
+    };
   };
+  environment.systemPackages = with pkgs; [ docker-compose ];
 
   xdg.portal = {
     enable = true;

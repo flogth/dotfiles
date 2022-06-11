@@ -74,7 +74,12 @@
 ;; theme
 (straight-use-package 'modus-themes)
 (set! modus-themes-italic-constructs t
-      modus-themes-bold-constructs t)
+      modus-themes-bold-constructs t
+      modus-themes-region '(accented)
+      modus-themes-mode-line '(accented borderless)
+      modus-themes-tabs-accented t
+      modus-themes-paren-match '(bold))
+
 (load-theme 'modus-operandi t)
 
 (custom-set-faces

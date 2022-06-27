@@ -33,7 +33,7 @@
 
     # proof assistants
     coq
-    agda
+    (agda.withPackages [ agdaPackages.standard-library ])
 
     # python
     python3
@@ -57,6 +57,9 @@
   home.file = {
     ".ghc/ghci.conf".source = ../../config/ghc/ghci.conf;
     ".guile".source = ../../config/guile/.guile;
+    ".agda/defaults".text = ''
+    ${pkgs.agdaPackages.standard-library.name}
+    '';
   };
 
 }

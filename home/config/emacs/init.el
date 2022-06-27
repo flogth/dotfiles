@@ -191,7 +191,9 @@
   (add-hook 'prog-mode-hook #'tempel-setup-capf)
   (add-hook 'text-mode-hook #'tempel-setup-capf)
 
-  (define-key tempel-map (kbd "TAB") #'tempel-next))
+  (define-key tempel-map (kbd "TAB") #'tempel-next)
+  (global-set-key (kbd "M-+") #'tempel-expand)
+  (global-set-key (kbd "M-*") #'tempel-insert)) 
 ;; show useful information in the minibuffer marginalia
 (straight-use-package 'marginalia)
 (set! marginalia-mode t)

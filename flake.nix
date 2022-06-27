@@ -33,12 +33,21 @@
         declarative-cachix.homeManagerModules.declarative-cachix-experimental;
       mkHomeManagerConfiguration = { host, username ? "flo" }:
         home-manager.lib.homeManagerConfiguration {
-          inherit system pkgs username;
-          homeDirectory = "/home/${username}";
-          configuration = { imports = [ ./home/${host} cachix ]; };
+          inherit pkgs;
+          modules = [
+            cachix
+            ./home/${host}
+            {
+              home = {
+                inherit username;
+                homeDirectory = "/home/${username}";
+                stateVersion = "21.05";
+              };
+            }
+          ];
         };
     in {
-      homeConfigurations = {
+      homeConfigurations = with home-manager.lib; {
         zuse = mkHomeManagerConfiguration { host = "zuse"; };
         euler = mkHomeManagerConfiguration { host = "euler"; };
       };

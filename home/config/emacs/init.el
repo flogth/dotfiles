@@ -2,22 +2,20 @@
 ;;; Commentary:
 
 ;;; Code:
-
-;;; straight.el ============================================
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-
 ;;; functions for configuration ============================
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+
+(require 'setup)
+(setup-define :load-after
+  (lambda (&rest features)
+    (let ((body `(require ',(setup-get 'feature))))
+      (dolist (feature (nreverse features))
+        (setq body `(with-eval-after-load ',feature ,body)))
+      body))
+  :documentation "Load the current feature after FEATURES.")
+
 (require 'cl-lib)
 
 (defmacro set! (&rest args)
@@ -72,32 +70,31 @@
 (set! blink-cursor-mode nil)            ; do not blink cursor
 
 ;; theme
-(straight-use-package 'modus-themes)
-(set! modus-themes-italic-constructs t
-      modus-themes-bold-constructs t
-      modus-themes-region '(accented)
-      modus-themes-mode-line '(accented borderless)
-      modus-themes-tabs-accented t
-      modus-themes-paren-match '(bold))
+(setup modus-themes
+  (:option modus-themes-italic-constructs t
+           modus-themes-bold-constructs t
+           modus-themes-region '(accented)
+           modus-themes-mode-line '(accented borderless)
+           modus-themes-tabs-accented t
+           modus-themes-paren-match '(intense bold))
+  (load-theme 'modus-operandi t)
 
-(load-theme 'modus-operandi t)
-
-(custom-set-faces
- '(mode-line ((t (:background "white smoke")))))
+  (custom-set-faces
+   '(mode-line ((t (:background "white smoke"))))))
 
 ;; font
 (custom-set-faces
  '(default ((t (:weight regular :height 140 :family "JuliaMono")))))
 
 ;; modeline
-(straight-use-package 'mood-line)
-(add-hook 'after-init-hook #'mood-line-mode)
+(setup mood-line
+  (mood-line-mode))
 
 (column-number-mode t)
 
-(straight-use-package 'popper)
-(set! popper-mode t
-      popper-echo-mode t)
+(setup popper
+  (:option popper-mode t
+           popper-echo-mode t))
 
 ;;; editor =================================================
 (set! tab-width 4
@@ -108,25 +105,25 @@
       kill-do-not-save-duplicates t)
 
 ;; insert brackets,parens,... as pairs
-(straight-use-package 'elec-pair)
-(set! electric-pair-mode t)
+(setup elec-pair
+  (:option electric-pair-mode t))
 
 ;; show matching parentheses
-(straight-use-package 'paren)
-(set! show-paren-mode t
-      show-paren-delay 0
-      show-paren-context-when-offscreen t)
+(setup paren
+  (:option show-paren-mode t
+           show-paren-delay 0
+           show-paren-context-when-offscreen t))
 
 ;; indenting
-(straight-use-package 'aggressive-indent)
-(add-hook 'prog-mode-hook #'aggressive-indent-mode)
+(setup aggressive-indent
+  (:hook-into prog-mode))
 
 ;; editorconfig
-(straight-use-package 'editorconfig)
-(editorconfig-mode t)
+(setup editorconfig
+  (:option editorconfig-mode t))
 
 ;; buffer-env
-(straight-use-package 'buffer-env)
+(setup buffer-env)
 
 ;; scrolling
 (set! scroll-margin 1
@@ -135,82 +132,62 @@
       scroll-preserve-screen-position t
       fast-but-imprecise-scrolling t)
 
-(straight-use-package 'paredit)
-(add-hook 'lisp-mode-hook #'enable-paredit-mode)
-
 ;;; completion =============================================
+(setup vertico
+  (require 'vertico)
+  (:option vertico-cycle t
+           vertico-resize nil)
+  (vertico-mode))
 
-;; history
-(straight-use-package 'savehist)
+(setup corfu
+  (require 'corfu)
+  (:option corfu-auto t
+           corfu-auto-delay 0
+           corfu-preview-current nil
+           corfu-cycle t
+           corfu-echo-documentation 0.25
+           tab-always-indent 'complete)
+  (global-corfu-mode))
 
-(set! savehist-mode t
-      history-delete-duplicates t
-      history-length 1000
-      savehist-save-minibuffer-history t)
+(setup consult
+  (:option completion-in-region-function
+           #'consult-completion-in-region))
 
-;; recent files
-(straight-use-package 'recentf)
-(set! recentf-mode t)
+(setup orderless
+  (:option completion-styles '(orderless basic)))
 
-;; save position in files
-(set! save-place-mode t)
+(setup marginalia
+  (:option marginalia-mode t))
 
-;; completion in the minibuffer
-(straight-use-package 'vertico)
-(set! vertico-mode t
-      vertico-cycle t
-      vertico-resize nil)
-
-;; completion popup
-(straight-use-package 'corfu)
-
-(global-corfu-mode)
-
-(set! corfu-auto t
-      corfu-auto-delay 0
-      corfu-preview-current nil
-      corfu-cycle t
-      corfu-echo-documentation 0.25
-      tab-always-indent 'complete)
-
-;; completion at point extensions
-(straight-use-package 'cape)
-(add-to-list 'completion-at-point-functions #'cape-tex)
-(add-to-list 'completion-at-point-functions #'cape-keyword)
-(add-to-list 'completion-at-point-functions #'cape-file)
+(setup (:package savehist recentf)
+  ;; history
+  (:option savehist-mode t
+           history-delete-duplicates t
+           history-length 1000
+           savehist-save-minibuffer-history t)
+  ;; recent files
+  (:option recentf-mode t)
+  ;; position in files
+  (:option save-place-mode t))
 
 ;; snippets
-(straight-use-package 'tempel)
-(with-eval-after-load 'tempel
+(setup tempel
   (defun tempel-setup-capf ()
     "Setup tempel as a capf backend."
     (setq-local completion-at-point-functions
                 (cons #'tempel-expand
                       completion-at-point-functions)))
+  (:bind-into tempel-map
+    "TAB" #'tempel-next)
+  (:global
+   "M-+" #'tempel-expand
+   "M-*" #'tempel-insert))
 
-  (add-hook 'prog-mode-hook #'tempel-setup-capf)
-  (add-hook 'text-mode-hook #'tempel-setup-capf)
-
-  (define-key tempel-map (kbd "TAB") #'tempel-next)
-  (global-set-key (kbd "M-+") #'tempel-expand)
-  (global-set-key (kbd "M-*") #'tempel-insert)) 
-;; show useful information in the minibuffer marginalia
-(straight-use-package 'marginalia)
-(set! marginalia-mode t)
-
-;; completion style matching space-separated words in any order
-(straight-use-package 'orderless)
-(set! completion-styles '(orderless basic))
-
-;; useful functions in the minibuffer
-(straight-use-package 'consult)
-(setq completion-in-region-function #'consult-completion-in-region)
+(add-hook 'prog-mode-hook #'tempel-setup-capf)
+(add-hook 'text-mode-hook #'tempel-setup-capf)
 
 ;; help
 (set! help-window-select t)
-
-(straight-use-package 'elisp-demos)
-(advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
 
 ;;; applications ===========================================
 ;; calendar
@@ -241,103 +218,99 @@
       calendar-mark-holidays-flag t)
 
 ;; eshell
-(straight-use-package 'eshell)
-(set! eshell-banner-message "")
+(setup eshell
+  (:option eshell-banner-message ""))
 
 ;;; development ============================================
 
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (display-line-numbers-mode t)
-            (hs-minor-mode t)))
+(setup prog-mode
+  (:hook #'display-line-numbers-mode
+         #'hs-minor-mode))
 
 ;; git
-(straight-use-package 'magit)
-(setq-default magit-define-global-key-bindings nil)
-
-(straight-use-package 'diff-hl)
-(add-hook 'prog-mode-hook #'diff-hl-mode)
+(setup (:package magit diff-hl)
+  (:load-after meow flymake)
+  ;; magit
+  (:option magit-define-global-key-bindings nil)
+  (:bind-into magit-mode-map
+    "x" #'magit-discard
+    "J" #'meow-next-expand
+    "K" #'meow-prev-expand
+    "L" #'magit-log)
+  ;; diff in margin
+  (require 'diff-hl)
+  (:with-mode diff-hl-mode
+    (:hook-into prog-mode)
+    (add-hook 'magit-pre-refresh-hook  #'diff-hl-magit-pre-refresh)
+    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
 
 ;; compilation
 (set! compilation-scroll-output 'first-error
       compilation-ask-about-save nil)
 
-;; lsp
-(straight-use-package 'eglot)
+;; ide
+(setup (:package eglot flymake xref)
+  ;; eglot
+  (:option eglot-autoshutdown t
+           eldoc-echo-area-use-multiline-p nil
+           eldoc-idle-delay 0.2
+           eglot-confirm-server-initiated-edits nil)
+  ;; flymake
+  (:with-mode flymake-mode
+    (:hook-into prog-mode))
+  
+  (:option help-at-pt-display-when-idle t)
 
-(set! eglot-autoshutdown t
-      eldoc-echo-area-use-multiline-p nil
-      eldoc-idle-delay 0.2
-      eglot-confirm-server-initiated-edits nil)
-
-;; syntax checking
-(straight-use-package 'flymake)
-(add-hook 'prog-mode-hook #'flymake-mode)
-(set! help-at-pt-display-when-idle t)
-
-
-(straight-use-package 'tree-sitter)
-(straight-use-package 'tree-sitter-langs)
-
-(global-tree-sitter-mode)
-(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
-
-;; xref
-(set! xref-search-program 'ripgrep
-      xref-show-xrefs-function #'consult-xref
-      xref-show-definitions-function #'consult-xref)
-
-;; project
-(straight-use-package 'neotree)
+  ;; xref
+  (:option xref-search-program 'ripgrep
+           xref-show-xrefs-function #'consult-xref
+           xref-show-definitions-function #'consult-xref))
 
 ;;; prose languages ========================================
 ;; HTML
-(straight-use-package 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+(setup (:package web-mode rainbow-mode)
+  (:with-mode web-mode
+    (:file-match "\\.html?\\'"))
+  (require 'rainbow-mode)
+  (:with-mode rainbow-mode
+    (:load-after flymake-mode)
+    (:hook-into prog-mode)))
+
 ;; LaTeX
-(straight-use-package 'auctex)
-(straight-use-package 'auctex-latexmk)
-
-(add-hook 'TeX-mode-hook #'visual-line-mode)
-(add-hook 'TeX-mode-hook #'TeX-fold-mode)
-(add-hook 'TeX-mode-hook #'LaTeX-math-mode)
-(add-hook 'TeX-mode-hook #'reftex-mode)
-
-;; disable cape-tex in TeX-mode
-(add-hook 'TeX-mode-hook
-          (lambda ()
-            (setq-local completion-at-point-functions
-                        (remove #'cape-tex completion-at-point-functions))))
-(set! TeX-master 'dwim
-      TeX-engine 'luatex
-      TeX-PDF-mode t
-      TeX-auto-save t
-      TeX-parse-self t
-      TeX-electric-math '("$" . "$")
-      LaTeX-electric-left-right-brace t)
+(setup auctex
+  (:with-mode TeX-mode
+    (:hook #'visual-line-mode
+           #'TeX-fold-mode
+           #'LaTeX-math-mode
+           #'reftex-mode))
+  (:option TeX-master 'dwim
+           TeX-engine 'luatex
+           TeX-PDF-mode t
+           TeX-auto-save t
+           TeX-parse-self t
+           TeX-electric-math '("$" . "$")
+           LaTeX-electric-left-right-brace t))
 
 ;; org
-(straight-use-package 'org)
-(straight-use-package 'org-superstar)
+(setup (:package org org-superstar)
+  (:with-mode org
+    (:hook #'org-indent-mode
+           #'visual-line-mode
+           #'org-superstar-mode))
+  (:option org-ellipsis " ↴"
+           org-highlight-latex-and-related '(latex script entities)
+           org-pretty-entities t
+           org-preview-latex-image-directory
+           (expand-file-name
+            "ltxpng"
+            (temporary-file-directory))
+           org-src-window-setup 'current-window)
+  (:option org-html-doctype "xhtml5"
+           org-html-html5-fancy t)
+  (:option org-superstar-special-todo-items t
+           org-superstar-leading-bullet ?\s))
 
-(add-hook 'org-mode-hook #'org-indent-mode)
-(add-hook 'org-mode-hook #'visual-line-mode)
-(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
-
-(set! org-ellipsis " ↴"
-      org-highlight-latex-and-related '(latex script entities)
-      org-pretty-entities t
-      org-preview-latex-image-directory
-      (expand-file-name
-       "ltxpng"
-       (temporary-file-directory))
-      org-src-window-setup 'current-window)
-
-(set! org-superstar-special-todo-items t
-      org-superstar-leading-bullet ?\s)
-                                        ; export
-(set! org-html-doctype "xhtml5"
-      org-html-html5-fancy t)
 
 (defconst org-electric-pairs
   '((?$ . ?$)))
@@ -349,67 +322,78 @@
 
 ;;; programming languages ==================================
 ;; agda
-(defun local/init-agda ()
+(setup agda2-mode
+  (defun local/init-agda ()
   "Initialise agda mode."
   (when (executable-find "agda-mode")
     (load-file (let ((coding-system-for-read 'utf-8))
                  (shell-command-to-string "agda-mode locate")))))
-(local/init-agda)
-(add-hook 'agda2-mode-hook (lambda () (aggressive-indent-mode -1)))
+  (local/init-agda)
+
+  (:hook #'local/disable-aggressive-indent))
+
 
 ;; apl
-(straight-use-package 'gnu-apl-mode)
+(setup gnu-apl-mode)
 ;; c/c++
-(straight-use-package 'cc-mode)
-(straight-use-package 'cmake-mode)
-(add-hook 'c-mode-hook #'eglot-ensure)
+(setup cc-mode
+  (:load-after eglot)
+  (:hook #'eglot-ensure))
 
 ;; coq
-(straight-use-package 'proof-general)
-(set! proof-splash-enable nil
-      proof-three-window-enable t
-      proof-three-window-mode-policy 'vertical)
+(defun local/setup-pg-faces ()
+  "Setup faces for Proof General."
+  (set-face-background 'proof-locked-face "#90ee90"))
 
-(add-hook 'coq-mode-hook
-          (defun local/setup-pg-faces ()
-            "Setup faces for Proof General."
-            (set-face-background 'proof-locked-face "#90ee90")))
-(add-hook 'coq-mode-hook (lambda () (aggressive-indent-mode -1)))
+(setup proof-general
+  (:option proof-splash-enable nil
+           proof-three-window-enable t
+           proof-three-window-mode-policy 'vertical
+           proof-delete-empty-windows t)
+  (:with-mode coq-mode
+    (:hook #'local/setup-pg-faces)))
 
-;; common-lisp
-(straight-use-package 'sly)
+;; lisp
+(setup sly
+  (:with-mode lisp-mode
+    (:hook #'sly-editing-mode)))
 
-;; emacs-lisp
-                                        ; overlay evaluation results
-(straight-use-package 'eros)
-(add-hook 'emacs-lisp-mode #'eros-mode)
+(setup (:package geiser geiser-guile geiser-racket)
+  (:option scheme-program-name "guile"))
+
+(setup eros
+  (:with-mode emacs-lisp-mode
+    (:hook #'eros-mode))
+  (:with-mode lisp-mode
+    (:hook #'eros-mode)))
 
 ;; haskell
-(straight-use-package 'haskell-mode)
-(add-hook 'haskell-mode-hook #'eglot-ensure)
-(add-hook 'haskell-mode-hook #'interactive-haskell-mode)
-
-(set! haskell-completing-read-function #'completing-read)
+(setup haskell-mode
+  (:load-after eglot)
+  (:hook #'eglot-ensure
+         #'interactive-haskell-mode)
+  (:option haskell-completing-read-function #'completing-read))
 
 ;; java
-(straight-use-package 'antlr-mode)
-(add-to-list 'auto-mode-alist '("\\.g4\\'" . antlr-mode))
+(setup antlr-mode)
 
-;; javascript
-(straight-use-package 'js2-mode)
-(straight-use-package 'json-mode)
-(straight-use-package 'rainbow-mode)
-
-(add-hook 'prog-mode-hook #'rainbow-mode)
-
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+;; js
+(setup (:package js2-mode json-mode)
+  (:with-mode js2-mode
+    (:file-match "\\.js\\'")))
 
 ;; nix
-(straight-use-package 'nix-mode)
-(add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
-(defconst nix-electric-pairs
-  '(("let" . " in")
-    (?= . ";")))
+
+(setup nix-mode
+  (defconst nix-electric-pairs
+    '(("let" . " in")
+      (?= . ";")))
+  (defun nix-add-electric-pairs ()
+    (setq-local electric-pair-pairs
+                (append electric-pair-pairs nix-electric-pairs)
+                electric-pair-text-pairs electric-pair-pairs))
+  (:file-match "\\.nix\\'")
+  (:hook #'nix-add-electric-pairs))
 
 (add-hook 'nix-mode-hook
           (defun nix-add-electric-pairs ()
@@ -417,31 +401,18 @@
                         electric-pair-text-pairs electric-pair-pairs)))
 
 
-;; ocaml
-(straight-use-package 'tuareg)
-
 ;; prolog
-(straight-use-package 'prolog)
-(straight-use-package 'ediprolog)
-
-(add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
-(set! prolog-system 'scryer
-      ediprolog-system 'scryer)
+(setup (:package prolog ediprolog)
+  (:with-mode prolog
+    (:file-match "\\.pl\\'"))
+  (:option prolog-system 'scryer
+           ediprolog-system 'scryer))
 
 ;; rust
-(straight-use-package 'rust-mode)
-(straight-use-package 'cargo)
-(add-hook 'rust-mode-hook #'eglot-ensure)
-
-;; shell scripts
-
-(add-hook 'shell-script-mode-hook
-          (lambda ()
-            (add-hook 'flymake-diagnostic-functions #'flymake-collection-shellcheck)))
-
-;; scheme
-(straight-use-package 'geiser)
-(straight-use-package 'geiser-guile)
+(setup (:package rust-mode cargo)
+  (:load-after eglot)
+  (:with-mode rust-mode
+    (:hook #'eglot-ensure)))
 
 ;;; utilities ==============================================
 
@@ -508,12 +479,12 @@
   (interactive)
   (local/mutate-int-at-point #'1-))
 
+(defun local/disable-aggressive-indent ()
+  "Disable 'aggressive-indent-mode'."
+  (interactive)
+  (aggressive-indent-mode -1))
+
 ;;; keybindings ============================================
-(straight-use-package 'meow)
-(require 'meow)
-(set! meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
-      meow-use-clipboard t
-      meow-expand-hint-remove-delay 0)
 
 (defmap! app-keymap
          "a" #'org-agenda
@@ -551,114 +522,111 @@
          "k" #'windmove-up
          "h" #'windmove-left
          "l" #'windmove-right)
+(setup meow
+  (:option meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
+           meow-use-clipboard t
+           meow-expand-hint-remove-delay 0)
+  (require 'meow)
+  (meow-motion-overwrite-define-key
+   '("j" . meow-next)
+   '("k" . meow-prev)
+   '("h" . meow-left)
+   '("l" . meow-right)
+   '("<escape>" . ignore))
+  (meow-leader-define-key
+   '("j" . "H-j")
+   '("k" . "H-k")
+   '("h" . "H-h")
+   '("l" . "H-l")
+   '("u" . undo-redo)
+   '(":" . execute-extended-command)
+   '(";" . pp-eval-expression)
+   '("." . find-file)
+   '("," . consult-buffer)
+   '("TAB" . hs-toggle-hiding)
+   '("a" . app-keymap)
+   '("b" . buffer-keymap)
+   '("p" . project-keymap)
+   '("s" . search-keymap)
+   '("w" . window-keymap)
 
-;; overwrite magit keybindings for meow
-(with-eval-after-load 'magit
-  (define-key magit-mode-map "x" #'magit-discard)
-  (define-key magit-mode-map "J" #'meow-next-expand)
-  (define-key magit-mode-map "K" #'meow-prev-expand)
-  (define-key magit-mode-map "L" #'magit-log))
+   '("1" . meow-digit-argument)
+   '("2" . meow-digit-argument)
+   '("3" . meow-digit-argument)
+   '("4" . meow-digit-argument)
+   '("5" . meow-digit-argument)
+   '("6" . meow-digit-argument)
+   '("7" . meow-digit-argument)
+   '("8" . meow-digit-argument)
+   '("9" . meow-digit-argument)
+   '("0" . meow-digit-argument)
+   '("/" . meow-keypad-describe-key)
+   '("?" . meow-cheatsheet))
 
-(meow-motion-overwrite-define-key
- '("j" . meow-next)
- '("k" . meow-prev)
- '("h" . meow-left)
- '("l" . meow-right)
- '("<escape>" . ignore))
+  (meow-normal-define-key
+   '("0" . meow-expand-0)
+   '("9" . meow-expand-9)
+   '("8" . meow-expand-8)
+   '("7" . meow-expand-7)
+   '("6" . meow-expand-6)
+   '("5" . meow-expand-5)
+   '("4" . meow-expand-4)
+   '("3" . meow-expand-3)
+   '("2" . meow-expand-2)
+   '("1" . meow-expand-1)
+   '("-" . negative-argument)
+   '(";" . meow-reverse)
+   '("," . meow-inner-of-thing)
+   '("." . meow-bounds-of-thing)
+   '("[" . meow-beginning-of-thing)
+   '("]" . meow-end-of-thing)
+   '("a" . meow-append)
+   '("A" . meow-open-below)
+   '("b" . meow-back-word)
+   '("B" . meow-back-symbol)
+   '("c" . meow-change)
+   '("d" . meow-delete)
+   '("D" . meow-backward-delete)
+   '("e" . meow-next-word)
+   '("E" . meow-next-symbol)
+   '("f" . meow-find)
+   '("g" . meow-cancel-selection)
+   '("G" . meow-grab)
+   '("h" . meow-left)
+   '("H" . meow-left-expand)
+   '("i" . meow-insert)
+   '("I" . meow-open-above)
+   '("j" . meow-next)
+   '("J" . meow-next-expand)
+   '("k" . meow-prev)
+   '("K" . meow-prev-expand)
+   '("l" . meow-right)
+   '("L" . meow-right-expand)
+   '("m" . meow-join)
+   '("n" . meow-search)
+   '("o" . meow-block)
+   '("O" . meow-to-block)
+   '("p" . meow-yank)
+   '("q" . meow-quit)
+   '("Q" . meow-goto-line)
+   '("r" . meow-replace)
+   '("R" . meow-swap-grab)
+   '("s" . meow-kill)
+   '("t" . meow-till)
+   '("u" . meow-undo)
+   '("U" . meow-undo-in-selection)
+   '("v" . meow-visit)
+   '("w" . meow-mark-word)
+   '("W" . meow-mark-symbol)
+   '("x" . meow-line)
+   '("X" . meow-goto-line)
+   '("y" . meow-save)
+   '("Y" . meow-sync-grab)
+   '("z" . meow-pop-selection)
+   '("'" . repeat)
+   '("<escape>" . ignore))
+  (meow-global-mode t))
 
-(meow-leader-define-key
- '("j" . "H-j")
- '("k" . "H-k")
- '("h" . "H-h")
- '("l" . "H-l")
- '("u" . undo-redo)
- '(":" . execute-extended-command)
- '(";" . pp-eval-expression)
- '("." . find-file)
- '("," . consult-buffer)
- '("TAB" . hs-toggle-hiding)
- '("a" . app-keymap)
- '("b" . buffer-keymap)
- '("p" . project-keymap)
- '("s" . search-keymap)
- '("w" . window-keymap)
 
- '("1" . meow-digit-argument)
- '("2" . meow-digit-argument)
- '("3" . meow-digit-argument)
- '("4" . meow-digit-argument)
- '("5" . meow-digit-argument)
- '("6" . meow-digit-argument)
- '("7" . meow-digit-argument)
- '("8" . meow-digit-argument)
- '("9" . meow-digit-argument)
- '("0" . meow-digit-argument)
- '("/" . meow-keypad-describe-key)
- '("?" . meow-cheatsheet))
-
-(meow-normal-define-key
- '("0" . meow-expand-0)
- '("9" . meow-expand-9)
- '("8" . meow-expand-8)
- '("7" . meow-expand-7)
- '("6" . meow-expand-6)
- '("5" . meow-expand-5)
- '("4" . meow-expand-4)
- '("3" . meow-expand-3)
- '("2" . meow-expand-2)
- '("1" . meow-expand-1)
- '("-" . negative-argument)
- '(";" . meow-reverse)
- '("," . meow-inner-of-thing)
- '("." . meow-bounds-of-thing)
- '("[" . meow-beginning-of-thing)
- '("]" . meow-end-of-thing)
- '("a" . meow-append)
- '("A" . meow-open-below)
- '("b" . meow-back-word)
- '("B" . meow-back-symbol)
- '("c" . meow-change)
- '("d" . meow-delete)
- '("D" . meow-backward-delete)
- '("e" . meow-next-word)
- '("E" . meow-next-symbol)
- '("f" . meow-find)
- '("g" . meow-cancel-selection)
- '("G" . meow-grab)
- '("h" . meow-left)
- '("H" . meow-left-expand)
- '("i" . meow-insert)
- '("I" . meow-open-above)
- '("j" . meow-next)
- '("J" . meow-next-expand)
- '("k" . meow-prev)
- '("K" . meow-prev-expand)
- '("l" . meow-right)
- '("L" . meow-right-expand)
- '("m" . meow-join)
- '("n" . meow-search)
- '("o" . meow-block)
- '("O" . meow-to-block)
- '("p" . meow-yank)
- '("q" . meow-quit)
- '("Q" . meow-goto-line)
- '("r" . meow-replace)
- '("R" . meow-swap-grab)
- '("s" . meow-kill)
- '("t" . meow-till)
- '("u" . meow-undo)
- '("U" . meow-undo-in-selection)
- '("v" . meow-visit)
- '("w" . meow-mark-word)
- '("W" . meow-mark-symbol)
- '("x" . meow-line)
- '("X" . meow-goto-line)
- '("y" . meow-save)
- '("Y" . meow-sync-grab)
- '("z" . meow-pop-selection)
- '("'" . repeat)
- '("<escape>" . ignore))
-
-(meow-global-mode t)
 
 ;;; init.el ends here

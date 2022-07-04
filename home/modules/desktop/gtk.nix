@@ -59,7 +59,7 @@
             (mkTuple [ "xkb" "us+altgr-intl" ])
             (mkTuple [ "xkb" "de+nodeadkeys" ])
           ];
-          xkb_options = [ "caps:escape" "grp:rctrl_toggle" ];
+          xkb-options = [ "caps:escape" "grp:rctrl_toggle" ];
         };
         "org/gnome/desktop/interface" = {
           color-scheme = "prefer-dark";

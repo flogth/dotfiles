@@ -331,7 +331,6 @@
             (setq-local electric-pair-pairs (append electric-pair-pairs org-electric-pairs)
                         electric-pair-text-pairs electric-pair-pairs)))
 
-
 ;;; programming languages ==================================
 ;; agda
 (setup agda2-mode
@@ -340,7 +339,6 @@
                  (shell-command-to-string "agda-mode locate")))
 
   (:hook #'local/disable-aggressive-indent))
-
 
 ;; apl
 (setup gnu-apl-mode)
@@ -362,8 +360,7 @@
 (setup proof-general
   (:option proof-splash-enable nil
            proof-three-window-enable t
-           proof-three-window-mode-policy 'vertical
-           proof-delete-empty-windows t)
+           proof-three-window-mode-policy 'vertical)
   (:with-mode coq-mode
     (:hook #'local/setup-pg-faces
            #'local/coq-init)))
@@ -414,7 +411,6 @@
           (defun nix-add-electric-pairs ()
             (setq-local electric-pair-pairs (append electric-pair-pairs nix-electric-pairs)
                         electric-pair-text-pairs electric-pair-pairs)))
-
 
 ;; prolog
 (setup (:package prolog ediprolog)

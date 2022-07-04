@@ -218,8 +218,15 @@
       calendar-mark-holidays-flag t)
 
 ;; eshell
-(setup eshell
-  (:option eshell-banner-message ""))
+(setup (:package eshell eshell-syntax-highlighting)
+  (:option eshell-banner-message ""
+           eshell-scroll-to-bottom-on-input  t
+           eshell-scroll-to-bottom-on-output t
+           eshell-kill-processes-on-exit t
+           eshell-hist-ignoredups t
+           eshell-error-if-no-glob t)
+  (:with-mode eshell
+    (:hook #'eshell-syntax-highlighting-mode)))
 
 ;;; development ============================================
 
@@ -278,7 +285,7 @@
     (:hook-into prog-mode)))
 
 ;; LaTeX
-(setup auctex
+(setup (:package auctex cdlatex)
   (:with-mode TeX-mode
     (:hook #'visual-line-mode
            #'TeX-fold-mode
@@ -288,9 +295,14 @@
            TeX-engine 'luatex
            TeX-PDF-mode t
            TeX-auto-save t
+           TeX-save-query nil
            TeX-parse-self t
+           TeX-auto-local ".auctex-auto"
            TeX-electric-math '("$" . "$")
-           LaTeX-electric-left-right-brace t))
+           TeX-electric-sub-and-superscript t
+           LaTeX-electric-left-right-brace t)
+  (:with-mode cdlatex
+    (:hook-into LaTeX-mode)))
 
 ;; org
 (setup (:package org org-superstar)
@@ -323,12 +335,9 @@
 ;;; programming languages ==================================
 ;; agda
 (setup agda2-mode
-  (defun local/init-agda ()
-  "Initialise agda mode."
   (when (executable-find "agda-mode")
-    (load-file (let ((coding-system-for-read 'utf-8))
-                 (shell-command-to-string "agda-mode locate")))))
-  (local/init-agda)
+    (add-to-list 'load-path
+                 (shell-command-to-string "agda-mode locate")))
 
   (:hook #'local/disable-aggressive-indent))
 
@@ -343,7 +352,12 @@
 ;; coq
 (defun local/setup-pg-faces ()
   "Setup faces for Proof General."
+  ;; thanks david
   (set-face-background 'proof-locked-face "#90ee90"))
+
+(defun local/coq-init ()
+  "Some initializations for 'coq-mode'."
+  (setq-local tab-width proof-indent))
 
 (setup proof-general
   (:option proof-splash-enable nil
@@ -351,7 +365,8 @@
            proof-three-window-mode-policy 'vertical
            proof-delete-empty-windows t)
   (:with-mode coq-mode
-    (:hook #'local/setup-pg-faces)))
+    (:hook #'local/setup-pg-faces
+           #'local/coq-init)))
 
 ;; lisp
 (setup sly
@@ -523,10 +538,10 @@
          "h" #'windmove-left
          "l" #'windmove-right)
 (setup meow
+  (require 'meow)
   (:option meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
            meow-use-clipboard t
            meow-expand-hint-remove-delay 0)
-  (require 'meow)
   (meow-motion-overwrite-define-key
    '("j" . meow-next)
    '("k" . meow-prev)

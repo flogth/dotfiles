@@ -4,8 +4,6 @@
 ;;; Code:
 
 (setq
- ;; disable package.el
- package-enable-at-startup nil
  ;; do not popup warning buffer
  native-comp-async-report-warnings-errors 'silent
  ;; prefer .el files over .elc

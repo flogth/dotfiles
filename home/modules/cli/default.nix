@@ -7,6 +7,9 @@
     file # info about a file
     imagemagick
 
+    nmap
+    magic-wormhole
+
     unzip
     zip
 

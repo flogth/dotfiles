@@ -33,7 +33,7 @@
 
     # proof assistants
     coq
-    (agda.withPackages [ agdaPackages.standard-library ])
+    (agda.withPackages [ agdaPackages.standard-library agdaPackages.cubical ])
 
     # python
     python3

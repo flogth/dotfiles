@@ -70,25 +70,25 @@
 (set! blink-cursor-mode nil)            ; do not blink cursor
 
 ;; theme
-(setup modus-themes
-  (:option modus-themes-italic-constructs t
-           modus-themes-bold-constructs t
-           modus-themes-region '(accented)
-           modus-themes-mode-line '(accented borderless)
-           modus-themes-tabs-accented t
-           modus-themes-paren-match '(intense bold))
-  (load-theme 'modus-operandi t)
+(setup (:package modus-themes)
+       (:option modus-themes-italic-constructs t
+                modus-themes-bold-constructs t
+                modus-themes-region '(accented)
+                modus-themes-mode-line '(accented borderless)
+                modus-themes-tabs-accented t
+                modus-themes-paren-match '(intense bold))
+       (load-theme 'modus-operandi t)
 
-  (custom-set-faces
-   '(mode-line ((t (:background "white smoke"))))))
+       (custom-set-faces
+        '(mode-line ((t (:background "white smoke"))))))
 
 ;; font
 (custom-set-faces
  '(default ((t (:weight regular :height 140 :family "JuliaMono")))))
 
 ;; modeline
-(setup mood-line
-  (mood-line-mode))
+(setup (:package mood-line)
+       (mood-line-mode))
 
 (column-number-mode t)
 
@@ -115,8 +115,8 @@
            show-paren-context-when-offscreen t))
 
 ;; indenting
-(setup aggressive-indent
-  (:hook-into prog-mode))
+(setup (:package aggressive-indent)
+       (:hook-into prog-mode))
 
 ;; editorconfig
 (setup editorconfig
@@ -133,31 +133,31 @@
       fast-but-imprecise-scrolling t)
 
 ;;; completion =============================================
-(setup vertico
-  (require 'vertico)
-  (:option vertico-cycle t
-           vertico-resize nil)
-  (vertico-mode))
+(setup (:package vertico)
+       (require 'vertico)
+       (:option vertico-cycle t
+                vertico-resize nil)
+       (vertico-mode))
 
-(setup corfu
-  (require 'corfu)
-  (:option corfu-auto t
-           corfu-auto-delay 0
-           corfu-preview-current nil
-           corfu-cycle t
-           corfu-echo-documentation 0.25
-           tab-always-indent 'complete)
-  (global-corfu-mode))
+(setup (:package corfu)
+       (require 'corfu)
+       (:option corfu-auto t
+                corfu-auto-delay 0
+                corfu-preview-current nil
+                corfu-cycle t
+                corfu-echo-documentation 0.25
+                tab-always-indent 'complete)
+       (global-corfu-mode))
 
-(setup consult
-  (:option completion-in-region-function
-           #'consult-completion-in-region))
+(setup (:package consult)
+       (:option completion-in-region-function
+                #'consult-completion-in-region))
 
-(setup orderless
-  (:option completion-styles '(orderless basic)))
+(setup (:package orderless)
+       (:option completion-styles '(orderless basic)))
 
-(setup marginalia
-  (:option marginalia-mode t))
+(setup (:package marginalia)
+       (:option marginalia-mode t))
 
 (setup (:package savehist recentf)
   ;; history
@@ -373,18 +373,18 @@
 (setup (:package geiser geiser-guile geiser-racket)
   (:option scheme-program-name "guile"))
 
-(setup eros
-  (:with-mode emacs-lisp-mode
-    (:hook #'eros-mode))
-  (:with-mode lisp-mode
-    (:hook #'eros-mode)))
+(setup (:package eros)
+       (:with-mode emacs-lisp-mode
+                   (:hook #'eros-mode))
+       (:with-mode lisp-mode
+                   (:hook #'eros-mode)))
 
 ;; haskell
-(setup haskell-mode
-  (:load-after eglot)
-  (:hook #'eglot-ensure
-         #'interactive-haskell-mode)
-  (:option haskell-completing-read-function #'completing-read))
+(setup (:package haskell-mode)
+       (:load-after eglot)
+       (:hook #'eglot-ensure
+              #'interactive-haskell-mode)
+       (:option haskell-completing-read-function #'completing-read))
 
 ;; java
 (setup antlr-mode)
@@ -396,16 +396,16 @@
 
 ;; nix
 
-(setup nix-mode
-  (defconst nix-electric-pairs
-    '(("let" . " in")
-      (?= . ";")))
-  (defun nix-add-electric-pairs ()
-    (setq-local electric-pair-pairs
-                (append electric-pair-pairs nix-electric-pairs)
-                electric-pair-text-pairs electric-pair-pairs))
-  (:file-match "\\.nix\\'")
-  (:hook #'nix-add-electric-pairs))
+(setup (:package nix-mode)
+       (defconst nix-electric-pairs
+         '(("let" . " in")
+           (?= . ";")))
+       (defun nix-add-electric-pairs ()
+         (setq-local electric-pair-pairs
+                     (append electric-pair-pairs nix-electric-pairs)
+                     electric-pair-text-pairs electric-pair-pairs))
+       (:file-match "\\.nix\\'")
+       (:hook #'nix-add-electric-pairs))
 
 (add-hook 'nix-mode-hook
           (defun nix-add-electric-pairs ()
@@ -533,110 +533,110 @@
          "k" #'windmove-up
          "h" #'windmove-left
          "l" #'windmove-right)
-(setup meow
-  (require 'meow)
-  (:option meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
-           meow-use-clipboard t
-           meow-expand-hint-remove-delay 0)
-  (meow-motion-overwrite-define-key
-   '("j" . meow-next)
-   '("k" . meow-prev)
-   '("h" . meow-left)
-   '("l" . meow-right)
-   '("<escape>" . ignore))
-  (meow-leader-define-key
-   '("j" . "H-j")
-   '("k" . "H-k")
-   '("h" . "H-h")
-   '("l" . "H-l")
-   '("u" . undo-redo)
-   '(":" . execute-extended-command)
-   '(";" . pp-eval-expression)
-   '("." . find-file)
-   '("," . consult-buffer)
-   '("TAB" . hs-toggle-hiding)
-   '("a" . app-keymap)
-   '("b" . buffer-keymap)
-   '("p" . project-keymap)
-   '("s" . search-keymap)
-   '("w" . window-keymap)
+(setup (:package meow)
+       (require 'meow)
+       (:option meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
+                meow-use-clipboard t
+                meow-expand-hint-remove-delay 0)
+       (meow-motion-overwrite-define-key
+        '("j" . meow-next)
+        '("k" . meow-prev)
+        '("h" . meow-left)
+        '("l" . meow-right)
+        '("<escape>" . ignore))
+       (meow-leader-define-key
+        '("j" . "H-j")
+        '("k" . "H-k")
+        '("h" . "H-h")
+        '("l" . "H-l")
+        '("u" . undo-redo)
+        '(":" . execute-extended-command)
+        '(";" . pp-eval-expression)
+        '("." . find-file)
+        '("," . consult-buffer)
+        '("TAB" . hs-toggle-hiding)
+        '("a" . app-keymap)
+        '("b" . buffer-keymap)
+        '("p" . project-keymap)
+        '("s" . search-keymap)
+        '("w" . window-keymap)
 
-   '("1" . meow-digit-argument)
-   '("2" . meow-digit-argument)
-   '("3" . meow-digit-argument)
-   '("4" . meow-digit-argument)
-   '("5" . meow-digit-argument)
-   '("6" . meow-digit-argument)
-   '("7" . meow-digit-argument)
-   '("8" . meow-digit-argument)
-   '("9" . meow-digit-argument)
-   '("0" . meow-digit-argument)
-   '("/" . meow-keypad-describe-key)
-   '("?" . meow-cheatsheet))
+        '("1" . meow-digit-argument)
+        '("2" . meow-digit-argument)
+        '("3" . meow-digit-argument)
+        '("4" . meow-digit-argument)
+        '("5" . meow-digit-argument)
+        '("6" . meow-digit-argument)
+        '("7" . meow-digit-argument)
+        '("8" . meow-digit-argument)
+        '("9" . meow-digit-argument)
+        '("0" . meow-digit-argument)
+        '("/" . meow-keypad-describe-key)
+        '("?" . meow-cheatsheet))
 
-  (meow-normal-define-key
-   '("0" . meow-expand-0)
-   '("9" . meow-expand-9)
-   '("8" . meow-expand-8)
-   '("7" . meow-expand-7)
-   '("6" . meow-expand-6)
-   '("5" . meow-expand-5)
-   '("4" . meow-expand-4)
-   '("3" . meow-expand-3)
-   '("2" . meow-expand-2)
-   '("1" . meow-expand-1)
-   '("-" . negative-argument)
-   '(";" . meow-reverse)
-   '("," . meow-inner-of-thing)
-   '("." . meow-bounds-of-thing)
-   '("[" . meow-beginning-of-thing)
-   '("]" . meow-end-of-thing)
-   '("a" . meow-append)
-   '("A" . meow-open-below)
-   '("b" . meow-back-word)
-   '("B" . meow-back-symbol)
-   '("c" . meow-change)
-   '("d" . meow-delete)
-   '("D" . meow-backward-delete)
-   '("e" . meow-next-word)
-   '("E" . meow-next-symbol)
-   '("f" . meow-find)
-   '("g" . meow-cancel-selection)
-   '("G" . meow-grab)
-   '("h" . meow-left)
-   '("H" . meow-left-expand)
-   '("i" . meow-insert)
-   '("I" . meow-open-above)
-   '("j" . meow-next)
-   '("J" . meow-next-expand)
-   '("k" . meow-prev)
-   '("K" . meow-prev-expand)
-   '("l" . meow-right)
-   '("L" . meow-right-expand)
-   '("m" . meow-join)
-   '("n" . meow-search)
-   '("o" . meow-block)
-   '("O" . meow-to-block)
-   '("p" . meow-yank)
-   '("q" . meow-quit)
-   '("Q" . meow-goto-line)
-   '("r" . meow-replace)
-   '("R" . meow-swap-grab)
-   '("s" . meow-kill)
-   '("t" . meow-till)
-   '("u" . meow-undo)
-   '("U" . meow-undo-in-selection)
-   '("v" . meow-visit)
-   '("w" . meow-mark-word)
-   '("W" . meow-mark-symbol)
-   '("x" . meow-line)
-   '("X" . meow-goto-line)
-   '("y" . meow-save)
-   '("Y" . meow-sync-grab)
-   '("z" . meow-pop-selection)
-   '("'" . repeat)
-   '("<escape>" . ignore))
-  (meow-global-mode t))
+       (meow-normal-define-key
+        '("0" . meow-expand-0)
+        '("9" . meow-expand-9)
+        '("8" . meow-expand-8)
+        '("7" . meow-expand-7)
+        '("6" . meow-expand-6)
+        '("5" . meow-expand-5)
+        '("4" . meow-expand-4)
+        '("3" . meow-expand-3)
+        '("2" . meow-expand-2)
+        '("1" . meow-expand-1)
+        '("-" . negative-argument)
+        '(";" . meow-reverse)
+        '("," . meow-inner-of-thing)
+        '("." . meow-bounds-of-thing)
+        '("[" . meow-beginning-of-thing)
+        '("]" . meow-end-of-thing)
+        '("a" . meow-append)
+        '("A" . meow-open-below)
+        '("b" . meow-back-word)
+        '("B" . meow-back-symbol)
+        '("c" . meow-change)
+        '("d" . meow-delete)
+        '("D" . meow-backward-delete)
+        '("e" . meow-next-word)
+        '("E" . meow-next-symbol)
+        '("f" . meow-find)
+        '("g" . meow-cancel-selection)
+        '("G" . meow-grab)
+        '("h" . meow-left)
+        '("H" . meow-left-expand)
+        '("i" . meow-insert)
+        '("I" . meow-open-above)
+        '("j" . meow-next)
+        '("J" . meow-next-expand)
+        '("k" . meow-prev)
+        '("K" . meow-prev-expand)
+        '("l" . meow-right)
+        '("L" . meow-right-expand)
+        '("m" . meow-join)
+        '("n" . meow-search)
+        '("o" . meow-block)
+        '("O" . meow-to-block)
+        '("p" . meow-yank)
+        '("q" . meow-quit)
+        '("Q" . meow-goto-line)
+        '("r" . meow-replace)
+        '("R" . meow-swap-grab)
+        '("s" . meow-kill)
+        '("t" . meow-till)
+        '("u" . meow-undo)
+        '("U" . meow-undo-in-selection)
+        '("v" . meow-visit)
+        '("w" . meow-mark-word)
+        '("W" . meow-mark-symbol)
+        '("x" . meow-line)
+        '("X" . meow-goto-line)
+        '("y" . meow-save)
+        '("Y" . meow-sync-grab)
+        '("z" . meow-pop-selection)
+        '("'" . repeat)
+        '("<escape>" . ignore))
+       (meow-global-mode t))
 
 
 

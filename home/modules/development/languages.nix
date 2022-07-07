@@ -52,6 +52,7 @@
 
     # scheme
     guile
+    racket
   ];
 
   home.file = {

@@ -92,7 +92,7 @@
 
 (column-number-mode t)
 
-(setup popper
+(setup (:package popper)
   (:option popper-mode t
            popper-echo-mode t))
 
@@ -119,7 +119,7 @@
        (:hook-into prog-mode))
 
 ;; editorconfig
-(setup editorconfig
+(setup (:package editorconfig)
   (:option editorconfig-mode t))
 
 ;; buffer-env
@@ -171,7 +171,7 @@
   (:option save-place-mode t))
 
 ;; snippets
-(setup tempel
+(setup (:package tempel)
   (defun tempel-setup-capf ()
     "Setup tempel as a capf backend."
     (setq-local completion-at-point-functions
@@ -266,12 +266,8 @@
   (:with-mode flymake-mode
     (:hook-into prog-mode))
   
-  (:option help-at-pt-display-when-idle t)
-
   ;; xref
-  (:option xref-search-program 'ripgrep
-           xref-show-xrefs-function #'consult-xref
-           xref-show-definitions-function #'consult-xref))
+  (:option xref-search-program 'ripgrep))
 
 ;;; prose languages ========================================
 ;; HTML
@@ -285,22 +281,25 @@
     (:hook-into prog-mode)))
 
 ;; LaTeX
-(setup (:package auctex cdlatex)
-  (:with-mode TeX-mode
-    (:hook #'visual-line-mode
-           #'TeX-fold-mode
-           #'LaTeX-math-mode
-           #'reftex-mode))
-  (:option TeX-master 'dwim
-           TeX-engine 'luatex
-           TeX-PDF-mode t
-           TeX-auto-save t
-           TeX-save-query nil
-           TeX-parse-self t
-           TeX-auto-local ".auctex-auto"
-           TeX-electric-math '("$" . "$")
-           TeX-electric-sub-and-superscript t
-           LaTeX-electric-left-right-brace t)
+(setup LaTeX (:package auctex)
+       (:with-mode TeX-mode
+         (:hook #'visual-line-mode
+                #'TeX-fold-mode
+                #'LaTeX-math-mode
+                #'reftex-mode))
+       (:option TeX-master 'dwim
+                TeX-engine 'luatex
+                TeX-PDF-mode t
+                TeX-auto-save t
+                TeX-save-query nil
+                TeX-parse-self t
+                TeX-auto-local ".auctex-auto"
+                TeX-view-program-selection '((output-pdf "xdg-open"))
+                TeX-electric-math '("$" . "$")
+                TeX-electric-sub-and-superscript t
+                LaTeX-electric-left-right-brace t))
+
+(setup (:package cdlatex)
   (:with-mode cdlatex
     (:hook-into LaTeX-mode)))
 
@@ -335,9 +334,8 @@
 ;; agda
 (setup agda2-mode
   (when (executable-find "agda-mode")
-    (add-to-list 'load-path
-                 (shell-command-to-string "agda-mode locate")))
-
+    (load-file (let ((coding-system-for-read 'utf-8))
+                 (shell-command-to-string "agda-mode locate"))))
   (:hook #'local/disable-aggressive-indent))
 
 ;; apl
@@ -366,18 +364,20 @@
            #'local/coq-init)))
 
 ;; lisp
-(setup sly
+(setup (:package sly)
   (:with-mode lisp-mode
     (:hook #'sly-editing-mode)))
 
 (setup (:package geiser geiser-guile geiser-racket)
   (:option scheme-program-name "guile"))
 
+(setup (:package racket-mode))
+
 (setup (:package eros)
-       (:with-mode emacs-lisp-mode
-                   (:hook #'eros-mode))
-       (:with-mode lisp-mode
-                   (:hook #'eros-mode)))
+  (:with-mode emacs-lisp-mode
+    (:hook #'eros-mode))
+  (:with-mode lisp-mode
+    (:hook #'eros-mode)))
 
 ;; haskell
 (setup (:package haskell-mode)
@@ -534,109 +534,109 @@
          "h" #'windmove-left
          "l" #'windmove-right)
 (setup (:package meow)
-       (require 'meow)
-       (:option meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
-                meow-use-clipboard t
-                meow-expand-hint-remove-delay 0)
-       (meow-motion-overwrite-define-key
-        '("j" . meow-next)
-        '("k" . meow-prev)
-        '("h" . meow-left)
-        '("l" . meow-right)
-        '("<escape>" . ignore))
-       (meow-leader-define-key
-        '("j" . "H-j")
-        '("k" . "H-k")
-        '("h" . "H-h")
-        '("l" . "H-l")
-        '("u" . undo-redo)
-        '(":" . execute-extended-command)
-        '(";" . pp-eval-expression)
-        '("." . find-file)
-        '("," . consult-buffer)
-        '("TAB" . hs-toggle-hiding)
-        '("a" . app-keymap)
-        '("b" . buffer-keymap)
-        '("p" . project-keymap)
-        '("s" . search-keymap)
-        '("w" . window-keymap)
+  (require 'meow)
+  (:option meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
+           meow-use-clipboard t
+           meow-expand-hint-remove-delay 0)
+  (meow-motion-overwrite-define-key
+   '("j" . meow-next)
+   '("k" . meow-prev)
+   '("h" . meow-left)
+   '("l" . meow-right)
+   '("<escape>" . ignore))
+  (meow-leader-define-key
+   '("j"   . "H-j")
+   '("k"   . "H-k")
+   '("h"   . "H-h")
+   '("l"   . "H-l")
+   '("u"   . undo-redo)
+   '(":"   . execute-extended-command)
+   '(";"   . pp-eval-expression)
+   '("."   . find-file)
+   '(","   . consult-buffer)
+   '("TAB" . hs-toggle-hiding)
+   '("a"   . app-keymap)
+   '("b"   . buffer-keymap)
+   '("p"   . project-keymap)
+   '("s"   . search-keymap)
+   '("w"   . window-keymap)
 
-        '("1" . meow-digit-argument)
-        '("2" . meow-digit-argument)
-        '("3" . meow-digit-argument)
-        '("4" . meow-digit-argument)
-        '("5" . meow-digit-argument)
-        '("6" . meow-digit-argument)
-        '("7" . meow-digit-argument)
-        '("8" . meow-digit-argument)
-        '("9" . meow-digit-argument)
-        '("0" . meow-digit-argument)
-        '("/" . meow-keypad-describe-key)
-        '("?" . meow-cheatsheet))
+   '("1"   . meow-digit-argument)
+   '("2"   . meow-digit-argument)
+   '("3"   . meow-digit-argument)
+   '("4"   . meow-digit-argument)
+   '("5"   . meow-digit-argument)
+   '("6"   . meow-digit-argument)
+   '("7"   . meow-digit-argument)
+   '("8"   . meow-digit-argument)
+   '("9"   . meow-digit-argument)
+   '("0"   . meow-digit-argument)
+   '("/"   . meow-keypad-describe-key)
+   '("?"   . meow-cheatsheet))
 
-       (meow-normal-define-key
-        '("0" . meow-expand-0)
-        '("9" . meow-expand-9)
-        '("8" . meow-expand-8)
-        '("7" . meow-expand-7)
-        '("6" . meow-expand-6)
-        '("5" . meow-expand-5)
-        '("4" . meow-expand-4)
-        '("3" . meow-expand-3)
-        '("2" . meow-expand-2)
-        '("1" . meow-expand-1)
-        '("-" . negative-argument)
-        '(";" . meow-reverse)
-        '("," . meow-inner-of-thing)
-        '("." . meow-bounds-of-thing)
-        '("[" . meow-beginning-of-thing)
-        '("]" . meow-end-of-thing)
-        '("a" . meow-append)
-        '("A" . meow-open-below)
-        '("b" . meow-back-word)
-        '("B" . meow-back-symbol)
-        '("c" . meow-change)
-        '("d" . meow-delete)
-        '("D" . meow-backward-delete)
-        '("e" . meow-next-word)
-        '("E" . meow-next-symbol)
-        '("f" . meow-find)
-        '("g" . meow-cancel-selection)
-        '("G" . meow-grab)
-        '("h" . meow-left)
-        '("H" . meow-left-expand)
-        '("i" . meow-insert)
-        '("I" . meow-open-above)
-        '("j" . meow-next)
-        '("J" . meow-next-expand)
-        '("k" . meow-prev)
-        '("K" . meow-prev-expand)
-        '("l" . meow-right)
-        '("L" . meow-right-expand)
-        '("m" . meow-join)
-        '("n" . meow-search)
-        '("o" . meow-block)
-        '("O" . meow-to-block)
-        '("p" . meow-yank)
-        '("q" . meow-quit)
-        '("Q" . meow-goto-line)
-        '("r" . meow-replace)
-        '("R" . meow-swap-grab)
-        '("s" . meow-kill)
-        '("t" . meow-till)
-        '("u" . meow-undo)
-        '("U" . meow-undo-in-selection)
-        '("v" . meow-visit)
-        '("w" . meow-mark-word)
-        '("W" . meow-mark-symbol)
-        '("x" . meow-line)
-        '("X" . meow-goto-line)
-        '("y" . meow-save)
-        '("Y" . meow-sync-grab)
-        '("z" . meow-pop-selection)
-        '("'" . repeat)
-        '("<escape>" . ignore))
-       (meow-global-mode t))
+  (meow-normal-define-key
+   '("0" . meow-expand-0)
+   '("9" . meow-expand-9)
+   '("8" . meow-expand-8)
+   '("7" . meow-expand-7)
+   '("6" . meow-expand-6)
+   '("5" . meow-expand-5)
+   '("4" . meow-expand-4)
+   '("3" . meow-expand-3)
+   '("2" . meow-expand-2)
+   '("1" . meow-expand-1)
+   '("-" . negative-argument)
+   '(";" . meow-reverse)
+   '("," . meow-inner-of-thing)
+   '("." . meow-bounds-of-thing)
+   '("[" . meow-beginning-of-thing)
+   '("]" . meow-end-of-thing)
+   '("a" . meow-append)
+   '("A" . meow-open-below)
+   '("b" . meow-back-word)
+   '("B" . meow-back-symbol)
+   '("c" . meow-change)
+   '("d" . meow-delete)
+   '("D" . meow-backward-delete)
+   '("e" . meow-next-word)
+   '("E" . meow-next-symbol)
+   '("f" . meow-find)
+   '("g" . meow-cancel-selection)
+   '("G" . meow-grab)
+   '("h" . meow-left)
+   '("H" . meow-left-expand)
+   '("i" . meow-insert)
+   '("I" . meow-open-above)
+   '("j" . meow-next)
+   '("J" . meow-next-expand)
+   '("k" . meow-prev)
+   '("K" . meow-prev-expand)
+   '("l" . meow-right)
+   '("L" . meow-right-expand)
+   '("m" . meow-join)
+   '("n" . meow-search)
+   '("o" . meow-block)
+   '("O" . meow-to-block)
+   '("p" . meow-yank)
+   '("q" . meow-quit)
+   '("Q" . meow-goto-line)
+   '("r" . meow-replace)
+   '("R" . meow-swap-grab)
+   '("s" . meow-kill)
+   '("t" . meow-till)
+   '("u" . meow-undo)
+   '("U" . meow-undo-in-selection)
+   '("v" . meow-visit)
+   '("w" . meow-mark-word)
+   '("W" . meow-mark-symbol)
+   '("x" . meow-line)
+   '("X" . meow-goto-line)
+   '("y" . meow-save)
+   '("Y" . meow-sync-grab)
+   '("z" . meow-pop-selection)
+   '("'" . repeat)
+   '("<escape>" . ignore))
+  (meow-global-mode t))
 
 
 

@@ -355,7 +355,7 @@
   "Some initializations for 'coq-mode'."
   (setq-local tab-width proof-indent))
 
-(setup proof-general
+(setup (:package proof-general)
   (:option proof-splash-enable nil
            proof-three-window-enable t
            proof-three-window-mode-policy 'vertical)
@@ -368,10 +368,10 @@
   (:with-mode lisp-mode
     (:hook #'sly-editing-mode)))
 
-(setup (:package geiser geiser-guile geiser-racket)
+(setup (:package geiser geiser-guile)
   (:option scheme-program-name "guile"))
 
-(setup (:package racket-mode))
+(setup (:package racket-mode geiser-racket))
 
 (setup (:package eros)
   (:with-mode emacs-lisp-mode
@@ -387,7 +387,8 @@
        (:option haskell-completing-read-function #'completing-read))
 
 ;; java
-(setup antlr-mode)
+(setup antlr-mode
+  (:file-match "\\.g4\\'"))
 
 ;; js
 (setup (:package js2-mode json-mode)

@@ -60,7 +60,7 @@
     #     critical = { };
     #   };
     # };
-    playerctld.enable = true;
+    # playerctld.enable = true;
     udiskie = {
       enable = true;
       automount = false;

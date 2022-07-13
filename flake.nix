@@ -14,13 +14,9 @@
       repo = "emacs-overlay";
     };
 
-    declarative-cachix = {
-      url = "github:jonascarpay/declarative-cachix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { nixpkgs, home-manager, emacs-overlay, declarative-cachix, ... }:
+  outputs = { nixpkgs, home-manager, emacs-overlay, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -29,37 +25,54 @@
         overlays = [ emacs-overlay.overlay ];
       };
       lib = nixpkgs.lib;
-      cachix =
-        declarative-cachix.homeManagerModules.declarative-cachix-experimental;
-      mkHomeManagerConfiguration = { host, username ? "flo" }:
-        home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+    in {
+      nixosConfigurations = {
+        euler = lib.nixosSystem {
+          inherit system pkgs;
           modules = [
-            cachix
-            ./home/${host}
+            ./hosts/euler/configuration.nix
+            home-manager.nixosModules.home-manager
             {
-              home = {
-                inherit username;
-                homeDirectory = "/home/${username}";
-                stateVersion = "21.05";
+              home-manager = let
+                args = {
+                  terminal = {
+                    enable = true;
+                    fontSize = 10;
+                  };
+                };
+              in {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.flo =
+                  import ./home/home.nix { inherit pkgs lib args; };
+                verbose = true;
               };
             }
           ];
         };
-    in {
-      homeConfigurations = with home-manager.lib; {
-        zuse = mkHomeManagerConfiguration { host = "zuse"; };
-        euler = mkHomeManagerConfiguration { host = "euler"; };
-      };
-
-      nixosConfigurations = {
-        euler = lib.nixosSystem {
-          inherit system pkgs;
-          modules = [ ./hosts/euler/configuration.nix ];
-        };
         zuse = lib.nixosSystem {
           inherit system pkgs;
-          modules = [ ./hosts/zuse/configuration.nix ];
+          modules = [
+            ./hosts/zuse/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = let
+                args = {
+                  terminal = {
+                    enable = true;
+                    fontSize = 14;
+                  };
+                  games.enable = true;
+                };
+              in {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.flo =
+                  import ./home/home.nix { inherit pkgs lib args; };
+                verbose = true;
+              };
+            }
+          ];
         };
       };
     };

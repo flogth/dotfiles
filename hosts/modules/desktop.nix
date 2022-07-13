@@ -7,7 +7,6 @@
     gnome.gnome-terminal
     gnome.gedit
     gnome.epiphany
-    gnome.geary
     gnome.evince
     gnome.gnome-characters
     gnome.totem

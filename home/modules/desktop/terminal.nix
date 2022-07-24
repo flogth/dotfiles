@@ -20,7 +20,7 @@ in {
           font = "JuliaMono:size=${toString cfg.fontSize}";
           dpi-aware = "yes";
         };
-        csd = { preferred = "none"; };
+        csd = { preferred = "server"; };
         colors = {
           foreground = "f8f8f2";
           background = "282a36";

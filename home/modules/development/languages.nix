@@ -44,6 +44,7 @@
     # rust
     rustc
     cargo
+    cargo-generate
     rust-analyzer
     rustfmt
 
@@ -53,6 +54,9 @@
     # scheme
     guile
     racket
+
+    # wasm
+    wasm-pack
   ];
 
   home.file = {

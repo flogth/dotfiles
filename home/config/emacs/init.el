@@ -354,7 +354,8 @@
          #'local/agda-faces))
 
 ;; apl
-(setup gnu-apl-mode)
+(setup (:package gnu-apl-mode)
+  (:option gnu-apl-show-tips-on-start nil))
 ;; c/c++
 (setup cc-mode
   (:load-after eglot)

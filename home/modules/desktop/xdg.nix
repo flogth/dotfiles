@@ -7,7 +7,7 @@ in {
       enable = true;
       createDirectories = true;
       desktop = "${home}/data/.desktop";
-      documents = "${home}/data/docs";
+      documents = "${home}/data";
       download = "${home}/downloads";
       music = "${home}/data/music";
       pictures = "${home}/data/pictures";

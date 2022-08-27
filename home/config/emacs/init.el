@@ -418,10 +418,11 @@
 
 ;; haskell
 (setup (:package haskell-mode)
-       (:load-after eglot)
-       (:hook #'eglot-ensure
-              #'interactive-haskell-mode)
-       (:option haskell-completing-read-function #'completing-read))
+  (:load-after eglot)
+  (:hook #'eglot-ensure
+         #'interactive-haskell-mode
+         #'local/disable-aggressive-indent)
+  (:option haskell-completing-read-function #'completing-read))
 
 ;; java
 (setup antlr-mode

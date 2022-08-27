@@ -66,8 +66,17 @@
 
 ;;; ui =====================================================
 
-(set-fringe-mode 10)                    ; add padding to frame
-(set! blink-cursor-mode nil)            ; do not blink cursor
+(set-fringe-mode '(10 . 0))  ; add padding to frame
+(set! blink-cursor-mode nil) ; do not blink cursor
+
+;; some visual niceties
+(set-display-table-slot standard-display-table 'truncation
+                        (make-glyph-code ?…))
+(set-display-table-slot standard-display-table 'wrap
+                        (make-glyph-code ?↩))
+(setq window-divider-default-right-width 3)
+(setq window-divider-default-places 'right-only)
+(window-divider-mode)
 
 ;; theme
 (setup (:package modus-themes)

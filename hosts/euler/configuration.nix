@@ -5,6 +5,7 @@
 
   users.users.flo = {
     isNormalUser = true;
+    initialPassword = "";
     extraGroups = [ "wheel" ];
   };
 

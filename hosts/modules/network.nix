@@ -13,11 +13,6 @@ in {
     networking = {
       hostName = cfg.hostName;
       useDHCP = false;
-      interfaces = listToAttrs (map (i: {
-        name = i;
-        value = { useDHCP = true; };
-      }) cfg.interfaces);
-
       dhcpcd.enable = false;
       networkmanager = {
         enable = true;

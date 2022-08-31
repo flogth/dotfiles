@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }: {
+{ ... }: {
   security = {
     audit.enable = true;
     auditd.enable = true;

@@ -75,7 +75,7 @@
         "org/gnome/desktop/wm/keybindings" = { close = [ "<Super>w" ]; };
 
         "org/gnome/settings-daemon/plugins/media-keys" = {
-          custom-keybindings = imap0 (i: kbd: "/${kbdId i}/") keybindings;
+          custom-keybindings = imap0 (i: _: "/${kbdId i}/") keybindings;
         };
         "GWeather4" = {
           temperature-unit = "centigrade";

@@ -1,3 +1,1 @@
-{ pkgs, config, ... }: {
-  imports = [ ./emacs.nix ./sway.nix ./ui.nix ./cli.nix ];
-}
+{ ... }: { imports = [ ./emacs.nix ./sway.nix ./ui.nix ./cli.nix ]; }

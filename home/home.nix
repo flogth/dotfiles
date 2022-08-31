@@ -1,4 +1,4 @@
-{ pkgs, lib, args, ... }: {
+{ pkgs, args, ... }: {
   imports = [
     ./modules/wayland
     ./modules/desktop

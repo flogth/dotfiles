@@ -1,4 +1,4 @@
-{ config, pkgs, lib, home-manager, ... }:
+{ ... }:
 
 {
   imports = [ ../modules ./hardware-configuration.nix ];

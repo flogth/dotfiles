@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [ ./games.nix ./gtk.nix ./xdg.nix ./terminal.nix ./work.nix ];

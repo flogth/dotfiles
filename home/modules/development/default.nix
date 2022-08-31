@@ -1,1 +1,1 @@
-{ config, pkgs, ... }: { imports = [ ./editor.nix ./languages.nix ./git.nix ]; }
+{ ... }: { imports = [ ./editor.nix ./languages.nix ./git.nix ]; }

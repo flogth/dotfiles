@@ -26,6 +26,7 @@
       };
       lib = nixpkgs.lib;
     in {
+      devShell."${system}" = import ./shell.nix { inherit pkgs; };
       nixosConfigurations = {
         euler = lib.nixosSystem {
           inherit system pkgs;
@@ -43,8 +44,7 @@
               in {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                users.flo =
-                  import ./home/home.nix { inherit pkgs lib args; };
+                users.flo = import ./home/home.nix { inherit pkgs lib args; };
                 verbose = true;
               };
             }
@@ -67,8 +67,7 @@
               in {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                users.flo =
-                  import ./home/home.nix { inherit pkgs lib args; };
+                users.flo = import ./home/home.nix { inherit pkgs lib args; };
                 verbose = true;
               };
             }

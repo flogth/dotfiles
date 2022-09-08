@@ -72,6 +72,27 @@ in {
       ssh = {
         startAgent = true;
         agentTimeout = "5m";
+        extraConfig = let
+          hosts = [
+            {
+              name = "uni";
+              hostName = "cipterm0.cip.cs.fau.de";
+              user = "oc45ujef";
+            }
+            {
+              name = "blog";
+              hostName = "flodobeutlin.xyz";
+              user = "admin";
+            }
+          ];
+        in ''
+          # Host aliases
+          ${flip concatMapStrings hosts (h: ''
+            Host ${h.name}
+                 HostName ${h.hostName}
+                 User ${h.user}
+          '')}
+        '';
       };
     };
   };

@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./games.nix ./gtk.nix ./xdg.nix ./terminal.nix ./work.nix ];
+  imports = [ ./games.nix ./gtk.nix ./xdg.nix ./terminal.nix ./work.nix ./firefox.nix ];
   home.packages = with pkgs; [
     keepassxc # password manager
     gnome.nautilus # file manager
@@ -16,11 +16,6 @@
   ];
 
   programs = {
-    firefox = {
-      enable = true;
-      package = pkgs.firefox-wayland;
-    };
-
     texlive = {
       enable = true;
       extraPackages = tpkgs: { inherit (tpkgs) scheme-full; };
@@ -119,4 +114,4 @@
   #     Socket.SocketMode = "0600";
   #     Install.WantedBy = [ "sockets.target" ];
   #   };
-  }
+}

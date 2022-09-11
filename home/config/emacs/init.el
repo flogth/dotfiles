@@ -28,7 +28,7 @@ the first PACKAGE."
   :shorthand #'cadr)
 
 ;; load local packages
-(let ((default-directory (expand-file-name "lisp" user-emacs-directory)))
+(let ((default-directory (locate-user-emacs-file "lisp")))
   (normal-top-level-add-subdirs-to-load-path))
 
 (require 'cl-lib)
@@ -93,6 +93,7 @@ the first PACKAGE."
                         (make-glyph-code ?…))
 (set-display-table-slot standard-display-table 'wrap
                         (make-glyph-code ?↩))
+
 (set! window-divider-default-right-width 3
       window-divider-default-places 'right-only)
 (window-divider-mode)
@@ -108,7 +109,9 @@ the first PACKAGE."
   (load-theme 'modus-operandi t)
 
   (custom-set-faces
-   '(mode-line ((t (:background "white smoke"))))))
+   '(mode-line ((t (:background "white smoke"))))
+   ;; https://lists.sr.ht/~protesilaos/modus-themes/%3C874k1d9utu.fsf%40gmail.com%3E
+   '(fixed-pitch ((t (:family (face-attribute 'default :family)))))))
 
 ;; font
 (custom-set-faces
@@ -119,10 +122,6 @@ the first PACKAGE."
   (mood-line-mode))
 
 (column-number-mode t)
-
-(setup (:package popper)
-  (:option popper-mode t
-           popper-echo-mode t))
 
 ;;; editor =================================================
 (set! tab-width 4
@@ -168,6 +167,7 @@ the first PACKAGE."
   (:option vertico-cycle t
            vertico-resize nil)
   (vertico-mode))
+
 
 (setup (:package corfu)
   (require 'corfu)
@@ -246,6 +246,12 @@ the first PACKAGE."
         (holiday-fixed 11 1     "Allerheiligen")
         (holiday-float 11 3 1   "Buß- und Bettag" 16))
       calendar-mark-holidays-flag t)
+
+;; dired
+
+(setup dired
+  (:option dired-dwim-target t
+           dired-listing-switches "-NAhl --group-directories-first"))
 
 ;; eshell
 (setup (:package eshell eshell-syntax-highlighting)
@@ -585,8 +591,6 @@ the first PACKAGE."
          "D" #'delete-other-windows
          "s" #'local/split-window-right
          "S" #'local/split-window-below
-         "p" #'popper-toggle-latest
-         "P" #'popper-toggle-type
 
          "j" #'windmove-down
          "k" #'windmove-up

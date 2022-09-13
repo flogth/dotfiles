@@ -109,13 +109,9 @@ the first PACKAGE."
   (load-theme 'modus-operandi t)
 
   (custom-set-faces
-   '(mode-line ((t (:background "white smoke"))))
-   ;; https://lists.sr.ht/~protesilaos/modus-themes/%3C874k1d9utu.fsf%40gmail.com%3E
+   '(default ((t (:weight regular :height 140 :family "JuliaMono"))))
+   '(mode-line ((t (:background nil))))
    '(fixed-pitch ((t (:family (face-attribute 'default :family)))))))
-
-;; font
-(custom-set-faces
- '(default ((t (:weight regular :height 140 :family "JuliaMono")))))
 
 ;; modeline
 (setup (:package mood-line)
@@ -181,7 +177,10 @@ the first PACKAGE."
 
 (setup (:package consult)
   (:option completion-in-region-function
-           #'consult-completion-in-region))
+           #'consult-completion-in-region)
+  (:global [remap switch-to-buffer] #'consult-buffer
+           "C-c s" #'consult-line
+           "C-c y" #'consult-yank-from-kill-ring))
 
 (setup (:package orderless)
   (:option completion-styles '(orderless basic)))
@@ -254,15 +253,14 @@ the first PACKAGE."
            dired-listing-switches "-NAhl --group-directories-first"))
 
 ;; eshell
-(setup (:package eshell eshell-syntax-highlighting)
+(setup eshell
   (:option eshell-banner-message ""
            eshell-scroll-to-bottom-on-input  t
            eshell-scroll-to-bottom-on-output t
            eshell-kill-processes-on-exit t
            eshell-hist-ignoredups t
            eshell-error-if-no-glob t)
-  (:with-mode eshell
-    (:hook #'eshell-syntax-highlighting-mode)))
+  (:global "C-c t" #'local/eshell-new))
 
 ;;; development ============================================
 
@@ -285,23 +283,28 @@ the first PACKAGE."
   (:with-mode diff-hl-mode
     (:hook-into prog-mode)
     (add-hook 'magit-pre-refresh-hook  #'diff-hl-magit-pre-refresh)
-    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
+    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh))
+  (:global "C-c g" #'magit-status))
 
 ;; compilation
 (set! compilation-scroll-output 'first-error
       compilation-ask-about-save nil)
 
 ;; ide
-(setup (:package eglot flymake xref)
-  ;; eglot
+(setup (:package eglot)
   (:option eglot-autoshutdown t
            eldoc-echo-area-use-multiline-p nil
            eldoc-idle-delay 0.2
            eglot-confirm-server-initiated-edits nil)
-  ;; flymake
+  (:bind "C-c a" #'eglot-code-actions
+         "C-c r" #'eglot-rename
+         "C-c f" #'eglot-format))
+
+(setup flymake
   (:with-mode flymake-mode
-    (:hook-into prog-mode))
-  
+    (:hook-into prog-mode)))
+
+(setup xref
   ;; xref
   (:option xref-search-program 'ripgrep))
 
@@ -340,15 +343,13 @@ the first PACKAGE."
     (:hook-into LaTeX-mode)))
 
 ;; org
-(setup (:package org org-superstar)
-  (:with-mode org
-    (:hook #'org-indent-mode
-           #'visual-line-mode
-           #'org-superstar-mode))
+(setup (:package org )
+  (:hook #'org-indent-mode
+         #'visual-line-mode)
   (:option org-ellipsis " ↴"
            org-highlight-latex-and-related '(latex script entities)
            org-pretty-entities t
-           org-hide-emphasis-markers t
+           org-hide-emphasis-markers nil
            org-preview-latex-image-directory
            (expand-file-name
             "ltxpng"
@@ -359,7 +360,8 @@ the first PACKAGE."
            org-mouse-1-follows-link t
            org-link-descriptive t)
   (:option org-html-doctype "xhtml5"
-           org-html-html5-fancy t)
+           org-html-html5-fancy t
+           org-html-htmlize-output-type 'css)
   (:option org-superstar-special-todo-items t
            org-superstar-leading-bullet ?\s)
   (defconst org-electric-pairs
@@ -374,6 +376,8 @@ the first PACKAGE."
                   (if (char-equal c ?<) t (electric-pair-inhibit-predicate c)))))
   (:hook local/disable<>pairing))
 
+(setup (:package org-superstar)
+  (:hook-into org-mode))
 
 
 
@@ -432,10 +436,12 @@ the first PACKAGE."
   (:with-mode lisp-mode
     (:hook #'sly-editing-mode)))
 
-(setup (:package geiser geiser-guile)
-  (:option scheme-program-name "guile"))
-
 (setup (:package racket-mode geiser-racket))
+
+(setup (:package geiser)
+  (:hook-into scheme-mode
+              racket-mode))
+
 
 (setup (:package eros)
   (:with-mode emacs-lisp-mode
@@ -560,42 +566,45 @@ the first PACKAGE."
   (interactive)
   (aggressive-indent-mode -1))
 
+(defun local/eshell-new()
+  "Open a new instance of eshell."
+  (interactive)
+  (eshell t))
+
 ;;; keybindings ============================================
 
-(defmap! app-keymap
-         "a" #'org-agenda
-         "c" #'calc
-         "m" #'gnus
-         "t" #'eshell)
+;; (defmap! app-keymap
+;;          "a" #'org-agenda
+;;          "c" #'calc
+;;          "m" #'gnus
+;;          "t" #'local/eshell-new)
 
-(defmap! buffer-keymap
-         "b" #'consult-buffer
-         "k" #'kill-this-buffer
-         "r" #'rename-buffer
-         "R" #'revert-buffer)
+;; (defmap! buffer-keymap
+;;          "b" #'consult-buffer
+;;          "i" #'ibuffer
+;;          "k" #'kill-this-buffer
+;;          "r" #'rename-buffer
+;;          "R" #'revert-buffer)
 
-(defmap! project-keymap
-         "c" #'project-compile
-         "f" #'project-find-file
-         "g" #'magit-status
-         "r" #'consult-ripgrep
-         "t" #'neotree)
+;; (defmap! project-keymap
+;;          "c" #'project-compile
+;;          "f" #'project-find-file
+;;          "g" #'magit-status
+;;          "r" #'consult-ripgrep
+;;          "t" #'neotree)
 
-(defmap! search-keymap
-         "i" #'consult-imenu
-         "o" #'consult-outline
-         "s" #'consult-line)
 
-(defmap! window-keymap
-         "d" #'delete-window
-         "D" #'delete-other-windows
-         "s" #'local/split-window-right
-         "S" #'local/split-window-below
+;; (defmap! window-keymap
+;;          "d" #'delete-window
+;;          "D" #'delete-other-windows
+;;          "s" #'local/split-window-right
+;;          "S" #'local/split-window-below
 
-         "j" #'windmove-down
-         "k" #'windmove-up
-         "h" #'windmove-left
-         "l" #'windmove-right)
+;;          "j" #'windmove-down
+;;          "k" #'windmove-up
+;;          "h" #'windmove-left
+;;          "l" #'windmove-right)
+
 (setup (:package meow)
   (require 'meow)
   (:option meow-cheatsheet-layout meow-cheatsheet-layout-qwerty
@@ -616,13 +625,8 @@ the first PACKAGE."
    '(":"   . execute-extended-command)
    '(";"   . pp-eval-expression)
    '("."   . find-file)
-   '(","   . consult-buffer)
+   '(","   . switch-to-buffer)
    '("TAB" . hs-toggle-hiding)
-   '("a"   . app-keymap)
-   '("b"   . buffer-keymap)
-   '("p"   . project-keymap)
-   '("s"   . search-keymap)
-   '("w"   . window-keymap)
 
    '("1"   . meow-digit-argument)
    '("2"   . meow-digit-argument)

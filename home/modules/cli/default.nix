@@ -8,7 +8,6 @@
     imagemagick
 
     nmap
-    magic-wormhole
 
     unzip
     zip

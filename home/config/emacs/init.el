@@ -408,6 +408,9 @@ the first PACKAGE."
 (setup (:package gnu-apl-mode)
   (:option gnu-apl-show-tips-on-start nil))
 
+(setup bqn-mode
+  (setq bqn-interpreter-path "cbqn"))
+
 ;; c/c++
 (setup cc-mode
   (:load-after eglot)

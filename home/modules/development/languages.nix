@@ -9,6 +9,7 @@
 
     # apl
     gnuapl
+    cbqn
 
     # c
     clang-tools

@@ -574,39 +574,17 @@ the first PACKAGE."
   (interactive)
   (eshell t))
 
+(defun local/kill-this-buffer ()
+  (interactive)
+  (kill-buffer nil))
+
+;;; registers ==============================================
+
+(set-register ?d '(file . "~/.dotfiles"))
+(set-register ?U '(file . "/ssh:uni:.www/"))
+(set-register ?u '(file . "~/data/uni/lv"))
+
 ;;; keybindings ============================================
-
-;; (defmap! app-keymap
-;;          "a" #'org-agenda
-;;          "c" #'calc
-;;          "m" #'gnus
-;;          "t" #'local/eshell-new)
-
-;; (defmap! buffer-keymap
-;;          "b" #'consult-buffer
-;;          "i" #'ibuffer
-;;          "k" #'kill-this-buffer
-;;          "r" #'rename-buffer
-;;          "R" #'revert-buffer)
-
-;; (defmap! project-keymap
-;;          "c" #'project-compile
-;;          "f" #'project-find-file
-;;          "g" #'magit-status
-;;          "r" #'consult-ripgrep
-;;          "t" #'neotree)
-
-
-;; (defmap! window-keymap
-;;          "d" #'delete-window
-;;          "D" #'delete-other-windows
-;;          "s" #'local/split-window-right
-;;          "S" #'local/split-window-below
-
-;;          "j" #'windmove-down
-;;          "k" #'windmove-up
-;;          "h" #'windmove-left
-;;          "l" #'windmove-right)
 
 (setup (:package meow)
   (require 'meow)
@@ -630,6 +608,8 @@ the first PACKAGE."
    '("."   . find-file)
    '(","   . switch-to-buffer)
    '("TAB" . hs-toggle-hiding)
+   '("k" . local/kill-this-buffer)
+   '("r" . consult-register)
 
    '("1"   . meow-digit-argument)
    '("2"   . meow-digit-argument)

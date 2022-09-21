@@ -58,7 +58,10 @@
       enableNvidia = true;
     };
   };
-  environment.systemPackages = with pkgs; [ docker-compose ];
+  environment.systemPackages = with pkgs; [
+    docker-compose
+    gnome.gnome-tweaks
+  ];
 
   xdg.portal = {
     enable = true;

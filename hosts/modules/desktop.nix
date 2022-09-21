@@ -48,11 +48,6 @@
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
 
-  programs.sway = {
-    enable = true;
-    extraPackages = pkgs.lib.mkForce [ ];
-  };
-
   virtualisation = {
     libvirtd = {
       enable = true;

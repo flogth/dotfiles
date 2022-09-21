@@ -34,7 +34,7 @@
         }
         {
           name = "terminal";
-          command = "${pkgs.foot}/bin/foot";
+          command = "${pkgs.kgx}/bin/kgx";
           binding = "<Super>Return";
         }
       ];
@@ -66,6 +66,8 @@
           cursor-theme = "capitaine-cursors";
           enable-hot-corners = false;
           show-battery-percentage = true;
+          # Stupid Gnome Console
+          monospace-font-name = "JuliaMono 12";
         };
         "org/gnome/desktop/peripherals/touchpad" = { natural-scroll = false; };
         "org/gnome/desktop/sound" = {

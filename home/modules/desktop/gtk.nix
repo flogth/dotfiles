@@ -76,6 +76,11 @@
         };
         "org/gnome/desktop/wm/keybindings" = { close = [ "<Super>w" ]; };
 
+        "org/gnome/desktop/wm/preferences" = {
+          auto-raise = true;
+          focus-new-windows = "strict";
+        };
+
         "org/gnome/settings-daemon/plugins/media-keys" = {
           custom-keybindings = imap0 (i: _: "/${kbdId i}/") keybindings;
         };

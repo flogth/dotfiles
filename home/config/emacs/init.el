@@ -69,7 +69,7 @@ the first PACKAGE."
 (set-fringe-mode '(10 . 0))  ; add padding to frame
 (set! blink-cursor-mode nil) ; do not blink cursor
 
-(set! display-line-numbers-type 'relative)
+(set! display-line-numbers-type t)
 (custom-set-faces
  '(line-number ((t (:height 0.8)))))
 

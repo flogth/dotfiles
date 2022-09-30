@@ -33,5 +33,5 @@
     enable = true;
     bookmarks = { u = "~/data/uni/lv"; };
   };
-  home.packages = with pkgs; [ nix-bash-completions ];
+  # home.packages = with pkgs; [ nix-bash-completions ];
 }

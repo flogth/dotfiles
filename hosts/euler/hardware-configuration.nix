@@ -23,7 +23,8 @@
     };
 
     kernelPackages = kernelPackage;
-    kernelModules = [ "kvm-amd" "amdgpu" ];
+    kernelParams = [ "initcall_blacklist=acpi_cpufreq_init" ];
+    kernelModules = [ "kvm-amd" "amdgpu" "amd-pstate" ];
     extraModulePackages = with kernelPackage; [ acpi_call ];
 
     # extraModprobeConfig = ''
@@ -42,7 +43,13 @@
     opengl = {
       driSupport = true;
       driSupport32Bit = true;
-      extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl rocm-opencl-icd ];
+      extraPackages = with pkgs; [
+        vaapiVdpau
+        libvdpau-va-gl
+        rocm-opencl-icd
+        rocm-opencl-runtime
+        amdvlk
+      ];
     };
   };
 

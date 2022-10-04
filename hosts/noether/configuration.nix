@@ -12,9 +12,7 @@
     git.enable = true;
     neovim.enable = true;
   };
-  environment.systemPackages = with pkgs; [
-    rsync
-  ];
+  environment.systemPackages = with pkgs; [ rsync ];
 
   services = {
     caddy = {
@@ -28,6 +26,14 @@
             root * /var/www/html
             try_files {path}.html {path}
             file_server
+            header / {
+              X-Robots-Tag "noindex"
+              X-Content-Type-Options "nosniff"
+              X-Frame-Options "Deny"
+              Content-Security-Policy "
+                default-src 'self';
+              "
+            }
           '';
         };
       };

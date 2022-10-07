@@ -6,7 +6,6 @@ in {
   options.local.network = {
     enable = mkEnableOption "local.network";
     hostName = mkOption { type = types.str; };
-    interfaces = mkOption { type = types.listOf (types.str); };
   };
 
   config = mkIf cfg.enable {

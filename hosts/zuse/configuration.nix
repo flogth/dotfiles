@@ -8,6 +8,8 @@
     extraGroups = [ "wheel" ];
   };
 
+  programs.steam.enable = true;
+
   local.network = {
     enable = true;
     hostName = "zuse";

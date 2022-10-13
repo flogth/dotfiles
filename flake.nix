@@ -26,7 +26,7 @@
       };
       lib = nixpkgs.lib;
     in {
-      devShell."${system}" = import ./shell.nix { inherit pkgs; };
+      devShells."${system}".default = import ./shell.nix { inherit pkgs; };
       nixosConfigurations = {
         euler = lib.nixosSystem {
           inherit system pkgs;

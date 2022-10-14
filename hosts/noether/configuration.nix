@@ -7,11 +7,18 @@
     device = "/dev/sda1";
     fsType = "ext4";
   };
+  
+  fileSystems."/run/mount/backup" = {
+    device = "/dev/disk/by-label/backup";
+    fsType = "btrfs";
+    options = [ "defaults" "discard=async" "compress=zstd" "subvol=@" ];
+  };
 
   programs = {
     git.enable = true;
     neovim.enable = true;
   };
+  
   environment.systemPackages = with pkgs; [ rsync ];
 
   services = {
@@ -41,7 +48,7 @@
     openssh = {
       enable = true;
       passwordAuthentication = false;
-      allowSFTP = false;
+      allowSFTP = true;
       kbdInteractiveAuthentication = false;
       extraConfig = ''
         AllowTcpForwarding yes
@@ -97,6 +104,15 @@
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAAXV+u3HNdoWtbM3qqoiw12edDZpmy7h2/Q8uWUXZlX euler"
       ];
+    };
+    backup = {
+      isNormalUser = true;
+      createHome = false;
+      home = "/run/mount/backup";
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAAXV+u3HNdoWtbM3qqoiw12edDZpmy7h2/Q8uWUXZlX euler"
+      ];
+
     };
   };
   system.stateVersion = "22.11";

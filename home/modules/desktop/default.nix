@@ -7,7 +7,6 @@
     signal-desktop # messenger
     simple-scan # scanning frontend
     mpv
-    calibre
   ];
 
   programs = {

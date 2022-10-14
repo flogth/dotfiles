@@ -4,11 +4,9 @@ in {
   services = {
     restic.backups = {
       data = {
-        repository =
-          mlib.rot13 "f3:rh-prageny-1.yvabqrbowrpgf.pbz/onpxhcf-erfgvp/rhyre";
+        repository = "sftp:backup@flodobeutlin.xyz:.";
         paths = [ "/home/flo/data" ];
         passwordFile = "/etc/restic/data.pw";
-        environmentFile = "/etc/restic/data.env";
       };
     };
     # snapper = {

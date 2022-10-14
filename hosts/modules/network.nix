@@ -85,6 +85,9 @@ in {
             }
           ];
         in ''
+          Host *
+            ServerAliveInterval 300
+            ServerAliveCountMax 240
           # Host aliases
           ${flip concatMapStrings hosts (h: ''
             Host ${h.name}

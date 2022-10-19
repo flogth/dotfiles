@@ -1,4 +1,6 @@
-{ modulesPath, pkgs, lib, ... }: {
+{ modulesPath, pkgs, lib, ... }:
+let fetchKeys = import ../../lib/fetchKeys.nix { inherit lib; };
+in {
   imports = [ (modulesPath + "/profiles/qemu-guest.nix") ../modules/nix.nix ];
   boot.loader.grub.device = "/dev/sda";
   boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "xen_blkfront" ];
@@ -7,7 +9,7 @@
     device = "/dev/sda1";
     fsType = "ext4";
   };
-  
+
   fileSystems."/run/mount/backup" = {
     device = "/dev/disk/by-label/backup";
     fsType = "btrfs";
@@ -18,7 +20,7 @@
     git.enable = true;
     neovim.enable = true;
   };
-  
+
   environment.systemPackages = with pkgs; [ rsync ];
 
   services = {
@@ -94,25 +96,18 @@
       isNormalUser = true;
       createHome = true;
       extraGroups = [ "wheel" ];
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAAXV+u3HNdoWtbM3qqoiw12edDZpmy7h2/Q8uWUXZlX euler"
-      ];
+      openssh.authorizedKeys.keys = fetchKeys.fetchKeys "flodobeutlin";
     };
     git = {
       isNormalUser = true;
       createHome = true;
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAAXV+u3HNdoWtbM3qqoiw12edDZpmy7h2/Q8uWUXZlX euler"
-      ];
+      openssh.authorizedKeys.keys = fetchKeys.fetchKeys "flodobeutlin";
     };
     backup = {
       isNormalUser = true;
       createHome = false;
       home = "/run/mount/backup";
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAAXV+u3HNdoWtbM3qqoiw12edDZpmy7h2/Q8uWUXZlX euler"
-      ];
-
+      openssh.authorizedKeys.keys = fetchKeys.fetchKeys "flodobeutlin";
     };
   };
   system.stateVersion = "22.11";

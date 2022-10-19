@@ -461,8 +461,7 @@ the first PACKAGE."
 
 ;; prolog
 (setup (:package prolog ediprolog)
-  (:with-mode prolog
-    (:file-match "\\.pl\\'"))
+  (:file-match "\\.pl\\'")
   (:option prolog-system 'scryer
            ediprolog-system 'scryer))
 

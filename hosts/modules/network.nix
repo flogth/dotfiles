@@ -16,7 +16,6 @@ in {
       networkmanager = {
         enable = true;
         dns = "systemd-resolved";
-        dhcp = "internal";
       };
       firewall = {
         enable = true;

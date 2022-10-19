@@ -31,8 +31,6 @@ the first PACKAGE."
 (let ((default-directory (locate-user-emacs-file "lisp")))
   (normal-top-level-add-subdirs-to-load-path))
 
-(require 'cl-lib)
-
 (defmacro set! (&rest args)
   "Macro for setting user options.  `setq'-like ARGS."
   (declare (debug setq))
@@ -272,6 +270,10 @@ the first PACKAGE."
 ;; compilation
 (set! compilation-scroll-output 'first-error
       compilation-ask-about-save nil)
+
+(setup ansi-color
+  (:option ansi-color-for-compilation-mode t)
+  (add-hook 'compilation-filter-hook #'ansi-color-compilation-filter))
 
 ;; ide
 (setup (:package eglot)
@@ -622,8 +624,8 @@ the first PACKAGE."
    '("TAB" . hs-toggle-hiding)
    '("k" . local/kill-this-buffer)
    '("r" . jump-to-register)
-   '("B" . compile)
-   '("b" . recompile)
+   '("b" . compile)
+   '("B" . recompile)
    '("wh" . windmove-left)
    '("wj" . windmove-down)
    '("wk" . windmove-up)

@@ -47,45 +47,48 @@
         value = kbd;
       }) keybindings);
     in with lib.hm.gvariant;
-      {
-        "org/gnome/desktop/background" = let
-          uri = "file:///${config.xdg.userDirs.pictures}/wallpapers/wallpaper";
-        in {
-          picture-uri = uri;
-          picture-uri-dark = uri;
-        };
-        "org/gnome/desktop/input-sources" = {
-          sources = [
-            (mkTuple [ "xkb" "us+altgr-intl" ])
-            (mkTuple [ "xkb" "de+nodeadkeys" ])
-          ];
-          xkb-options = [ "caps:escape" "grp:rctrl_toggle" ];
-        };
-        "org/gnome/desktop/interface" = {
-          color-scheme = "prefer-dark";
-          cursor-theme = "capitaine-cursors";
-          enable-hot-corners = false;
-          show-battery-percentage = true;
-          # Stupid Gnome Console
-          monospace-font-name = "JuliaMono 12";
-        };
-        "org/gnome/desktop/peripherals/touchpad" = { natural-scroll = false; };
-        "org/gnome/desktop/sound" = {
-          allow-volume-above-100-percent = true;
-          event-sounds = false;
-        };
-        "org/gnome/desktop/wm/keybindings" = { close = [ "<Super>w" ]; };
+    {
+      "org/gnome/desktop/background" = let
+        uri = "file:///${config.xdg.userDirs.pictures}/wallpapers/wallpaper";
+      in {
+        picture-uri = uri;
+        picture-uri-dark = uri;
+      };
+      "org/gnome/desktop/input-sources" = {
+        sources = [
+          (mkTuple [ "xkb" "us+altgr-intl" ])
+          (mkTuple [ "xkb" "de+nodeadkeys" ])
+        ];
+        xkb-options = [ "caps:escape" "grp:rctrl_toggle" ];
+      };
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+        cursor-theme = "capitaine-cursors";
+        enable-hot-corners = false;
+        show-battery-percentage = true;
 
-        "org/gnome/desktop/wm/preferences" = {
-          auto-raise = true;
-          focus-new-windows = "strict";
-        };
+        font-name = "Fira Sans 11";
+        document-font-name = "Fira Sans 11";
+        font-antialiasing = "rgba";
 
-        "org/gnome/settings-daemon/plugins/media-keys" = {
-          custom-keybindings = imap0 (i: _: "/${kbdId i}/") keybindings;
-        };
-        "GWeather4" = {
-          temperature-unit = "centigrade";
-        };
-      } // kbdAttrs;
+        # Stupid Gnome Console
+        monospace-font-name = "JuliaMono 12";
+      };
+      "org/gnome/desktop/peripherals/touchpad" = { natural-scroll = false; };
+      "org/gnome/desktop/sound" = {
+        allow-volume-above-100-percent = true;
+        event-sounds = false;
+      };
+      "org/gnome/desktop/wm/keybindings" = { close = [ "<Super>w" ]; };
+
+      "org/gnome/desktop/wm/preferences" = {
+        auto-raise = true;
+        focus-new-windows = "strict";
+      };
+
+      "org/gnome/settings-daemon/plugins/media-keys" = {
+        custom-keybindings = imap0 (i: _: "/${kbdId i}/") keybindings;
+      };
+      "GWeather4" = { temperature-unit = "centigrade"; };
+    } // kbdAttrs;
 }

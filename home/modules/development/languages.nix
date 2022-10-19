@@ -41,6 +41,7 @@
 
     # nix
     nixfmt
+    rnix-lsp
 
     # rust
     rustc

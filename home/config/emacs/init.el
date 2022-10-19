@@ -449,7 +449,8 @@ the first PACKAGE."
                 (append electric-pair-pairs nix-electric-pairs)
                 electric-pair-text-pairs electric-pair-pairs))
   (:file-match "\\.nix\\'")
-  (:hook #'nix-add-electric-pairs))
+  (:hook #'nix-add-electric-pairs
+         #'eglot-ensure))
 
 (add-hook 'nix-mode-hook
           (defun nix-add-electric-pairs ()

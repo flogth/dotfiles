@@ -31,6 +31,7 @@
 
     # prolog
     scryer-prolog
+    swiProlog
 
     # proof assistants
     coq

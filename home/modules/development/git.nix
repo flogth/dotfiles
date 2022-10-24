@@ -1,10 +1,10 @@
 { ... }: {
   programs.git = {
     enable = true;
-    userName = "flodobeutlin";
-    userEmail = "flodobeutlin@mailbox.org";
+    userName = "flogth";
+    userEmail = "flogth@mailbox.org";
     signing.signByDefault = true;
-    signing.key = "flodobeutlin@mailbox.org";
+    signing.key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAAXV+u3HNdoWtbM3qqoiw12edDZpmy7h2/Q8uWUXZlX";
     aliases = {
       co = "checkout";
       tree = "log --graph --pretty=short --all";
@@ -15,6 +15,8 @@
     }];
     extraConfig = {
       color.ui = true;
+      gpg.format = "ssh";
+      gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
       diff.mnemonicPrefix = true;
       init.defaultBranch = "main";
       log = {

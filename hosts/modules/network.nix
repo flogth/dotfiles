@@ -79,7 +79,7 @@ in {
             }
             {
               name = "blog";
-              hostName = "flodobeutlin.xyz";
+              hostName = "flogth.net";
               user = "admin";
             }
           ];

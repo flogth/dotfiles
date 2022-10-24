@@ -4,7 +4,7 @@ in {
   services = {
     restic.backups = {
       data = {
-        repository = "sftp:backup@flodobeutlin.xyz:.";
+        repository = "sftp:backup@flogth.net:.";
         paths = [ "/home/flo/data" ];
         passwordFile = "/etc/restic/data.pw";
       };

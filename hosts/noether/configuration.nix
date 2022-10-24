@@ -2,9 +2,7 @@
 let fetchKeys = import ../../lib/fetchKeys.nix { inherit lib; };
 in {
   imports = [ (modulesPath + "/profiles/qemu-guest.nix") ../modules/nix.nix ];
-  boot.loader.grub.device = "/dev/sda";
-  boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "xen_blkfront" ];
-  boot.initrd.kernelModules = [ "nvme" ];
+
   fileSystems."/" = {
     device = "/dev/sda1";
     fsType = "ext4";
@@ -13,7 +11,75 @@ in {
   fileSystems."/run/mount/backup" = {
     device = "/dev/disk/by-label/backup";
     fsType = "btrfs";
-    options = [ "defaults" "discard=async" "compress=zstd" "subvol=@" ];
+    options = [
+      "defaults"
+      "discard=async"
+      "compress=zstd"
+      "nosuid"
+      "noexec"
+      "nodev"
+      "subvol=@"
+    ];
+  };
+
+  boot = {
+    loader.grub.device = "/dev/sda";
+    loader.timeout = 1;
+    initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "xen_blkfront" ];
+    initrd.kernelModules = [ "nvme" ];
+    cleanTmpDir = true;
+
+  };
+
+  zramSwap.enable = true;
+
+  security = {
+    sudo.execWheelOnly = true;
+    auditd.enable = true;
+    audit.enable = true;
+    apparmor = {
+      enable = true;
+      packages = [ pkgs.apparmor-profiles ];
+    };
+  };
+
+  networking = {
+    hostName = "noether";
+    enableIPv6 = true;
+    useNetworkd = true;
+    useDHCP = false;
+    dhcpcd.enable = false;
+    interfaces.ens3.useDHCP = true;
+
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 22 80 443 ];
+    };
+  };
+
+  time.timeZone = "Europe/Berlin";
+
+  users.users = let keys = fetchKeys.fetchKeys "flogth" "sha256:1kfgh99r2xd818npzqcyziv3dhvzfpzkmxr33bd153rhfdawk027";
+  in {
+    admin = {
+      isNormalUser = true;
+      createHome = true;
+      extraGroups = [ "wheel" ];
+      openssh.authorizedKeys.keys = keys;
+    };
+
+    git = {
+      isNormalUser = true;
+      createHome = true;
+      openssh.authorizedKeys.keys = keys;
+    };
+
+    backup = {
+      isNormalUser = true;
+      createHome = false;
+      home = "/run/mount/backup";
+      openssh.authorizedKeys.keys = keys;
+    };
   };
 
   programs = {
@@ -28,8 +94,8 @@ in {
       enable = true;
       email = "flodobeutlin@mailbox.org";
       virtualHosts = {
-        "flodobeutlin.xyz" = {
-          serverAliases = [ "www.flodobeutlin.xyz" ];
+        "flogth.net" = {
+          serverAliases = [ "www.flogth.net" ];
           extraConfig = ''
             encode gzip zstd
             root * /var/www/html
@@ -61,54 +127,8 @@ in {
         PermitRootLogin no
       '';
     };
+    fail2ban.enable = true;
   };
 
-  security = {
-    sudo.execWheelOnly = true;
-    auditd.enable = true;
-    audit.enable = true;
-  };
-
-  networking = {
-    hostName = "noether";
-    enableIPv6 = true;
-    useDHCP = true;
-    dhcpcd = { persistent = true; };
-    interfaces.ens3.ipv6.addresses = [{
-      address = "2a01:4f8:1c1e:5e2a::";
-      prefixLength = 64;
-    }];
-    defaultGateway6 = {
-      address = "fe80::1";
-      interface = "ens3";
-    };
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [ 22 80 443 ];
-    };
-  };
-
-  boot.cleanTmpDir = true;
-  zramSwap.enable = true;
-
-  users.users = {
-    admin = {
-      isNormalUser = true;
-      createHome = true;
-      extraGroups = [ "wheel" ];
-      openssh.authorizedKeys.keys = fetchKeys.fetchKeys "flodobeutlin";
-    };
-    git = {
-      isNormalUser = true;
-      createHome = true;
-      openssh.authorizedKeys.keys = fetchKeys.fetchKeys "flodobeutlin";
-    };
-    backup = {
-      isNormalUser = true;
-      createHome = false;
-      home = "/run/mount/backup";
-      openssh.authorizedKeys.keys = fetchKeys.fetchKeys "flodobeutlin";
-    };
-  };
   system.stateVersion = "22.11";
 }

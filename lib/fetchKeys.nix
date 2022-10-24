@@ -1,7 +1,10 @@
 { lib, ... }:
 with builtins;
-with lib; {
+with lib; rec {
   lines = splitString "\n";
-  fetchKeys = user:
-    lines (readFile (fetchurl "https://github.com/${user}.keys"));
+  fetchKeys = user: sha256:
+    lines (readFile (fetchurl {
+      inherit sha256;
+      url = "https://github.com/${user}.keys";
+    }));
 }

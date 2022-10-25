@@ -6,6 +6,7 @@
     ffmpeg # everything video
     file # info about a file
     imagemagick
+    ncdu
 
     nmap
 

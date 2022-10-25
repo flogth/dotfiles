@@ -62,7 +62,13 @@
       # wasm
       wasm-pack
 
-    ] ++ (with pkgs.ocamlPackages; [ pkgs.dune_2 ocaml utop ocaml-lsp ]);
+    ] ++ (with pkgs.ocamlPackages; [
+      pkgs.dune_2
+      ocaml
+      utop
+      ocaml-lsp
+      ocamlformat
+    ]);
 
   home.file = {
     ".ghc/ghci.conf".source = ../../config/ghc/ghci.conf;

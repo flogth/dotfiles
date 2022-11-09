@@ -17,15 +17,7 @@
       lidSwitch = "suspend-then-hibernate";
       lidSwitchExternalPower = "suspend";
     };
-    fprintd = {
-      enable = true;
-    };
-
-    getty = {
-      loginOptions = "-p -- flo";
-      extraArgs = [ "--skip-login" ];
-    };
+    fprintd = { enable = true; };
     fwupd.enable = true;
-
   };
 }

@@ -4,7 +4,7 @@
     userName = "flogth";
     userEmail = "flogth@mailbox.org";
     signing.signByDefault = true;
-    signing.key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAAXV+u3HNdoWtbM3qqoiw12edDZpmy7h2/Q8uWUXZlX";
+    signing.key = "key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAAXV+u3HNdoWtbM3qqoiw12edDZpmy7h2/Q8uWUXZlX";
     aliases = {
       co = "checkout";
       tree = "log --graph --pretty=short --all";

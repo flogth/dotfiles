@@ -48,4 +48,12 @@ let
         printf "%-32s%-8s\n" "$dest" "$(filesize "$dest")" 
     '';
   };
-in { home.packages = [ ex optipdf ]; }
+  pages = pkgs.writeShellApplication {
+    name = "pages";
+    runtimeInputs = with pkgs; [ ghostscript ];
+    text = ''
+      # extract pages from $1 to $2 from a pdf file $3 into $4
+      gs -q -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH -dFirstPage="$1" -dLastPage="$2" -sOutputFile="$4" "$3";
+    '';
+  };
+in { home.packages = [ ex optipdf pages ]; }

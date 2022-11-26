@@ -47,6 +47,7 @@
         value = kbd;
       }) keybindings);
     in with lib.hm.gvariant;
+      recursiveUpdate kbdAttrs
     {
       "org/gnome/desktop/background" = let
         uri = "file:///${config.xdg.userDirs.pictures}/wallpapers/wallpaper";
@@ -90,5 +91,5 @@
         custom-keybindings = imap0 (i: _: "/${kbdId i}/") keybindings;
       };
       "GWeather4" = { temperature-unit = "centigrade"; };
-    } // kbdAttrs;
+    };
 }

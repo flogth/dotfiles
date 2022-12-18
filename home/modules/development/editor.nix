@@ -1,11 +1,11 @@
 { pkgs, ... }: {
   programs.emacs = {
     enable = true;
-    package = pkgs.emacsPgtkNativeComp;
+    package = pkgs.emacsPgtk;
   };
   services.emacs = {
     enable = true;
-    package = pkgs.emacsPgtkNativeComp;
+    package = pkgs.emacsPgtk;
     client.enable = true;
     defaultEditor = true;
   };

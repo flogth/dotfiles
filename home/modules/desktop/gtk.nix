@@ -29,7 +29,7 @@
       keybindings = [
         {
           name = "emacsclient";
-          command = "${pkgs.emacsPgtkNativeComp}/bin/emacsclient -c";
+          command = "${pkgs.emacsPgtk}/bin/emacsclient -c";
           binding = "<Super>e";
         }
         {

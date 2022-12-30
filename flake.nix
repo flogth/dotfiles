@@ -14,9 +14,11 @@
       repo = "emacs-overlay";
     };
 
+    nixos-hardware = { url = "github:NixOS/nixos-hardware/master"; };
+
   };
 
-  outputs = { nixpkgs, home-manager, emacs-overlay, ... }:
+  outputs = { nixpkgs, home-manager, emacs-overlay, nixos-hardware, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -33,6 +35,7 @@
           modules = [
             ./hosts/euler/configuration.nix
             home-manager.nixosModules.home-manager
+            nixos-hardware.nixosModules.lenovo-thinkpad-e14-amd
             {
               home-manager = let
                 args = {

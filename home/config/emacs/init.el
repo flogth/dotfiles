@@ -90,6 +90,9 @@
 
 ;; modeline
 (setup (:package mood-line)
+  (:option display-time-mode t
+           display-time-24hr-format t
+           display-time-default-load-average nil)
   (mood-line-mode))
 
 (column-number-mode t)

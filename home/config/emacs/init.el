@@ -3,11 +3,15 @@
 
 ;;; Code:
 ;;; functions for configuration ============================
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
+(eval-when-compile
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-initialize)
+  (require 'setup))
 
-(require 'setup)
+(unless (package-installed-p 'setup)
+  (package-install 'setup))
+
 (setup-define :load-after
   (lambda (&rest features)
     (let ((body `(require ',(setup-get 'feature))))
@@ -15,17 +19,6 @@
         (setq body `(with-eval-after-load ',feature ,body)))
       body))
   :documentation "Load the current feature after FEATURES.")
-(setup-define :local-or-package
-  (lambda (feature-or-package)
-    `(unless (locate-file ,(symbol-name feature-or-package)
-			              load-path
-			              (get-load-suffixes))
-       (:package ',feature-or-package)))
-  :documentation "Install PACKAGE if it is not available locally.
-This macro can be used as NAME, and it will replace itself with
-the first PACKAGE."
-  :repeatable t
-  :shorthand #'cadr)
 
 ;; load local packages
 (let ((default-directory (locate-user-emacs-file "lisp")))
@@ -125,8 +118,7 @@ the first PACKAGE."
   (:option editorconfig-mode t))
 
 ;; buffer-env
-(setup (:local-or-package buffer-env)
-  (require 'buffer-env)
+(setup (:if-package buffer-env)
   (:option buffer-env-script-name "flake.nix"))
 
 ;; scrolling
@@ -388,7 +380,7 @@ the first PACKAGE."
 (setup (:package gnu-apl-mode)
   (:option gnu-apl-show-tips-on-start nil))
 
-(setup bqn-mode
+(setup (:if-package bqn-mode)
   (require 'bqn-mode)
   (setq bqn-interpreter-path "cbqn"))
 
@@ -449,7 +441,7 @@ the first PACKAGE."
     (:file-match "\\.js\\'")))
 
 ;; nix
-(setup (:local-or-package nix-mode)
+(setup (:if-package nix-mode)
   (defconst nix-electric-pairs
     '(("let" . " in")
       (?= . ";")))
@@ -712,5 +704,8 @@ the first PACKAGE."
    '("'" . repeat)
    '("<escape>" . ignore))
   (meow-global-mode t))
+
+;; Local Variables:
+;; byte-compile-warnings: (not unresolved free-vars)
 
 ;;; init.el ends here

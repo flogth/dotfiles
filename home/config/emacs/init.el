@@ -309,27 +309,22 @@
     (:hook-into prog-mode)))
 
 ;; LaTeX
-(setup LaTeX (:package auctex)
-       (:with-mode TeX-mode
-         (:hook #'visual-line-mode
-                #'TeX-fold-mode
-                #'LaTeX-math-mode
-                #'reftex-mode))
-       (:option TeX-master 'dwim
-                TeX-PDF-mode t
-                TeX-auto-save t
-                TeX-save-query nil
-                TeX-parse-self t
-                TeX-auto-local ".auctex-auto"
-                TeX-view-program-selection '((output-pdf "xdg-open"))
-                TeX-electric-math '("$" . "$")
-                TeX-electric-sub-and-superscript t
-                LaTeX-electric-left-right-brace t
-                reftex-plug-into-AUCTeX t))
+(setup (:package auctex)
+  (:option TeX-master 'dwim
+           TeX-auto-save t
+           TeX-parse-self t
+           preview-auto-cache-preamble t
+           TeX-electric-math '("$" . "$")
+           TeX-electric-sub-and-superscript t
+           LaTeX-electric-left-right-brace t
+           reftex-enable-partial-scans t
+           reftex-plug-into-AUCTeX t)
 
-(setup (:package cdlatex)
-  (:with-mode cdlatex
-    (:hook-into LaTeX-mode)))
+  (:hook #'visual-line-mode
+         #'TeX-fold-mode
+         #'LaTeX-math-mode
+         #'reftex-mode
+         #'flymake-mode))
 
 ;; org
 (setup (:package org )

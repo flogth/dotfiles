@@ -38,10 +38,12 @@ in {
       };
       openssh = {
         enable = true;
-        passwordAuthentication = false;
         allowSFTP = false;
-        kbdInteractiveAuthentication = false;
-        permitRootLogin = "no";
+        settings = {
+          PasswordAuthentication = false;
+          KbdInteractiveAuthentication = false;
+          PermitRootLogin = "no";
+        };
         startWhenNeeded = true;
         extraConfig = ''
           AllowTcpForwarding yes

@@ -85,6 +85,7 @@
       "org/gnome/desktop/wm/preferences" = {
         auto-raise = true;
         focus-new-windows = "strict";
+        focus-mode = "sloppy";
       };
 
       "org/gnome/settings-daemon/plugins/media-keys" = {

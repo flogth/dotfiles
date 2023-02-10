@@ -54,7 +54,6 @@
     };
     docker = {
       enable = true;
-      enableNvidia = true;
     };
   };
   environment.systemPackages = with pkgs; [
@@ -64,6 +63,5 @@
 
   xdg.portal = {
     enable = true;
-    wlr.enable = true;
   };
 }

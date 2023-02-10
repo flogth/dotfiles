@@ -14,18 +14,6 @@
       enable = true;
       extraPackages = tpkgs: { inherit (tpkgs) scheme-full; };
     };
-
-    zathura = {
-      enable = true;
-      options = {
-        selection-clipboard = "clipboard";
-        guioptions = "svh";
-        font = "JuliaMono 12";
-        statusbar-bg = "#6f18f2";
-        default-bg = "#282a36";
-        window-title-basename = true;
-      };
-    };
   };
 
   services = {

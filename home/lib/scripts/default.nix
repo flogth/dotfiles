@@ -1,1 +1,1 @@
-{ ... }: { imports = [ ./emacs.nix ./sway.nix ./ui.nix ./cli.nix ]; }
+{ ... }: { imports = [ ./emacs.nix ./cli.nix ]; }

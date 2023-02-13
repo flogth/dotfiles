@@ -8,20 +8,6 @@ in {
     fsType = "ext4";
   };
 
-  fileSystems."/run/mount/backup" = {
-    device = "/dev/disk/by-label/backup";
-    fsType = "btrfs";
-    options = [
-      "defaults"
-      "discard=async"
-      "compress=zstd"
-      "nosuid"
-      "noexec"
-      "nodev"
-      "subvol=@"
-    ];
-  };
-
   boot = {
     loader.grub.device = "/dev/sda";
     loader.timeout = 1;

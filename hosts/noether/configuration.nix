@@ -35,8 +35,19 @@ in {
     useNetworkd = true;
     useDHCP = false;
     dhcpcd.enable = false;
-    interfaces.ens3.useDHCP = true;
-
+    interfaces.ens3 = {
+      useDHCP = true;
+      ipv6.addresses = [
+        {
+          address = "2a01:4f8:c2c:b87d::1";
+          prefixLength = 64;
+        }
+      ];
+    };
+    defaultGateway6 = {
+      interface = "ens3";
+      address = "fe80::1";
+    };
     firewall = {
       enable = true;
       allowedTCPPorts = [ 22 80 443 ];

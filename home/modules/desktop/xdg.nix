@@ -27,7 +27,8 @@ in {
         "x-scheme-handler/about" = "firefox.desktop";
         "x-scheme-handler/unknown" = "firefox.desktop";
         "application/pdf" = "org.gnome.Evince.desktop";
-        "image/png" = [ "imv.desktop" ];
+        "image/png" = "org.gnome.eog.desktop";
+        "image/jpeg" = "org.gnome.eog.desktop";
       };
     };
 

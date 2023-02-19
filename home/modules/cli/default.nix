@@ -24,7 +24,6 @@
 
     graphviz
 
-    man-pages
   ];
   programs = {
     htop = {

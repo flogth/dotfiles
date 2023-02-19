@@ -25,4 +25,12 @@
     defaultPackages = pkgs.lib.mkForce [ ];
     systemPackages = with pkgs; [ gnupg git clang gcc ];
   };
+  documentation = {
+    dev.enable = true;
+    doc.enable = false;
+    man = {
+      enable = true;
+      generateCaches = true;
+    };
+  };
 }

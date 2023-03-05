@@ -115,9 +115,11 @@ in {
     };
     openssh = {
       enable = true;
-      passwordAuthentication = false;
+      settings = {
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+      };
       allowSFTP = true;
-      kbdInteractiveAuthentication = false;
       extraConfig = ''
         AllowTcpForwarding yes
         X11Forwarding no

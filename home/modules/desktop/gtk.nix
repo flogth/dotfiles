@@ -57,10 +57,10 @@
       };
       "org/gnome/desktop/input-sources" = {
         sources = [
-          (mkTuple [ "xkb" "us+altgr-intl" ])
-          (mkTuple [ "xkb" "de+nodeadkeys" ])
+          (mkTuple [ "xkb" "eu" ])
         ];
         xkb-options = [ "ctrl:nocaps" ];
+        show-all-sources = true;
       };
       "org/gnome/desktop/interface" = {
         color-scheme = "prefer-dark";

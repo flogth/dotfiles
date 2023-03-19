@@ -24,11 +24,18 @@
   nixpkgs.config.allowUnfree = true;
   environment = {
     defaultPackages = pkgs.lib.mkForce [ ];
-    systemPackages = with pkgs; [ gnupg git clang gcc ];
+    systemPackages = with pkgs;
+      [ gnupg
+        git
+        clang
+        gcc
+        man-pages
+        man-pages-posix
+      ];
   };
   documentation = {
     dev.enable = true;
-    doc.enable = false;
+    doc.enable = true;
     man = {
       enable = true;
       generateCaches = true;

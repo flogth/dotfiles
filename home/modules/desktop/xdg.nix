@@ -26,6 +26,7 @@ in {
         "x-scheme-handler/https" = "firefox.desktop";
         "x-scheme-handler/about" = "firefox.desktop";
         "x-scheme-handler/unknown" = "firefox.desktop";
+        "x-scheme-handler/mailto" = "emacsclient-mail.desktop";
         "application/pdf" = "org.gnome.Evince.desktop";
         "image/png" = "org.gnome.eog.desktop";
         "image/jpeg" = "org.gnome.eog.desktop";

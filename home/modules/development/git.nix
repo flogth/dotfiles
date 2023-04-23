@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 with lib;
 let cfg = config.local.git;
 
@@ -7,6 +7,7 @@ in {
   config = {
     programs.git = {
       enable = true;
+      package = pkgs.gitAndTools.gitFull;
       userName = "flogth";
       userEmail = "flogth@mailbox.org";
       signing.signByDefault = true;

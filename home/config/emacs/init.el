@@ -444,7 +444,7 @@
   (set-face-background 'proof-locked-face "#90ee90"))
 
 (defun local/coq-init ()
-  "Some initializations for 'coq-mode'."
+  "Some initializations for `coq-mode'."
   (setq-local tab-width proof-indent))
 
 (setup (:package proof-general)
@@ -601,7 +601,9 @@
   (kill-buffer nil))
 
 (defun local/wrap-region (start end c replace)
-  "Wrap region from START to END in (car C) and (cdr c).  If REPLACE is non-nil, replace the first and last characters in region."
+  "Wrap region from START to END in (car C) and (cdr c).
+If REPLACE is non-nil, replace the first and last characters in
+region."
   (save-restriction
     (narrow-to-region start end)
     (goto-char (point-min))
@@ -614,19 +616,25 @@
     (insert-char (cdr c))))
 
 (defun local/replace-round (start end arg)
-  "Wrap region from START to END in parentheses, replacing the first and last characters.  With prefix argument ARG, simply wrap the region."
+  "Wrap region from START to END in parentheses.
+Replaces the first and last characters.  With prefix argument
+ARG, simply wrap the region."
   (interactive "*r\nP")
-  (local/wrap-region start end '(?( . ?) ) (not arg)))
+  (local/wrap-region start end '(?\( . ?\) ) (not arg)))
 
 (defun local/replace-curly (start end arg)
-  "Wrap region from START to END in curly braces, replacing the first and last characters.  With prefix argument ARG, simply wrap the region."
+  "Wrap region from START to END in curly braces.
+Replaces the first and last characters.  With prefix argument
+ARG, simply wrap the region."
   (interactive "*r\nP")
-  (local/wrap-region start end '(?{ . ?} ) (not arg)))
+  (local/wrap-region start end '(?\{ . ?\} ) (not arg)))
 
 (defun local/replace-square (start end arg)
-  "Wrap region from START to END in square brackets, replacing the first and last characters.  With prefix argument ARG, simply wrap the region."
+  "Wrap region from START to END in square brackets.
+Replaces the first and last characters.  With prefix argument
+ARG, simply wrap the region."
   (interactive "*r\nP")
-  (local/wrap-region start end '(?[ . ?] ) (not arg)))
+  (local/wrap-region start end '(?\[ . ?\] ) (not arg)))
 
 
 ;;; registers ==============================================

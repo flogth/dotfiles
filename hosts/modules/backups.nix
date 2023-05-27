@@ -13,12 +13,10 @@
       cleanupInterval = "weekly";
       configs = {
         home = {
-          subvolume = "/home";
-          extraConfig = ''
-            ALLOW_USERS="flo"
-            TIMELINE_CREATE=yes
-            TIMELINE_CLEANUP=yes
-          '';
+          SUBVOLUME        = "/home";
+          ALLOW_USERS      = ["flo"];
+          TIMELINE_CREATE  = true;
+          TIMELINE_CLEANUP = true;
         };
       };
     };

@@ -80,7 +80,13 @@
         allow-volume-above-100-percent = true;
         event-sounds = false;
       };
-      "org/gnome/desktop/wm/keybindings" = { close = [ "<Super>w" ]; };
+      "org/gnome/desktop/wm/keybindings" = {
+        close = [ "<Super>w" ];
+        switch-to-workspace-1 = [ "<Super>1"];
+        switch-to-workspace-2 = [ "<Super>2"];
+        switch-to-workspace-3 = [ "<Super>3"];
+        switch-to-workspace-4 = [ "<Super>4"];
+      };
 
       "org/gnome/desktop/wm/preferences" = {
         auto-raise = true;

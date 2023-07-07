@@ -30,6 +30,7 @@ in {
         "application/pdf" = "org.gnome.Evince.desktop";
         "image/png" = "org.gnome.eog.desktop";
         "image/jpeg" = "org.gnome.eog.desktop";
+        "image/gif" = "org.gnome.eog.desktop";
       };
     };
 

@@ -7,7 +7,6 @@
     ./network.nix
     ./nix.nix
     ./power.nix
-    ./programs.nix
     ./security.nix
   ];
 }

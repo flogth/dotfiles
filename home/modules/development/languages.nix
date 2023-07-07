@@ -1,4 +1,9 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+let
+  prolog = pkgs.swiProlog.override {
+    extraLibraries = [pkgs.emacs-pgtk];
+  };
+in {
   home.packages = with pkgs;
     [
       # basics
@@ -31,8 +36,7 @@
       nodejs
 
       # prolog
-      scryer-prolog
-      swiProlog
+      prolog
 
       # proof assistants
       coq

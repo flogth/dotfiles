@@ -1,1 +1,1 @@
-{ ... }: { imports = [ ./emacs.nix ./cli.nix ]; }
+{ ... }: { imports = [ ./cli.nix ]; }

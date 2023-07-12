@@ -255,6 +255,10 @@
   (:hook #'sweeprolog-electric-layout-mode
          #'sweeprolog-forward-hole-on-tab-mode))
 
+(setup (:package sly)
+  (set! inferior-lisp-program "sbcl"
+        sly-contribs '(sly-fancy sly-tramp))
+  (:hook-into lisp-mode))
 ;;; keybindings
 (set-register ?d '(file . "~/.dotfiles"))
 (set-register ?U '(file . "/ssh:uni:.www/"))

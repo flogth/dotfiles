@@ -21,11 +21,10 @@
   outputs = { nixpkgs, home-manager, emacs-overlay, nixos-hardware, ... }:
   let
     system = "x86_64-linux";
-    agda-mode-overlay = import ./patches/agda-mode-overlay.nix;
     pkgs = import nixpkgs {
       inherit system;
       config = { allowUnfree = true; };
-      overlays = [ emacs-overlay.overlay agda-mode-overlay ];
+      overlays = [ emacs-overlay.overlay ];
     };
     lib = nixpkgs.lib;
   in {

@@ -1,6 +1,6 @@
 { pkgs, ... }:
 let
-  local-emacs = (pkgs.emacsPackagesFor pkgs.emacs-pgtk).emacsWithPackages
+  local-emacs = (pkgs.emacsPackagesFor pkgs.emacs29-pgtk).emacsWithPackages
     (epkgs: [ epkgs.treesit-grammars.with-all-grammars ]);
 in
 {

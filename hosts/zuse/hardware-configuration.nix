@@ -17,7 +17,6 @@
     loader = {
       grub = {
         enable = true;
-        version = 2;
         enableCryptodisk = true;
         efiSupport = true;
         useOSProber = true;

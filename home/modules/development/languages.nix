@@ -1,17 +1,17 @@
 { pkgs, ... }:
 let
   swiProlog = {
-    version = "9.1.11";
+    version = "9.1.12";
     src = pkgs.fetchFromGitHub {
       owner = "SWI-Prolog";
       repo = "swipl-devel";
       rev = "V${swiProlog.version}";
-      sha256 = "sha256-eAi7oCDnWwqLIoSc+Ehm3LWkBbBQhFtatgMxf6keOGI=";
+      sha256 = "sha256-fYlneijZ3eDQMRubeXmb5fB8hQ/P3Djty1j+OdhsyOM=";
       fetchSubmodules = true;
     };
   };
   prolog = (pkgs.swiProlog.override {
-    extraLibraries = [ pkgs.emacs29 ];
+    extraLibraries = [ pkgs.emacs29-pgtk ];
   }).overrideAttrs
     (old: {
       inherit (swiProlog) src version;

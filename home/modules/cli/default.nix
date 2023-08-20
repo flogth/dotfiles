@@ -16,9 +16,7 @@
 
     usbutils
 
-    hunspell
-    hunspellDicts.de-de
-    hunspellDicts.en-us
+    (hunspellWithDicts ([hunspellDicts.en-us hunspellDicts.de-de]))
 
     libnotify # notify-send
 

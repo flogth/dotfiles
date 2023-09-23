@@ -49,10 +49,8 @@
 ;;; Basic Editing
 (set! tab-width 4
       indent-tabs-mode nil
-
       save-interprogram-paste-before-kill t
       kill-do-not-save-duplicates t
-
       savehist-mode t
       history-delete-duplicates t
       savehist-save-minibuffer-history t
@@ -63,6 +61,7 @@
       backup-directory-alist '((".*" . "~/.local/share/backup"))
       auto-save-file-name-transforms '((".*" "~/.local/share/auto-save" t)))
 
+(set! repeat-mode t)
 (setup elec-pair
   (set! electric-pair-mode t
         delete-pair-blink-delay 0))

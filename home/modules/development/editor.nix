@@ -13,6 +13,7 @@ in
     package = local-emacs;
     client.enable = true;
     defaultEditor = true;
+    startWithUserSession = "graphical";
   };
   xdg.configFile = {
     "emacs/early-init.el".source = ../../config/emacs/early-init.el;

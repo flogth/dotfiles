@@ -149,7 +149,8 @@
               dired-listing-switches "-NAhl --group-directories-first"))
 
 (use-package gnus
-  :hook (gnus-topic-mode . hl-line-mode)
+  :hook ((gnus-mode . gnus-topic-mode)
+         (gnus-mode . hl-line-mode))
   :bind ("C-c m" . gnus)
   :init
   (set! gnus-select-method '(nnnil)

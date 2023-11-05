@@ -21,7 +21,6 @@
     };
   };
 
-  nixpkgs.config.allowUnfree = true;
   environment = {
     defaultPackages = pkgs.lib.mkForce [ ];
     systemPackages = with pkgs;

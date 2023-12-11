@@ -84,6 +84,12 @@ in {
               hostName = "flogth.net";
               user = "admin";
             }
+            {
+              name = "pi";
+              hostName = "raspberrypi.local";
+              user = "flo";
+              port = 2223;
+            }
           ];
         in ''
           Host *
@@ -94,6 +100,7 @@ in {
             Host ${h.name}
                  HostName ${h.hostName}
                  User ${h.user}
+                 Port ${toString (h.port or 22)}
           '')}
         '';
       };

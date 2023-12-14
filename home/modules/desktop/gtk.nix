@@ -90,7 +90,7 @@
 
       "org/gnome/desktop/wm/preferences" = {
         auto-raise = true;
-        focus-new-windows = "strict";
+        focus-new-windows = "smart";
         focus-mode = "sloppy";
       };
 

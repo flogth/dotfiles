@@ -81,6 +81,7 @@ in
     ".guile".source = ../../config/guile/.guile;
     ".agda/defaults".text = ''
       ${pkgs.agdaPackages.standard-library.name}
+      ${pkgs.agdaPackages.cubical.name}
     '';
   };
 

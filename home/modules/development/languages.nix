@@ -41,7 +41,6 @@ in
 
       # proof assistants
       coq
-      coqPackages.coq-elpi
       (agda.withPackages [ agdaPackages.standard-library agdaPackages.cubical ])
 
       # python
@@ -75,7 +74,6 @@ in
       ocaml-lsp
       ocamlformat
       menhir
-      elpi
     ]);
 
   home.file = {

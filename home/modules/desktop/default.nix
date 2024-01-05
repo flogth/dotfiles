@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./games.nix ./gtk.nix ./xdg.nix ./terminal.nix ./work.nix ./firefox.nix ];
+  imports = [ ./games.nix ./gtk.nix ./xdg.nix ./work.nix ./firefox.nix ];
   home.packages = with pkgs; [
     inkscape # vector image editor
     signal-desktop # messenger

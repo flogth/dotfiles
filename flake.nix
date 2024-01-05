@@ -33,10 +33,6 @@
               home-manager =
                 let
                   args = {
-                    terminal = {
-                      enable = true;
-                      fontSize = 10;
-                    };
                     git = {
                       signingKey =
                         "key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAAXV+u3HNdoWtbM3qqoiw12edDZpmy7h2/Q8uWUXZlX";
@@ -61,10 +57,6 @@
               home-manager =
                 let
                   args = {
-                    terminal = {
-                      enable = true;
-                      fontSize = 14;
-                    };
                     git = {
                       signingKey =
                         "key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOkmMVJ5DRZOLPf68aeRBF95ijtTRvV10/a2SW9n+gX+";

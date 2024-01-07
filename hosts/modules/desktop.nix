@@ -5,7 +5,7 @@
     gnome-tour
     gnome.gnome-music
     gnome.gnome-terminal
-    gnome.gedit
+    gedit
     gnome.epiphany
     gnome.gnome-characters
     gnome.totem

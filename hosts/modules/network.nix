@@ -19,8 +19,6 @@ in {
       };
       firewall = {
         enable = true;
-        allowedTCPPorts = [ 631 ];
-        allowedUDPPorts = [ 631 5353 ]; # allow mdns
       };
     };
 
@@ -50,15 +48,6 @@ in {
           AllowAgentForwarding no
           AllowStreamLocalForwarding no
         '';
-      };
-
-      avahi = {
-        enable = true;
-        nssmdns4 = true;
-        publish = {
-          enable = true;
-          userServices = true;
-        };
       };
     };
 

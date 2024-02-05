@@ -11,8 +11,6 @@ in
       stdenv
       gdb
       gnumake
-      ninja
-      meson
 
       # apl
       gnuapl
@@ -31,8 +29,6 @@ in
       haskell-language-server
       ormolu
 
-      # html
-      html-tidy
       # js
       nodejs
 
@@ -60,21 +56,7 @@ in
       # shell
       shellcheck
 
-      # scheme
-      guile
-      racket
-
-      # wasm
-      wasm-pack
-
-    ] ++ (with pkgs.ocamlPackages; [
-      pkgs.dune_2
-      ocaml
-      utop
-      ocaml-lsp
-      ocamlformat
-      menhir
-    ]);
+    ];
 
   home.file = {
     ".ghc/ghci.conf".source = ../../config/ghc/ghci.conf;

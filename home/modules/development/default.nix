@@ -1,1 +1,1 @@
-{ ... }: { imports = [ ./editor.nix ./languages.nix ./git.nix ]; }
+{ ... }: { imports = [ ./editor.nix ./languages.nix ./vc.nix ]; }

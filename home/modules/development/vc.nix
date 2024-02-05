@@ -2,7 +2,8 @@
 with lib;
 let cfg = config.local.git;
 
-in {
+in
+{
   options.local.git = { signingKey = mkOption { type = types.str; }; };
   config = {
     programs.git = {

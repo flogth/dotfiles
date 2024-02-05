@@ -52,5 +52,6 @@ in
         allow-loopback-pinentry
       '';
     };
+    home.packages = [ pkgs.rcs ];
   };
 }

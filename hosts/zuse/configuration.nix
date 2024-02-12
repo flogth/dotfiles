@@ -5,7 +5,7 @@
 
   users.users.flo = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "docker" ];
   };
 
   programs.steam.enable = true;

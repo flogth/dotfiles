@@ -49,16 +49,19 @@
       visible-bell nil)
 
 (setopt backup-directory-alist '((".*" . "~/.local/share/backup"))
+      tramp-backup-directory-alist backup-directory-alist
       backup-by-copying t
       delete-old-versions t
       create-lockfiles nil
       auto-save-default nil)
 
 (setopt scroll-margin 1
-      scroll-step 1
-      scroll-conservatively 101
-      scroll-preserve-screen-position t
-      fast-but-imprecise-scrolling t)
+        scroll-step 1
+        scroll-conservatively 101
+        scroll-preserve-screen-position t
+        fast-but-imprecise-scrolling t
+        pixel-scroll-precision-mode t
+        pixel-scroll-mode t)
 
 (setopt help-window-select t)
 

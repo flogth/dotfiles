@@ -13,8 +13,7 @@ in {
     loader.timeout = 1;
     initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "xen_blkfront" ];
     initrd.kernelModules = [ "nvme" ];
-    cleanTmpDir = true;
-
+    tmp.cleanOnBoot = true;
   };
 
   zramSwap.enable = true;
@@ -56,7 +55,7 @@ in {
 
   time.timeZone = "Europe/Berlin";
 
-  users.users = let keys = fetchKeys.fetchKeys "flogth" "sha256:1kfgh99r2xd818npzqcyziv3dhvzfpzkmxr33bd153rhfdawk027";
+  users.users = let keys = fetchKeys.fetchKeys "flogth" "sha256:01iawr9d2qwm2w7w6c5z6a9mpb6y7xl888mcg4lnwmrfcb89yzhq";
   in {
     admin = {
       isNormalUser = true;
@@ -64,24 +63,10 @@ in {
       extraGroups = [ "wheel" ];
       openssh.authorizedKeys.keys = keys;
     };
-
-    git = {
-      isNormalUser = true;
-      createHome = true;
-      openssh.authorizedKeys.keys = keys;
-    };
-
-    backup = {
-      isNormalUser = true;
-      createHome = false;
-      home = "/run/mount/backup";
-      openssh.authorizedKeys.keys = keys;
-    };
   };
 
   programs = {
     git.enable = true;
-    neovim.enable = true;
   };
 
   environment.systemPackages = with pkgs; [ rsync ];
@@ -126,7 +111,9 @@ in {
         PermitRootLogin no
       '';
     };
+
     fail2ban.enable = true;
+
   };
 
   system.stateVersion = "22.11";

@@ -96,8 +96,29 @@ in {
             }
           '';
         };
+        "ap.flogth.net" = {
+          extraConfig = ''
+          reverse_proxy * :${toString gotosocial-port} {
+              flush_interval -1
+          }
+          '';
+        };
       };
     };
+
+    gotosocial = {
+      enable = true;
+      setupPostgresqlDB = true;
+      settings = {
+        host = "ap.flogth.net";
+        port = gotosocial-port;
+        bind-address = "127.0.0.1";
+        letsencrypt-enabled = false;
+        landing-page-user = "flogth";
+        log-level = "debug";
+      };
+    };
+
     openssh = {
       enable = true;
       settings = {

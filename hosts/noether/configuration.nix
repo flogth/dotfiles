@@ -69,9 +69,12 @@ in {
     git.enable = true;
   };
 
+  environment.defaultPackages = [];
   environment.systemPackages = with pkgs; [ rsync ];
 
-  services = {
+  services =
+  let gotosocial-port = 8080;
+  in {
     caddy = {
       enable = true;
       email = "flodobeutlin@mailbox.org";
@@ -115,6 +118,8 @@ in {
     fail2ban.enable = true;
 
   };
+
+  documentation.man.enable = true;
 
   system.stateVersion = "22.11";
 }

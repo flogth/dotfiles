@@ -44,7 +44,7 @@ in
 
       # nix
       nixfmt
-      rnix-lsp
+      nil
 
       # rust
       rustc

@@ -52,12 +52,7 @@ in {
     };
 
     programs = {
-      gnupg = {
-        agent = {
-          enable = true;
-          pinentryFlavor = "gnome3";
-        };
-      };
+      gnupg.agent.enable = true;
       ssh = {
         startAgent = true;
         agentTimeout = "5m";

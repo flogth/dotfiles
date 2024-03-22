@@ -45,7 +45,6 @@ in
     services.gpg-agent = {
       enable = true;
       enableSshSupport = true;
-      pinentryFlavor = "gnome3";
       defaultCacheTtl = 1800;
       extraConfig = ''
         allow-emacs-pinentry

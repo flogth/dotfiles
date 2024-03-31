@@ -151,44 +151,44 @@
   :bind ("C-c m" . gnus)
   :init
   (setopt gnus-select-method '(nnnil)
-        gnus-parameters
-        '(("^nnimap"
-           (gcc-self . t)
-           (gnus-use-scoring . nil)
-           (display . nil)
-           (agent-predicate . always)))
-        gnus-summary-line-format "%U%R%z%I%(%[%-23,23f%]%) %s\n"
-        mm-discouraged-alternatives '("text/html" "text/richtext")
-        gnus-secondary-select-methods
-        '((nntp "gmane" (nntp-address "news.gmane.io"))
-          (nnimap "uni"
-                  (gnus-search-engine gnus-search-imap)
-                  (nnimap-user "florian.guthmann@fau.de")
-                  (nnimap-address "faumail.fau.de")
-                  (nnimap-stream starttls))
-          (nnimap "personal"
-                  (gnus-search-engine gnus-search-imap)
-                  (nnimap-user "flogth@mailbox.org")
-                  (nnimap-address "imap.mailbox.org")
-                  (nnimap-stream starttls)))
-        gnus-posting-styles
-        '(("" (gcc "nnimap+personal:Sent"))
-          ("uni"
-           (address "florian.guthmann@fau.de")
-           (gcc "nnimap+uni:Sent"))
-          ((header "to" "fau.de")
-           (gcc "nnimap+uni:Sent"))
-          ((header "from" "fau.de")
-           (gcc "nnimap+uni:Sent")))
-        mail-user-agent 'gnus-user-agent
-        user-mail-address "flogth@mailbox.org"
-        user-full-name "Florian Guthmann"
-        message-server-alist
-        '(("florian.guthmann@fau.de" . "smtp faumail.fau.de 587"))
-        send-mail-function #'smtpmail-send-it
-        smtpmail-smtp-server "smtp.mailbox.org"
-        smtpmail-stream-type 'starttls
-        smtpmail-smtp-service 587))
+          gnus-parameters
+          '(("^nnimap"
+             (gcc-self . t)
+             (gnus-use-scoring . nil)
+             (display . nil)
+             (agent-predicate . always)))
+          gnus-summary-line-format "%U%R%z %d %I%(%[%4L: %-23,23f%]%) %s\n"
+          mm-discouraged-alternatives '("text/html" "text/richtext")
+          gnus-secondary-select-methods
+          '((nntp "gmane" (nntp-address "news.gmane.io"))
+            (nnimap "uni"
+                    (gnus-search-engine gnus-search-imap)
+                    (nnimap-user "florian.guthmann@fau.de")
+                    (nnimap-address "faumail.fau.de")
+                    (nnimap-stream starttls))
+            (nnimap "personal"
+                    (gnus-search-engine gnus-search-imap)
+                    (nnimap-user "flogth@mailbox.org")
+                    (nnimap-address "imap.mailbox.org")
+                    (nnimap-stream starttls)))
+          gnus-posting-styles
+          '(("" (gcc "nnimap+personal:Sent"))
+            ("uni"
+             (address "florian.guthmann@fau.de")
+             (gcc "nnimap+uni:Sent"))
+            ((header "to" "fau.de")
+             (gcc "nnimap+uni:Sent"))
+            ((header "from" "fau.de")
+             (gcc "nnimap+uni:Sent")))
+          mail-user-agent 'gnus-user-agent
+          user-mail-address "flogth@mailbox.org"
+          user-full-name "Florian Guthmann"
+          message-server-alist
+          '(("florian.guthmann@fau.de" . "smtp faumail.fau.de 587"))
+          send-mail-function #'smtpmail-send-it
+          smtpmail-smtp-server "smtp.mailbox.org"
+          smtpmail-stream-type 'starttls
+          smtpmail-smtp-service 587))
 
 ;;;; version control
 (setopt vc-follow-symlinks t)

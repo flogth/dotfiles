@@ -17,7 +17,6 @@
       lidSwitch = "suspend-then-hibernate";
       lidSwitchExternalPower = "suspend";
     };
-    fprintd = { enable = true; };
     fwupd.enable = true;
   };
 }

@@ -21,6 +21,7 @@
     libnotify # notify-send
 
     graphviz
+    ghostscript
 
   ];
   programs = {

@@ -49,12 +49,6 @@
     in with lib.hm.gvariant;
       recursiveUpdate kbdAttrs
     {
-      "org/gnome/desktop/background" = let
-        uri = "file:///${config.xdg.userDirs.pictures}/wallpapers/wallpaper";
-      in {
-        picture-uri = uri;
-        picture-uri-dark = uri;
-      };
       "org/gnome/desktop/input-sources" = {
         sources = [
           (mkTuple [ "xkb" "eu" ])

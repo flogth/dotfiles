@@ -106,15 +106,15 @@
   :bind (:map vertico-map
               ("C-j" . #'vertico-exit-input))
   :init (setopt vertico-cycle t
-              vertico-resize nil))
+                vertico-resize nil))
 
 (use-package corfu
   :ensure t
   :hook (prog-mode . corfu-mode)
   :init (setopt corfu-preview-current nil
-              corfu-cycle t
-              corfu-echo-documentation 0.25
-              tab-always-indent 'complete))
+                corfu-cycle t
+                corfu-echo-documentation 0.25
+                tab-always-indent 'complete))
 
 (use-package consult
   :ensure t
@@ -258,7 +258,8 @@
   :init (setopt org-pretty-entities nil
               org-html-doctype "xhtml5"
               org-html-html5-fancy t
-              org-html-htmlize-output-type 'css))
+              org-html-htmlize-output-type 'css
+              org-export-dispatch-use-expert-ui t))
 
 ;;;; programming languages
 

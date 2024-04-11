@@ -28,9 +28,9 @@ in {
         "x-scheme-handler/unknown" = "firefox.desktop";
         "x-scheme-handler/mailto" = "emacsclient-mail.desktop";
         "application/pdf" = "org.gnome.Evince.desktop";
-        "image/png" = "org.gnome.eog.desktop";
-        "image/jpeg" = "org.gnome.eog.desktop";
-        "image/gif" = "org.gnome.eog.desktop";
+        "image/png" = "org.gnome.Loupe.desktop";
+        "image/jpeg" = "org.gnome.Loupe.desktop";
+        "image/gif" = "org.gnome.Loupe.desktop";
       };
     };
 

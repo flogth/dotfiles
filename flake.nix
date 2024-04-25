@@ -61,8 +61,6 @@
                       signingKey =
                         "key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOkmMVJ5DRZOLPf68aeRBF95ijtTRvV10/a2SW9n+gX+";
                     };
-
-                    games.enable = true;
                   };
                 in
                 {

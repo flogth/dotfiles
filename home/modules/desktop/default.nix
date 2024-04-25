@@ -1,27 +1,19 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./games.nix ./gtk.nix ./xdg.nix ./work.nix ./firefox.nix ];
+  imports = [ ./gtk.nix ./xdg.nix ./work.nix ];
   home.packages = with pkgs; [
-    inkscape # vector image editor
-    signal-desktop # messenger
-    simple-scan # scanning frontend
+    inkscape
+    gimp
+    signal-desktop
+    simple-scan
     mpv
   ];
 
-  programs = {
-    texlive = {
-      enable = true;
-      extraPackages = tpkgs: { inherit (tpkgs) scheme-full; };
-    };
+  programs.firefox = {
+    enable = true;
+    package = pkgs.firefox-wayland;
   };
 
-  services = {
-    udiskie = {
-      enable = true;
-      automount = false;
-      tray = "never";
-    };
-    syncthing.enable = true;
-  };
+  services.syncthing.enable = true;
 }

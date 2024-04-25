@@ -1,10 +1,10 @@
 { pkgs, ... }: {
   imports = [ ./shell.nix ];
   home.packages = with pkgs; [
-    fd # better find
-    ripgrep # better grep
-    ffmpeg # everything video
-    file # info about a file
+    fd
+    ripgrep
+    ffmpeg
+    file
     imagemagick
     ncdu
 
@@ -18,13 +18,14 @@
 
     (hunspellWithDicts ([hunspellDicts.en-us hunspellDicts.de-de]))
 
-    libnotify # notify-send
-
-    graphviz
     ghostscript
 
   ];
   programs = {
+    texlive = {
+      enable = true;
+      extraPackages = tpkgs: { inherit (tpkgs) scheme-full; };
+    };
     htop = {
       enable = true;
       settings = {

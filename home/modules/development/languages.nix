@@ -14,7 +14,6 @@ in
 
       # apl
       gnuapl
-      cbqn
 
       # c
       clang-tools
@@ -49,9 +48,6 @@ in
       # rust
       rustc
       cargo
-      cargo-generate
-      rust-analyzer
-      rustfmt
 
       # shell
       shellcheck

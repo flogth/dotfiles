@@ -43,7 +43,7 @@ in
       python3
 
       # nix
-      nixfmt
+      nixfmt-classic
       nil
 
       # rust

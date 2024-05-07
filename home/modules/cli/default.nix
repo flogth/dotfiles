@@ -26,13 +26,6 @@
       enable = true;
       extraPackages = tpkgs: { inherit (tpkgs) scheme-full; };
     };
-    htop = {
-      enable = true;
-      settings = {
-        show_program_path = 0;
-        highlight_base_name = 1;
-      };
-    };
     man.generateCaches = true;
   };
 }

@@ -8,6 +8,7 @@ in
   config = {
     programs.git = {
       enable = true;
+      lfs.enable = true;
       package = pkgs.gitAndTools.gitFull;
       userName = "flogth";
       userEmail = "flogth@mailbox.org";

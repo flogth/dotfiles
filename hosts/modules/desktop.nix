@@ -9,6 +9,7 @@
     gnome.epiphany
     gnome.gnome-characters
     gnome.totem
+    gnome-text-editor
   ];
 
   services = {

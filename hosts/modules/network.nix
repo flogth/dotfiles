@@ -70,7 +70,7 @@ in {
             }
             {
               name = "pi";
-              hostName = "raspberrypi.local";
+              hostName = "morphism.local";
               user = "flo";
               port = 2223;
             }

@@ -1,16 +1,11 @@
 { pkgs, ... }:
-let
-  local-emacs = (pkgs.emacsPackagesFor pkgs.emacs29-pgtk).emacsWithPackages
-    (epkgs: [ epkgs.treesit-grammars.with-all-grammars ]);
-in
 {
   programs.emacs = {
     enable = true;
-    package = local-emacs;
+    extraPackages = epkgs: [epkgs.pdf-tools];
   };
   services.emacs = {
     enable = true;
-    package = local-emacs;
     client.enable = true;
     defaultEditor = true;
     startWithUserSession = "graphical";

@@ -8,6 +8,7 @@
     signal-desktop
     simple-scan
     mpv
+    pika-backup
   ];
 
   programs.firefox = {

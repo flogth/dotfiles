@@ -37,6 +37,7 @@ in
       # proof assistants
       coq
       (agda.withPackages [ agdaPackages.standard-library agdaPackages.cubical ])
+      lean4
 
       # python
       python3

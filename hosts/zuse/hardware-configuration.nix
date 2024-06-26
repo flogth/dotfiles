@@ -43,9 +43,8 @@
     cpu.amd.updateMicrocode = true;
 
     enableRedistributableFirmware = true;
-    opengl = {
-      driSupport = true;
-      driSupport32Bit = true;
+    graphics = {
+      enable32Bit = true;
       extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl rocm-opencl-icd ];
     };
   };

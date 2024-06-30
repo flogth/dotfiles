@@ -29,6 +29,8 @@
     kernelModules = [ "kvm-amd" "amdgpu" ];
     extraModulePackages = with kernelPackage; [ acpi_call ];
 
+    supportedFilesystems = [ "btrfs" ];
+
     extraModprobeConfig = ''
       options iwlmvm power_scheme=1
     '';
@@ -64,7 +66,7 @@
     device = "/dev/disk/by-label/ROOT";
     fsType = "btrfs";
     options =
-      [ "defaults" "discard=async" "compress-force=zstd" "subvol=@nix" ];
+      [ "defaults" "noatime" "discard=async" "compress-force=zstd" "subvol=@nix" ];
   };
   fileSystems."/etc" = {
     device = "/dev/disk/by-label/ROOT";
@@ -76,7 +78,8 @@
     device = "/dev/disk/by-label/ROOT";
     fsType = "btrfs";
     options =
-      [ "defaults" "discard=async" "compress-force=zstd" "subvol=@log" ];
+      [ "defaults" "noatime" "discard=async" "compress-force=zstd" "subvol=@log" ];
+    neededForBoot = true;
   };
 
   fileSystems."/home" = {

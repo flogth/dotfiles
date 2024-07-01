@@ -17,6 +17,15 @@
       lidSwitch = "suspend-then-hibernate";
       lidSwitchExternalPower = "suspend";
     };
+
+    fprintd = {
+      enable = true;
+      tod = {
+        enable = true;
+        driver = pkgs.libfprint-2-tod1-elan;
+      };
+    };
+
     fwupd.enable = true;
   };
 }

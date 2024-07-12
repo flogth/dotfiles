@@ -66,6 +66,8 @@
         document-font-name = "Fira Sans 11";
         font-antialiasing = "rgba";
 
+        gtk-key-theme = "Emacs";
+
         # Stupid Gnome Console
         monospace-font-name = "JuliaMono 12";
       };

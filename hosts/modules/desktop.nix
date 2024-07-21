@@ -4,11 +4,11 @@
     gnome-photos
     gnome-tour
     gnome.gnome-music
-    gnome.gnome-terminal
+    gnome-terminal
     gedit
-    gnome.epiphany
+    epiphany
     gnome.gnome-characters
-    gnome.totem
+    totem
     gnome-text-editor
   ];
 
@@ -60,7 +60,7 @@
   };
   environment.systemPackages = with pkgs; [
     docker-compose
-    gnome.gnome-tweaks
+    gnome-tweaks
   ];
 
   xdg.portal = {

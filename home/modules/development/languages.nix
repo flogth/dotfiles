@@ -1,9 +1,4 @@
 { pkgs, ... }:
-let
-  prolog = (pkgs.swiProlog.override {
-    extraLibraries = [ pkgs.emacs29-pgtk ];
-  });
-in
 {
   home.packages = with pkgs;
     [
@@ -32,7 +27,7 @@ in
       nodejs
 
       # prolog
-      prolog
+      swiProlog
 
       # proof assistants
       coq

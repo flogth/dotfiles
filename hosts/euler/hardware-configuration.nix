@@ -32,7 +32,7 @@
     resumeDevice = "/dev/disk/by-label/SWAP";
 
     enableContainers = true;
-
+    tmp.cleanOnBoot = true;
   };
 
   hardware = {

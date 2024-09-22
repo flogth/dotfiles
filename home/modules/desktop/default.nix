@@ -9,6 +9,7 @@
     simple-scan
     mpv
     pika-backup
+    newsflash
   ];
 
   programs.firefox = {

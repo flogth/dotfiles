@@ -3,11 +3,11 @@
   environment.gnome.excludePackages = with pkgs; [
     gnome-photos
     gnome-tour
-    gnome.gnome-music
+    gnome-music
     gnome-terminal
     gedit
     epiphany
-    gnome.gnome-characters
+    gnome-characters
     totem
     gnome-text-editor
   ];

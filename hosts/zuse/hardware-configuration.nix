@@ -47,7 +47,7 @@
     enableRedistributableFirmware = true;
     graphics = {
       enable32Bit = true;
-      extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl rocm-opencl-icd ];
+      extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
     };
   };
 

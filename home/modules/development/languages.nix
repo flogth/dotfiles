@@ -27,7 +27,7 @@
       nodejs
 
       # prolog
-      swiProlog
+      swi-prolog
 
       # proof assistants
       coq

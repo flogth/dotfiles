@@ -15,13 +15,18 @@
     };
 
     loader = {
-      grub = {
+      systemd-boot = {
         enable = true;
-        enableCryptodisk = true;
-        efiSupport = true;
-        useOSProber = true;
-        device = "nodev";
+        editor = false;
+        configurationLimit = 3;
+        windows = {
+          "10" = {
+            efiDeviceHandle = "HD1a65535a1";
+            title = "Windows 10";
+          };
+        };
       };
+      timeout = 5;
       efi.canTouchEfiVariables = true;
     };
 

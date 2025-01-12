@@ -19,10 +19,12 @@
       desktopManager.gnome.enable = true;
       excludePackages = [ pkgs.xterm ];
     };
+
     dbus = {
       packages = [ pkgs.gcr ];
       apparmor = "enabled";
     };
+
     gnome = {
       gnome-keyring.enable = true;
       core-os-services.enable = true;
@@ -44,8 +46,6 @@
   # scanning
   hardware.sane.enable = true;
 
-  # Enable sound.
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
 
   virtualisation = {
@@ -57,6 +57,7 @@
       enable = true;
     };
   };
+
   environment.systemPackages = with pkgs; [
     docker-compose
     gnome-tweaks

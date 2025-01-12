@@ -72,11 +72,6 @@
             }
           ];
         };
-        noether = lib.nixosSystem {
-          inherit system;
-          pkgs = import nixpkgs { inherit system; };
-          modules = [ ./hosts/noether/configuration.nix ];
-        };
       };
     };
 }

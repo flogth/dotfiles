@@ -1,10 +1,7 @@
 { config, lib, pkgs, ... }:
-with lib;
 let cfg = config.local.git;
-
-in
-{
-  options.local.git = { signingKey = mkOption { type = types.str; }; };
+in {
+  options.local.git = { signingKey = lib.mkOption { type = lib.types.str; }; };
   config = {
     programs.git = {
       enable = true;
@@ -14,7 +11,7 @@ in
       userEmail = "flogth@mailbox.org";
       signing = {
         signByDefault = true;
-        key =cfg.signingKey;
+        key = cfg.signingKey;
         format = "ssh";
       };
       aliases = {

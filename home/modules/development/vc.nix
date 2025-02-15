@@ -12,8 +12,11 @@ in
       package = pkgs.gitAndTools.gitFull;
       userName = "flogth";
       userEmail = "flogth@mailbox.org";
-      signing.signByDefault = true;
-      signing.key = cfg.signingKey;
+      signing = {
+        signByDefault = true;
+        key =cfg.signingKey;
+        format = "ssh";
+      };
       aliases = {
         co = "checkout";
         tree = "log --graph --pretty=short --all";
@@ -24,7 +27,6 @@ in
       }];
       extraConfig = {
         color.ui = true;
-        gpg.format = "ssh";
         gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
         diff.mnemonicPrefix = true;
         init.defaultBranch = "main";

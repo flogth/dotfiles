@@ -1,11 +1,5 @@
-{ pkgs, lib, ... }:
-
-{
-  home.packages = with pkgs; [
-    capitaine-cursors
-    glib
-    gnome-themes-extra
-  ];
+{ pkgs, lib, ... }: {
+  home.packages = [ pkgs.capitaine-cursors pkgs.glib pkgs.gnome-themes-extra ];
 
   gtk = {
     enable = true;
@@ -23,36 +17,31 @@
     gtk4.extraConfig = { gtk-application-prefer-dark-theme = true; };
   };
 
-  dconf.settings = with builtins;
-    with pkgs.lib;
-    let
-      keybindings = [
-        {
-          name = "emacsclient";
-          command = "emacsclient -c";
-          binding = "<Super>e";
-        }
-        {
-          name = "terminal";
-          command = "${pkgs.kgx}/bin/kgx";
-          binding = "<Super>Return";
-        }
-      ];
-      kbdId = i:
-        "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${
-          toString i
-        }";
-      kbdAttrs = listToAttrs (imap0 (n: kbd: {
-        name = kbdId n;
-        value = kbd;
-      }) keybindings);
-    in with lib.hm.gvariant;
-      recursiveUpdate kbdAttrs
-    {
+  dconf.settings = let
+    keybindings = [
+      {
+        name = "emacsclient";
+        command = "emacsclient -c";
+        binding = "<Super>e";
+      }
+      {
+        name = "terminal";
+        command = "${pkgs.kgx}/bin/kgx";
+        binding = "<Super>Return";
+      }
+    ];
+    kbdId = i:
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom${
+        toString i
+      }";
+    kbdAttrs = builtins.listToAttrs (lib.imap0 (n: kbd: {
+      name = kbdId n;
+      value = kbd;
+    }) keybindings);
+  in with lib.hm.gvariant;
+    lib.recursiveUpdate kbdAttrs {
       "org/gnome/desktop/input-sources" = {
-        sources = [
-          (mkTuple [ "xkb" "eu" ])
-        ];
+        sources = [ (mkTuple [ "xkb" "eu" ]) ];
         xkb-options = [ "ctrl:nocaps" ];
         show-all-sources = true;
       };
@@ -78,10 +67,10 @@
       };
       "org/gnome/desktop/wm/keybindings" = {
         close = [ "<Super>w" ];
-        switch-to-workspace-1 = [ "<Super>1"];
-        switch-to-workspace-2 = [ "<Super>2"];
-        switch-to-workspace-3 = [ "<Super>3"];
-        switch-to-workspace-4 = [ "<Super>4"];
+        switch-to-workspace-1 = [ "<Super>1" ];
+        switch-to-workspace-2 = [ "<Super>2" ];
+        switch-to-workspace-3 = [ "<Super>3" ];
+        switch-to-workspace-4 = [ "<Super>4" ];
       };
 
       "org/gnome/desktop/wm/preferences" = {
@@ -91,7 +80,7 @@
       };
 
       "org/gnome/settings-daemon/plugins/media-keys" = {
-        custom-keybindings = imap0 (i: _: "/${kbdId i}/") keybindings;
+        custom-keybindings = lib.imap0 (i: _: "/${kbdId i}/") keybindings;
       };
       "GWeather4" = { temperature-unit = "centigrade"; };
     };

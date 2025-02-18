@@ -1,54 +1,52 @@
-{ pkgs, ... }:
-{
-  home.packages = with pkgs;
-    [
-      # basics
-      stdenv
-      gdb
-      gnumake
+{ pkgs, ... }: {
+  home.packages = with pkgs; [
+    # basics
+    stdenv
+    gdb
+    gnumake
 
-      # apl
-      gnuapl
+    # apl
+    gnuapl
 
-      # c
-      clang-tools
-      cmake
+    # c
+    clang-tools
+    cmake
 
-      # common lisp
-      sbcl
+    # common lisp
+    sbcl
 
-      # haskell
-      cabal-install
-      ghc
-      haskell-language-server
-      ormolu
+    # haskell
+    cabal-install
+    ghc
+    haskell-language-server
+    ormolu
 
-      # js
-      nodejs
+    # js
+    nodejs
 
-      # prolog
-      swi-prolog
+    # prolog
+    swi-prolog
 
-      # proof assistants
-      coq
-      (agda.withPackages [ agdaPackages.standard-library agdaPackages.cubical ])
-      lean4
+    # proof assistants
+    coq
+    (agda.withPackages [ agdaPackages.standard-library agdaPackages.cubical ])
+    lean4
 
-      # python
-      python3
+    # python
+    python3
 
-      # nix
-      nixfmt-classic
-      nil
+    # nix
+    nixfmt-classic
+    nil
 
-      # rust
-      rustc
-      cargo
+    # rust
+    rustc
+    cargo
 
-      # shell
-      shellcheck
+    # shell
+    shellcheck
 
-    ];
+  ];
 
   home.file = {
     ".ghc/ghci.conf".source = ../../config/ghc/ghci.conf;

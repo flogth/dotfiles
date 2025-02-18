@@ -51,5 +51,6 @@ in {
     DVDCSS_CACHE = dataDir "dvdcss";
     OPAMROOT = dataDir "opam";
   };
+
   home.packages = [ pkgs.xdg-utils ];
 }

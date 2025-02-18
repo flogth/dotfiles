@@ -1,7 +1,6 @@
-{ pkgs, ... }:
-
-{
+{ pkgs, ... }: {
   imports = [ ./gtk.nix ./xdg.nix ./work.nix ];
+
   home.packages = with pkgs; [
     inkscape
     gimp

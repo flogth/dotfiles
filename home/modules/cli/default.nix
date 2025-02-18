@@ -16,16 +16,22 @@
 
     usbutils
 
-    (hunspellWithDicts ([hunspellDicts.en-us hunspellDicts.de-de]))
+    (hunspellWithDicts ([
+      hunspellDicts.en-gb-ise
+      hunspellDicts.en-us
+      hunspellDicts.de-de
+    ]))
 
     ghostscript
 
   ];
+
   programs = {
     texlive = {
       enable = true;
       extraPackages = tpkgs: { inherit (tpkgs) scheme-full; };
     };
+
     man.generateCaches = true;
   };
 }

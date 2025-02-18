@@ -20,7 +20,18 @@ in {
       };
       includes = [{
         condition = "gitdir:/home/flo/data/uni/**/.git";
-        path = "/home/flo/data/uni/uni-git.inc";
+        contents = {
+          user = {
+            name = "Florian Guthmann";
+            email = "florian.guthmann@fau.de";
+          };
+          sendemail = {
+            smtpserver = "faumail.fau.de";
+            smtpuser = "florian.guthmann@fau.de";
+            smtpencryption = "ssl";
+            smtpserverport = 465;
+          };
+        };
       }];
       extraConfig = {
         color.ui = true;
@@ -34,6 +45,7 @@ in {
         pull.rebase = true;
       };
     };
+
     programs.gpg = {
       enable = true;
       settings = {
@@ -51,6 +63,7 @@ in {
         allow-loopback-pinentry
       '';
     };
+
     home.packages = [ pkgs.rcs ];
   };
 }

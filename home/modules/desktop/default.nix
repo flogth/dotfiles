@@ -4,7 +4,7 @@
   home.packages = with pkgs; [
     inkscape
     gimp
-    signal-desktop
+    signal-desktop-bin
     simple-scan
     mpv
     pika-backup

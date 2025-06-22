@@ -54,8 +54,6 @@ in {
     programs = {
       gnupg.agent.enable = true;
       ssh = {
-        startAgent = true;
-        agentTimeout = "5m";
         extraConfig = let
           hosts = [
             {

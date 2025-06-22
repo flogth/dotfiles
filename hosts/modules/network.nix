@@ -64,11 +64,6 @@ in {
               user = "oc45ujef";
             }
             {
-              name = "blog";
-              hostName = "flogth.net";
-              user = "admin";
-            }
-            {
               name = "pi";
               hostName = "morphism.local";
               user = "flo";

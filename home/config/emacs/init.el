@@ -70,6 +70,10 @@
 
 (setopt use-package-always-defer t)
 
+(setopt remote-file-name-inhibit-locks t
+        remote-file-name-inhibit-auto-save-visited t
+        tramp-use-scp-direct-remote-copying t)
+
 ;;;; ui
 (require-theme 'modus-themes)
 (setopt modus-themes-italic-constructs t

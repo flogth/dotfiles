@@ -16,7 +16,7 @@
 
     usbutils
 
-    (hunspellWithDicts ([
+    (hunspell.withDicts ([
       hunspellDicts.en-gb-ise
       hunspellDicts.en-us
       hunspellDicts.de-de

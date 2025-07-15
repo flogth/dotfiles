@@ -46,6 +46,7 @@
     # shell
     shellcheck
 
+    julia
   ];
 
   home.file = {
